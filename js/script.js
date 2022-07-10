@@ -1,21 +1,35 @@
 let graphics = {
     canvas: document.getElementById("canvas"),
-    squareSize: 30,
-    drawBoard: function () {
-        let ctx = graphics.canvas.getContext("2d");
+    squareSize: 50,
+    drawBoard: function (ctx) {
         let currentYoffset = 0;
         game.board.forEach(function chekLine(line) {
-        line = line.split('');
-        let currentXoffset = 0;
-        line.forEach(function chekCharacter(character) {
-            if (character === '#') {
-                ctx.fillStyle = "black";
-                ctx.fillRect(currentXoffset, currentYoffset, graphics.squareSize, graphics.squareSize);
-            }
-            currentXoffset += graphics.squareSize;
+            line = line.split('');
+            let currentXoffset = 0;
+            line.forEach(function chekCharacter(character) {
+                if (character === '#') {
+                    ctx.fillStyle = "black";
+                    ctx.fillRect(currentXoffset, currentYoffset, graphics.squareSize, graphics.squareSize);
+                }
+                currentXoffset += graphics.squareSize;
+            });
+        currentYoffset += graphics.squareSize;
         });
-            currentYoffset += graphics.squareSize;
+    },
+
+    drawSnake: function (ctx) {
+        snake.parts.forEach(function drawPart(part) {
+            let partXLocation = part.x * graphics.squareSize;
+            let partYLocation = part.y * graphics.squareSize;
+            ctx.fillStyle = "green";
+            ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
         });
+    },
+
+    drawGame: function () {
+        let ctx = graphics.canvas.getContext("2d");
+        graphics.drawBoard(ctx);
+        graphics.drawSnake(ctx);
     }
 };
 
@@ -25,8 +39,8 @@ let game = {
         "#             #",
         "#             #",
         "#             #",
-        "#     ####    #",
-        "#     ####    #",
+        "#     ###     #",
+        "#     ###     #",
         "#             #",
         "#             #",
         "#             #",
@@ -43,4 +57,4 @@ let snake = {
     facing: "E"
 };
 
-graphics.drawBoard();
+graphics.drawGame();
