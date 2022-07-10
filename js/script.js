@@ -1,29 +1,46 @@
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-let currentYoffset = 0;
-let squareSize = 30;
-const board = [
-    "###############",
-    "#             #",
-    "#             #",
-    "#             #",
-    "#     ####    #",
-    "#     ####    #",
-    "#             #",
-    "#             #",
-    "#             #",
-    "###############",
-];
+let graphics = {
+    canvas: document.getElementById("canvas"),
+    squareSize: 30,
+    drawBoard: function () {
+        let ctx = graphics.canvas.getContext("2d");
+        let currentYoffset = 0;
+        game.board.forEach(function chekLine(line) {
+        line = line.split('');
+        let currentXoffset = 0;
+        line.forEach(function chekCharacter(character) {
+            if (character === '#') {
+                ctx.fillStyle = "black";
+                ctx.fillRect(currentXoffset, currentYoffset, graphics.squareSize, graphics.squareSize);
+            }
+            currentXoffset += graphics.squareSize;
+        });
+            currentYoffset += graphics.squareSize;
+        });
+    }
+};
 
-board.forEach(function chekLine(line) {
-    line = line.split('');
-    let currentXoffset = 0;
-    line.forEach(function chekCharacters(character) {
-        if (character === '#') {
-            ctx.fillStyle = "black";
-            ctx.fillRect(currentXoffset, currentYoffset, squareSize, squareSize);
-        }
-    currentXoffset += squareSize;
-    });
-    currentYoffset += squareSize;
-});
+let game = {
+    board: [
+        "###############",
+        "#             #",
+        "#             #",
+        "#             #",
+        "#     ####    #",
+        "#     ####    #",
+        "#             #",
+        "#             #",
+        "#             #",
+        "###############",
+    ]
+};
+
+let snake = {
+    parts: [
+        {x: 4, y: 2},
+        {x: 3, y: 2},
+        {x: 2, y: 2}
+    ],
+    facing: "E"
+};
+
+graphics.drawBoard();
