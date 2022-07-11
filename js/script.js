@@ -50,10 +50,14 @@ let game = {
         "###############",
     ],
     tick: function () {
+        window.clearTimeout(game.timer);
         game.tickNumber++;
         snake.move();
         graphics.drawGame();
         game.timer = window.setTimeout("game.tick()", 500);
+    },
+    isEmpty: function (location) {
+        return game.board[location.y][location.x] === ' ';
     }
 };
 
@@ -75,8 +79,10 @@ let snake = {
     },
     move: function () {
         let location = snake.nextLocation();
-        snake.parts.unshift(location);
-        snake.parts.pop();
+        if (game.isEmpty(location)) {
+            snake.parts.unshift(location);
+            snake.parts.pop();
+        }
     }
 };
 
@@ -100,6 +106,7 @@ let gameControl = {
             window.clearTimeout(game.timer);
         }
         snake.facing = targetDirection;
+        game.tick();
     },
     startGame: function () {
         window.addEventListener("keypress", gameControl.processInput, false);
