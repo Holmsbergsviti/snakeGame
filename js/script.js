@@ -80,12 +80,32 @@ let snake = {
     }
 };
 
-graphics.drawGame();
-
 let gameControl = {
+    processInput: function (keyPressed) {
+        let key = keyPressed.key.toLowerCase();
+        let targetDirection = snake.facing;
+        if (key === "w") {
+            targetDirection = "N";
+        }
+        if (key === "a") {
+            targetDirection = "W";
+        }
+        if (key === "s") {
+            targetDirection = "S";
+        }
+        if (key === "d") {
+            targetDirection = "E";
+        }
+        if (key === "/") {
+            window.clearTimeout(game.timer);
+        }
+        snake.facing = targetDirection;
+    },
     startGame: function () {
+        window.addEventListener("keypress", gameControl.processInput, false);
         game.tick();
     }
 };
 
+graphics.drawGame();
 gameControl.startGame();
