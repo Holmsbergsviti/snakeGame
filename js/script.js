@@ -20,7 +20,7 @@ let game = {
     tick: function () {
         window.clearTimeout(game.timer);
         game.tickNumber++;
-        if (game.tickNumber % 10 === 0) {
+        if (game.tickNumber % 6 === 0) {
             game.addRandomFruit();
         }
         let result = snake.move();
@@ -77,10 +77,10 @@ let snake = {
     nextLocation: function () {
         let targetX = snake.parts[0].x;
         let targetY = snake.parts[0].y;
-        targetY = snake.facing === "N" ? targetY - 1 : targetY;
-        targetY = snake.facing === "S" ? targetY + 1 : targetY;
-        targetX = snake.facing === "W" ? targetX - 1 : targetX;
-        targetX = snake.facing === "E" ? targetX + 1 : targetX;
+        targetY = snake.facing === "N" ? targetY - 0.5 : targetY;
+        targetY = snake.facing === "S" ? targetY + 0.5 : targetY;
+        targetX = snake.facing === "W" ? targetX - 0.5 : targetX;
+        targetX = snake.facing === "E" ? targetX + 0.5 : targetX;
         return {x: targetX, y:targetY};
     },
     move: function () {
@@ -140,10 +140,10 @@ let gameControl = {
     processInput: function (keyPressed) {
         let key = keyPressed.key.toLowerCase();
         let targetDirection = snake.facing;
-        if (key === "w") targetDirection = "N";
-        if (key === "a") targetDirection = "W";
-        if (key === "s") targetDirection = "S";
-        if (key === "d") targetDirection = "E";
+        if (key === "w" && key !== "s") targetDirection = "N";
+        if (key === "a" && key !== "d") targetDirection = "W";
+        if (key === "s" && key !== "w") targetDirection = "S";
+        if (key === "d" && key !== "a") targetDirection = "E";
         snake.facing = targetDirection;
         game.tick();
     },
