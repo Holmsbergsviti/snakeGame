@@ -20,7 +20,7 @@ let game = {
     tick: function () {
         window.clearTimeout(game.timer);
         game.tickNumber++;
-        if (game.tickNumber % 10 === 0) {
+        if (game.tickNumber % 7 === 0) {
             game.addRandomFruit();
         }
         let result = snake.move();
