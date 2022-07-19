@@ -32,6 +32,10 @@ let game = {
         let result = snake.move();
         if (result === "Game Over") {
             alert("Game is over Score: " + game.score);
+            if (confirm("Do you want to play again?") === true) {
+                gameControl.restartGame();
+                gameControl.startGame();
+            }
             return;
         }
         graphics.drawGame();
@@ -169,6 +173,22 @@ let gameControl = {
     changeDirectionWASD: function (facing) {
         snake.facing = facing;
         game.changeDirection = true;
+    },
+    restartGame: function () {
+        game.tickNumber =  0;
+        game.timer = null;
+        game.score = 0;
+        game.changeDirection = false;
+        game.fruit = [
+            {x: 9, y: 2}
+        ];
+        snake.parts = [
+            {x: 4, y: 2},
+            {x: 3, y: 2},
+            {x: 2, y: 2}
+        ];
+        snake.facing = "E";
+        graphics.countDraw = 0;
     }
 };
 
