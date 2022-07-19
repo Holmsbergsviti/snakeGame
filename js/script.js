@@ -52,7 +52,7 @@ let game = {
             return;
         }
         graphics.drawGame();
-        game.timerMinSec = window.setTimeout("game.seconds++", 1000)
+        game.timerMinSec = window.setTimeout("game.seconds++", 2000)
         if (game.seconds === 60) {
             game.minutes++;
             game.seconds = 0;
