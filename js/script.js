@@ -36,7 +36,6 @@ let game = {
     ],
     tick: function () {
         window.clearTimeout(game.timer);
-        document.getElementById("time").innerHTML = "Time: " + game.minutes + ":" + game.seconds;
         game.tickNumber++;
         if (game.tickNumber % 20 === 0) {
             game.addRandomFruit();
@@ -52,11 +51,6 @@ let game = {
             return;
         }
         graphics.drawGame();
-        game.timerMinSec = window.setTimeout("game.seconds++", 2000)
-        if (game.seconds === 60) {
-            game.minutes++;
-            game.seconds = 0;
-        }
         game.timer = window.setTimeout("game.tick()", 200);
     },
     addRandomFruit: function () {
@@ -146,13 +140,7 @@ let graphics = {
                 if (character === '#') {
                     ctx.fillStyle = "black";
                     ctx.fillRect(currentXoffset, currentYoffset, graphics.squareSize, graphics.squareSize);
-                } /*else if (graphics.squareColor % 2 === 0) {
-                    ctx.fillStyle = "grey";
-                    ctx.fillRect(currentXoffset, currentYoffset, graphics.squareSize, graphics.squareSize);
-                } else {
-                    ctx.fillStyle = "green";
-                    ctx.fillRect(currentXoffset, currentYoffset, graphics.squareSize, graphics.squareSize);
-                }*/
+                }
                 currentXoffset += graphics.squareSize;
                 graphics.squareColor++;
             });
@@ -235,6 +223,9 @@ let gameControl = {
         ];
         snake.facing = "E";
         graphics.countDraw = 0;
+        game.timerMinSec = null;
+        game.minutes = 0;
+        game.seconds = 0;
     }
 };
 
