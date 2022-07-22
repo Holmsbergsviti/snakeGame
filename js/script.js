@@ -5,7 +5,6 @@ let game = {
     minutes: 0,
     seconds: 0,
     score: 0,
-    //changeDirection: false,
     fruitIsEaten: false,
     board: [
         "##########################",
@@ -104,9 +103,6 @@ let snake = {
         return {x: targetX, y:targetY};
     },
     move: function () {
-        //if (game.changeDirection) {
-        //    game.changeDirection = false;
-        //}
         let location = snake.nextLocation();
         if (game.isWall(location) || game.isSnake(location)) {
             return "Game Over";
@@ -202,13 +198,11 @@ let gameControl = {
     },
     changeDirectionWASD: function (facing) {
         snake.facing = facing;
-        //game.changeDirection = true;
     },
     restartGame: function () {
         game.tickNumber =  0;
         game.timer = null;
         game.score = 0;
-        //game.changeDirection = false;
         game.fruit = [
             {x: 9, y: 2}
         ];
