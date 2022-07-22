@@ -5,7 +5,7 @@ let game = {
     minutes: 0,
     seconds: 0,
     score: 0,
-    changeDirection: false,
+    //changeDirection: false,
     fruitIsEaten: false,
     board: [
         "##########################",
@@ -104,11 +104,9 @@ let snake = {
         return {x: targetX, y:targetY};
     },
     move: function () {
-        if (game.changeDirection) {
-            game.changeDirection = false;
-            game.tick();
-            return;
-        }
+        //if (game.changeDirection) {
+        //    game.changeDirection = false;
+        //}
         let location = snake.nextLocation();
         if (game.isWall(location) || game.isSnake(location)) {
             return "Game Over";
@@ -195,8 +193,6 @@ let gameControl = {
                 gameControl.changeDirectionWASD("E");
                 game.tick();
             }
-        if (key === " ")
-            game.tick();
     },
     startGame: function () {
         alert("This is a Snake Game from Vlad Salii. \nFruit is red. Snake is green. \nTask is to eat fruits. \nControl - WASD: \n" +
@@ -206,13 +202,13 @@ let gameControl = {
     },
     changeDirectionWASD: function (facing) {
         snake.facing = facing;
-        game.changeDirection = true;
+        //game.changeDirection = true;
     },
     restartGame: function () {
         game.tickNumber =  0;
         game.timer = null;
         game.score = 0;
-        game.changeDirection = false;
+        //game.changeDirection = false;
         game.fruit = [
             {x: 9, y: 2}
         ];
