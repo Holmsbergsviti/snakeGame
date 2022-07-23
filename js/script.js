@@ -53,18 +53,18 @@ let game = {
         game.timer = window.setTimeout("game.tick()", 200);
     },
     addRandomFruit: function () {
-        let randomY = Math.floor(Math.random() * game.board.length);
-        let randomX = Math.floor(Math.random() * game.board[randomY].length);
+        let randomY = Math.floor(Math.random() * gameControl.level.length);
+        let randomX = Math.floor(Math.random() * gameControl.level[randomY].length);
         let randomLocation = {x: randomX, y: randomY};
         if (game.isEmpty(randomLocation) && !game.isFruit(randomLocation)) {
             game.fruit.push(randomLocation);
         }
     },
     isEmpty: function (location) {
-        return game.board[location.y][location.x] === ' ';
+        return gameControl.level[location.y][location.x] === ' ';
     },
     isWall: function (location) {
-        return game.board[location.y][location.x] === '#';
+        return gameControl.level[location.y][location.x] === '#';
     },
     isFruit: function (location) {
         for (let fruitNumber = 0; fruitNumber < game.fruit.length; fruitNumber++) {
@@ -132,7 +132,7 @@ let graphics = {
     squareSize: 20,
     drawBoard: function (ctx) {
         let currentY = 0;
-        game.board.forEach(function chekLine(line) {
+        gameControl.level.forEach(function chekLine(line) {
             line = line.split('');
             let currentX = 0;
             line.forEach(function chekCharacter(character) {
@@ -171,6 +171,7 @@ let graphics = {
 };
 
 let gameControl = {
+    level: game.board,
     newFacing: [],
     gameTime: function () {
         game.seconds++;
@@ -241,6 +242,7 @@ let gameControl = {
         ];
         snake.facing = "E";
         graphics.countDraw = 0;
+        gameControl.level = game.board;
     }
 };
 
