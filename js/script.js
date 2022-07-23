@@ -1,4 +1,5 @@
 let game = {
+    newFacing: 0,
     timer: null,
     timerMinSec: null,
     tickNumber: 0,
@@ -103,6 +104,11 @@ let snake = {
         return {x: targetX, y:targetY};
     },
     move: function () {
+        if (gameControl.newFacing.length !== game.newFacing) {
+            let newFacingIs = gameControl.newFacing[game.newFacing];
+            gameControl.processInput(newFacingIs);
+            game.newFacing++;
+        }
         let location = snake.nextLocation();
         if (game.isWall(location) || game.isSnake(location)) {
             return "Game Over";
@@ -167,33 +173,33 @@ let graphics = {
 };
 
 let gameControl = {
-    processInput: function (keyPressed) {
+    newFacing: [],
+    input: function (keyPressed) {
         let key = keyPressed.key.toLowerCase();
+        gameControl.newFacing = gameControl.newFacing + key;
+    },
+    processInput: function (key) {
         if (key === "w")
             if (snake.facing !== "S" && snake.facing !== "N"){
                 gameControl.changeDirectionWASD("N");
-                game.tick();
             }
         if (key === "a")
             if (snake.facing !== "E" && snake.facing !== "W") {
                 gameControl.changeDirectionWASD("W");
-                game.tick();
             }
         if (key === "s")
             if (snake.facing !== "N" && snake.facing !== "S") {
                 gameControl.changeDirectionWASD("S");
-                game.tick();
             }
         if (key === "d")
             if (snake.facing !== "W" && snake.facing !== "E") {
                 gameControl.changeDirectionWASD("E");
-                game.tick();
             }
     },
     startGame: function () {
         alert("This is a Snake Game from Vlad Salii. \nFruit is red. Snake is green. \nTask is to eat fruits. \nControl - WASD: \n" +
-            "   W - Up. \n   A - left. \n   S - down. \n   D - right.");
-        window.addEventListener("keypress", gameControl.processInput, false);
+            "   • W - Up. \n   • A - left. \n   • S - down. \n   • D - right.");
+        window.addEventListener("keypress", gameControl.input, false);
         game.tick();
     },
     changeDirectionWASD: function (facing) {
