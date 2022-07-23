@@ -5,7 +5,7 @@ let game = {
     minutes: 0,
     seconds: 0,
     score: 0,
-    board1: [
+    board: [
         "##########################",
         "#                        #",
         "#                        #",
@@ -26,30 +26,6 @@ let game = {
         "#                        #",
         "#                        #",
         "#                        #",
-        "#                        #",
-        "##########################"
-    ],
-    board2: [
-        "##########################",
-        "#                        #",
-        "##                       #",
-        "##                       #",
-        "#                        #",
-        "#                        #",
-        "##                       #",
-        "##                       #",
-        "#                        #",
-        "#                        #",
-        "##                       #",
-        "##                       #",
-        "#                        #",
-        "#                        #",
-        "##                       #",
-        "##                       #",
-        "#                        #",
-        "#                        #",
-        "##                       #",
-        "##                       #",
         "#                        #",
         "##########################"
     ],
@@ -195,7 +171,7 @@ let graphics = {
 };
 
 let gameControl = {
-    level: game.board1,
+    level: game.board,
     newFacing: [],
     gameTime: function () {
         game.seconds++;
@@ -266,7 +242,7 @@ let gameControl = {
         ];
         snake.facing = "E";
         graphics.countDraw = 0;
-        gameControl.level = game.board1;
+        gameControl.level = game.board;
     }
 };
 
