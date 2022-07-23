@@ -1,24 +1,33 @@
 let game = {
-    tickNumber: 0,
+    newFacing: 0,
     timer: null,
+    tickNumber: 0,
+    minutes: 0,
+    seconds: 0,
     score: 0,
-    changeDirection: false,
     board: [
-        "######################",
-        "#                    #",
-        "#                    #",
-        "#                    #",
-        "#                    #",
-        "#                    #",
-        "#        ####        #",
-        "#        ####        #",
-        "#        ####        #",
-        "#                    #",
-        "#                    #",
-        "#                    #",
-        "#                    #",
-        "#                    #",
-        "######################"
+        "##########################",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "#                        #",
+        "##########################"
     ],
     fruit: [
         {x: 9, y: 2}
@@ -26,20 +35,22 @@ let game = {
     tick: function () {
         window.clearTimeout(game.timer);
         game.tickNumber++;
-        if (game.tickNumber % 13 === 0) {
+        if (game.tickNumber % 15 === 0) {
             game.addRandomFruit();
         }
+        if (game.tickNumber % 5 === 0) gameControl.gameTime();
         let result = snake.move();
         if (result === "Game Over") {
             alert("Game is over Score: " + game.score);
             if (confirm("Do you want to play again?") === true) {
                 gameControl.restartGame();
                 gameControl.startGame();
+                return;
             }
             return;
         }
         graphics.drawGame();
-        game.timer = window.setTimeout("game.tick()", 500);
+        game.timer = window.setTimeout("game.tick()", 200);
     },
     addRandomFruit: function () {
         let randomY = Math.floor(Math.random() * game.board.length);
@@ -94,12 +105,13 @@ let snake = {
         return {x: targetX, y:targetY};
     },
     move: function () {
-        if (game.changeDirection) {
-            game.changeDirection = false;
-            game.tick();
-            return;
+        if (gameControl.newFacing.length !== game.newFacing) {
+            let newFacingIs = gameControl.newFacing[game.newFacing];
+            gameControl.processInput(newFacingIs);
+            game.newFacing++;
         }
         let location = snake.nextLocation();
+
         if (game.isWall(location) || game.isSnake(location)) {
             return "Game Over";
         }
@@ -117,20 +129,20 @@ let snake = {
 
 let graphics = {
     canvas: document.getElementById("canvas"),
-    squareSize: 50,
+    squareSize: 20,
     drawBoard: function (ctx) {
-        let currentYoffset = 0;
+        let currentY = 0;
         game.board.forEach(function chekLine(line) {
             line = line.split('');
-            let currentXoffset = 0;
+            let currentX = 0;
             line.forEach(function chekCharacter(character) {
                 if (character === '#') {
                     ctx.fillStyle = "black";
-                    ctx.fillRect(currentXoffset, currentYoffset, graphics.squareSize, graphics.squareSize);
+                    ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
                 }
-                currentXoffset += graphics.squareSize;
+                currentX += graphics.squareSize;
             });
-        currentYoffset += graphics.squareSize;
+            currentY += graphics.squareSize;
         });
     },
     countDraw: 0,
@@ -159,15 +171,54 @@ let graphics = {
 };
 
 let gameControl = {
-    processInput: function (keyPressed) {
+    newFacing: [],
+    gameTime: function () {
+        game.seconds++;
+      if (game.seconds === 60) {
+          game.minutes++;
+          game.seconds = 0;
+      }
+      if (game.seconds < 10) {
+          if (game.minutes < 10){
+              document.getElementById("timer").innerHTML = "Time: 0" + game.minutes + ":0" + game.seconds;
+          } else {
+              document.getElementById("timer").innerHTML = "Time: " + game.minutes + ":0" + game.seconds;
+          }
+      } else {
+          if (game.minutes < 10){
+              document.getElementById("timer").innerHTML = "Time: 0" + game.minutes + ":" + game.seconds;
+          } else {
+              document.getElementById("timer").innerHTML = "Time: " + game.minutes + ":" + game.seconds;
+          }
+      }
+    },
+    changeFacing: function (keyPressed) {
         let key = keyPressed.key.toLowerCase();
-        if (key === "w") gameControl.changeDirectionWASD("N");
-        if (key === "a") gameControl.changeDirectionWASD("W");
-        if (key === "s") gameControl.changeDirectionWASD("S");
-        if (key === "d") gameControl.changeDirectionWASD("E");
+        gameControl.newFacing = gameControl.newFacing + key;
+    },
+    processInput: function (key) {
+        if (key === "w")
+            if (snake.facing !== "S" && snake.facing !== "N"){
+                gameControl.changeDirectionWASD("N");
+            }
+        if (key === "a")
+            if (snake.facing !== "E" && snake.facing !== "W") {
+                gameControl.changeDirectionWASD("W");
+            }
+        if (key === "s")
+            if (snake.facing !== "N" && snake.facing !== "S") {
+                gameControl.changeDirectionWASD("S");
+            }
+        if (key === "d")
+            if (snake.facing !== "W" && snake.facing !== "E") {
+                gameControl.changeDirectionWASD("E");
+            }
     },
     startGame: function () {
-        window.addEventListener("keypress", gameControl.processInput, false);
+        alert("This is a Snake Game from Vlad Salii. \nFruit is red. Snake is green. \nTask is to eat fruits. \nControl - WASD: \n" +
+            "   • W - Up. \n   • A - left. \n   • S - down. \n   • D - right.");
+
+        window.addEventListener("keypress", gameControl.changeFacing, false);
         game.tick();
     },
     changeDirectionWASD: function (facing) {
@@ -178,7 +229,8 @@ let gameControl = {
         game.tickNumber =  0;
         game.timer = null;
         game.score = 0;
-        game.changeDirection = false;
+        game.minutes = 0;
+        game.seconds = 0;
         game.fruit = [
             {x: 9, y: 2}
         ];
@@ -192,5 +244,4 @@ let gameControl = {
     }
 };
 
-alert("This is a Snake Game from Vlad Salii \nFruit is red. Snake is green \nTask is to eat fruits");
 gameControl.startGame();
