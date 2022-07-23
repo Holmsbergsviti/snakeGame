@@ -1,13 +1,10 @@
 let game = {
     newFacing: 0,
     timer: null,
-    timerMinSec: null,
     tickNumber: 0,
     minutes: 0,
     seconds: 0,
     score: 0,
-    changeDirection: false,
-    fruitIsEaten: false,
     board: [
         "##########################",
         "#                        #",
@@ -38,10 +35,9 @@ let game = {
     tick: function () {
         window.clearTimeout(game.timer);
         game.tickNumber++;
-        //if (game.fruitIsEaten) {
-          //  game.addRandomFruit();
-            //game.fruitIsEaten = false;
-              //}
+        if (game.tickNumber % 15 === 0) {
+            game.addRandomFruit();
+        }
         if (game.tickNumber % 5 === 0) gameControl.gameTime();
         let result = snake.move();
         if (result === "Game Over") {
@@ -75,7 +71,6 @@ let game = {
             let fruit = game.fruit[fruitNumber];
             if (location.x === fruit.x && location.y === fruit.y) {
                 game.fruit.splice(fruitNumber, 1);
-                game.fruitIsEaten = true;
                 return true;
             }
         }
@@ -110,9 +105,6 @@ let snake = {
         return {x: targetX, y:targetY};
     },
     move: function () {
-        if (game.changeDirection) {
-            game.changeDirection = false;
-        }
         if (gameControl.newFacing.length !== game.newFacing) {
             let newFacingIs = gameControl.newFacing[game.newFacing];
             gameControl.processInput(newFacingIs);
@@ -251,7 +243,6 @@ let gameControl = {
         ];
         snake.facing = "E";
         graphics.countDraw = 0;
-        game.timerMinSec = null;
         game.minutes = 0;
         game.seconds = 0;
     }
