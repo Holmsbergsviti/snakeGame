@@ -35,9 +35,6 @@ let game = {
     tick: function () {
         window.clearTimeout(game.timer);
         game.tickNumber++;
-        if (game.tickNumber % 15 === 0) {
-            game.addRandomFruit();
-        }
         if (game.tickNumber % 5 === 0) gameControl.gameTime();
         let result = snake.move();
         if (result === "Game Over") {
@@ -57,7 +54,9 @@ let game = {
         let randomX = Math.floor(Math.random() * gameControl.level[randomY].length);
         let randomLocation = {x: randomX, y: randomY};
         if (game.isEmpty(randomLocation) && !game.isFruit(randomLocation)) {
-            game.fruit.push(randomLocation);
+            game.fruit.push(randomLocation)
+        } else {
+            game.addRandomFruit();
         }
     },
     isEmpty: function (location) {
@@ -71,6 +70,7 @@ let game = {
             let fruit = game.fruit[fruitNumber];
             if (location.x === fruit.x && location.y === fruit.y) {
                 game.fruit.splice(fruitNumber, 1);
+                game.addRandomFruit();
                 return true;
             }
         }
@@ -218,7 +218,6 @@ let gameControl = {
     startGame: function () {
         alert("This is a Snake Game from Vlad Salii. \nFruit is red. Snake is green. \nTask is to eat fruits. \nControl - WASD: \n" +
             "   • W - Up. \n   • A - left. \n   • S - down. \n   • D - right.");
-
         window.addEventListener("keypress", gameControl.changeFacing, false);
         game.tick();
     },
