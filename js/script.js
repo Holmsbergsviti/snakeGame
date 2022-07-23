@@ -130,24 +130,20 @@ let snake = {
 let graphics = {
     canvas: document.getElementById("canvas"),
     squareSize: 20,
-    squareColor: 0,
     drawBoard: function (ctx) {
-        let currentYoffset = 0;
+        let currentY = 0;
         game.board.forEach(function chekLine(line) {
             line = line.split('');
-            let currentXoffset = 0;
+            let currentX = 0;
             line.forEach(function chekCharacter(character) {
                 if (character === '#') {
                     ctx.fillStyle = "black";
-                    ctx.fillRect(currentXoffset, currentYoffset, graphics.squareSize, graphics.squareSize);
+                    ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
                 }
-                currentXoffset += graphics.squareSize;
-                graphics.squareColor++;
+                currentX += graphics.squareSize;
             });
-            currentYoffset += graphics.squareSize;
-            graphics.squareColor = 1;
+            currentY += graphics.squareSize;
         });
-        graphics.squareColor = 0;
     },
     countDraw: 0,
     draw: function (ctx, source, color) {
@@ -196,7 +192,7 @@ let gameControl = {
           }
       }
     },
-    input: function (keyPressed) {
+    changeFacing: function (keyPressed) {
         let key = keyPressed.key.toLowerCase();
         gameControl.newFacing = gameControl.newFacing + key;
     },
@@ -222,7 +218,7 @@ let gameControl = {
         alert("This is a Snake Game from Vlad Salii. \nFruit is red. Snake is green. \nTask is to eat fruits. \nControl - WASD: \n" +
             "   • W - Up. \n   • A - left. \n   • S - down. \n   • D - right.");
 
-        window.addEventListener("keypress", gameControl.input, false);
+        window.addEventListener("keypress", gameControl.changeFacing, false);
         game.tick();
     },
     changeDirectionWASD: function (facing) {
@@ -233,6 +229,8 @@ let gameControl = {
         game.tickNumber =  0;
         game.timer = null;
         game.score = 0;
+        game.minutes = 0;
+        game.seconds = 0;
         game.fruit = [
             {x: 9, y: 2}
         ];
@@ -243,8 +241,6 @@ let gameControl = {
         ];
         snake.facing = "E";
         graphics.countDraw = 0;
-        game.minutes = 0;
-        game.seconds = 0;
     }
 };
 
