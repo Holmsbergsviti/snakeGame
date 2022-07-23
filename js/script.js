@@ -38,9 +38,11 @@ let game = {
     tick: function () {
         window.clearTimeout(game.timer);
         game.tickNumber++;
-        if (gameControl.tickNumber % 20 === 0) {
-            game.addRandomFruit();
-        }
+        //if (game.fruitIsEaten) {
+          //  game.addRandomFruit();
+            //game.fruitIsEaten = false;
+              //}
+        if (game.tickNumber % 5 === 0) gameControl.gameTime();
         let result = snake.move();
         if (result === "Game Over") {
             alert("Game is over Score: " + game.score);
@@ -73,6 +75,7 @@ let game = {
             let fruit = game.fruit[fruitNumber];
             if (location.x === fruit.x && location.y === fruit.y) {
                 game.fruit.splice(fruitNumber, 1);
+                game.fruitIsEaten = true;
                 return true;
             }
         }
@@ -181,6 +184,26 @@ let graphics = {
 
 let gameControl = {
     newFacing: [],
+    gameTime: function () {
+        game.seconds++;
+      if (game.seconds === 60) {
+          game.minutes++;
+          game.seconds = 0;
+      }
+      if (game.seconds < 10) {
+          if (game.minutes < 10){
+              document.getElementById("timer").innerHTML = "Time: 0" + game.minutes + ":0" + game.seconds;
+          } else {
+              document.getElementById("timer").innerHTML = "Time: " + game.minutes + ":0" + game.seconds;
+          }
+      } else {
+          if (game.minutes < 10){
+              document.getElementById("timer").innerHTML = "Time: 0" + game.minutes + ":" + game.seconds;
+          } else {
+              document.getElementById("timer").innerHTML = "Time: " + game.minutes + ":" + game.seconds;
+          }
+      }
+    },
     input: function (keyPressed) {
         let key = keyPressed.key.toLowerCase();
         gameControl.newFacing = gameControl.newFacing + key;
