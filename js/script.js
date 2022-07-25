@@ -30,7 +30,7 @@ let game = {
         "##########################"
     ],
     fruit: [
-        {x: 9, y: 2}
+        {x: 9, y: 10}
     ],
     tick: function () {
         window.clearTimeout(game.timer);
@@ -38,12 +38,6 @@ let game = {
         if (game.tickNumber % 5 === 0) gameControl.gameTime();
         let result = snake.move();
         if (result === "Game Over") {
-            alert("Game is over Score: " + game.score);
-            if (confirm("Do you want to play again?") === true) {
-                gameControl.restartGame();
-                gameControl.startGame();
-                return;
-            }
             return;
         }
         graphics.drawGame();
@@ -90,9 +84,9 @@ let game = {
 
 let snake = {
     parts: [
-        {x: 4, y: 2},
-        {x: 3, y: 2},
-        {x: 2, y: 2}
+        {x: 4, y: 10},
+        {x: 3, y: 10},
+        {x: 2, y: 10}
     ],
     facing: "E",
     nextLocation: function () {
@@ -155,9 +149,6 @@ let graphics = {
             graphics.countDraw++;
             let partXLocation = part.x * graphics.squareSize;
             let partYLocation = part.y * graphics.squareSize;
-            if (color === "red") {
-                
-            }
             if (graphics.countDraw === 1 && color === "brown") {
                 ctx.fillStyle = "beige";
             } else {
@@ -178,6 +169,7 @@ let graphics = {
 };
 
 let gameControl = {
+    startGameBtn: false,
     level: game.board,
     newFacing: [],
     gameTime: function () {
@@ -205,6 +197,11 @@ let gameControl = {
         if (key === "w" || key === "a" || key === "s" || key || "d") {
             gameControl.newFacing = gameControl.newFacing + key;
         }
+        if (gameControl.startGameBtn === false) {
+            gameControl.startGameBtn = true;
+
+            game.tick();
+        }
 
     },
     processInput: function (key) {
@@ -226,10 +223,8 @@ let gameControl = {
             }
     },
     startGame: function () {
-        alert("This is a Snake Game from Vlad Salii. \nFruit is red. Snake is green. \nTask is to eat fruits. \nControl - WASD: \n" +
-            "   • W - Up. \n   • A - left. \n   • S - down. \n   • D - right.");
+        graphics.drawGame();
         window.addEventListener("keypress", gameControl.changeFacing, false);
-        game.tick();
     },
     changeDirectionWASD: function (facing) {
         snake.facing = facing;
@@ -252,7 +247,10 @@ let gameControl = {
         snake.facing = "E";
         graphics.countDraw = 0;
         gameControl.level = game.board;
+        gameControl.startGameBtn = false;
+        gameControl.startGame();
     }
 };
-
+alert("This is a Snake Game from Vlad Salii. \nFruit is red. Snake is green. \nTask is to eat fruits. " +
+    "\nControl - WASD: \n" + "   • W - Up. \n   • A - left. \n   • S - down. \n   • D - right.");
 gameControl.startGame();
