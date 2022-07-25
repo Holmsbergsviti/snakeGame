@@ -198,16 +198,35 @@ let gameControl = {
           }
       }
     },
+    changeFacingStart: function () {
+        if (gameControl.startGameBtn === false) {
+            gameControl.startGameBtn = true;
+            game.tick();
+        }
+    },
     changeFacing: function (keyPressed) {
         let key = keyPressed.key.toLowerCase();
         if (key === "w" || key === "a" || key === "s" || key || "d") {
             gameControl.newFacing = gameControl.newFacing + key;
         }
-        if (gameControl.startGameBtn === false) {
-            gameControl.startGameBtn = true;
-            game.tick();
-        }
+        gameControl.changeFacingStart();
 
+    },
+    changeFacingArrow: function (keyCode){
+        let key = keyCode.keyCode;
+        if (key === 38) {
+            gameControl.newFacing = gameControl.newFacing + "w";
+        }
+        if (key === 37) {
+            gameControl.newFacing = gameControl.newFacing + "a";
+        }
+        if (key === 40) {
+            gameControl.newFacing = gameControl.newFacing + "s";
+        }
+        if (key === 39) {
+            gameControl.newFacing = gameControl.newFacing + "d";
+        }
+        gameControl.changeFacingStart();
     },
     processInput: function (key) {
         if (key === "w")
@@ -229,6 +248,7 @@ let gameControl = {
     },
     startGame: function () {
         graphics.drawGame();
+        window.addEventListener("keydown", gameControl.changeFacingArrow, false)
         window.addEventListener("keypress", gameControl.changeFacing, false);
     },
     changeDirectionWASD: function (facing) {
@@ -261,7 +281,7 @@ let gameControl = {
         gameControl.startGame();
     },
     info: function () {
-        let targetDiv = document.getElementById("infoDiv");
+        let targetDiv = document.getElementById("infoText");
         if (targetDiv.style.display !== "none") {
             targetDiv.style.display = "none";
             targetDiv.style.alignItems = "center";

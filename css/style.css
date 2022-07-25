@@ -17,11 +17,7 @@
     cursor: pointer;
 }
 
-#infoDivDiv {
-    text-align: center;
-}
-
-#infoDiv {
+#infoText {
     position: absolute;
     top: 650px;
     bottom: 0;
@@ -39,4 +35,8 @@
 #canvas {
     border: 2px solid;
     border-radius: 15px;
+}
+
+body {
+    background-color: antiquewhite;
 }
