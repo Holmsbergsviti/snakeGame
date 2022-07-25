@@ -257,6 +257,7 @@ let gameControl = {
         document.getElementById("scoreAndRecord").innerHTML =
             "Score: " + game.score + "   " +
             "Record: " + game.record;
+        document.getElementById("timer").innerHTML = "Time: 0" + game.minutes + ":0" + game.seconds;
         gameControl.startGame();
     },
     info: function () {
