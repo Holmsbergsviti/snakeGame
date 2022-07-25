@@ -121,7 +121,7 @@ let snake = {
                 game.record = game.score;
             }
             document.getElementById("scoreAndRecord").innerHTML =
-                "Score: " + game.score + "   " +
+                "Score: " + game.score + " " +
                 "Record: " + game.record;
         }
     }
@@ -255,7 +255,7 @@ let gameControl = {
         gameControl.level = game.board;
         gameControl.startGameBtn = false;
         document.getElementById("scoreAndRecord").innerHTML =
-            "Score: " + game.score + "   " +
+            "Score: " + game.score + " " +
             "Record: " + game.record;
         document.getElementById("timer").innerHTML = "Time: 0" + game.minutes + ":0" + game.seconds;
         gameControl.startGame();
@@ -264,8 +264,10 @@ let gameControl = {
         let targetDiv = document.getElementById("infoDiv");
         if (targetDiv.style.display !== "none") {
             targetDiv.style.display = "none";
+            targetDiv.style.alignItems = "center";
         } else {
             targetDiv.style.display = "block";
+            targetDiv.style.alignItems = "center";
         }
     }
 };
