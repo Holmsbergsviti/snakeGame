@@ -205,7 +205,6 @@ let gameControl = {
         }
         if (gameControl.startGameBtn === false) {
             gameControl.startGameBtn = true;
-
             game.tick();
         }
 
@@ -237,6 +236,7 @@ let gameControl = {
         game.changeDirection = true;
     },
     restartGame: function () {
+        window.clearTimeout(game.timer);
         game.tickNumber =  0;
         game.timer = null;
         game.score = 0;
