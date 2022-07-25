@@ -137,7 +137,10 @@ let graphics = {
             let currentX = 0;
             line.forEach(function chekCharacter(character) {
                 if (character === '#') {
-                    ctx.fillStyle = "black";
+                    ctx.fillStyle = "brown";
+                    ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
+                } else {
+                    ctx.fillStyle = "green";
                     ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
                 }
                 currentX += graphics.squareSize;
@@ -146,13 +149,17 @@ let graphics = {
         });
     },
     countDraw: 0,
+
     draw: function (ctx, source, color) {
         source.forEach(function (part) {
             graphics.countDraw++;
             let partXLocation = part.x * graphics.squareSize;
             let partYLocation = part.y * graphics.squareSize;
-            if (graphics.countDraw === 1 && color === "green") {
-                ctx.fillStyle = "yellow";
+            if (color === "red") {
+                
+            }
+            if (graphics.countDraw === 1 && color === "brown") {
+                ctx.fillStyle = "beige";
             } else {
                 ctx.fillStyle = color;
             }
@@ -166,7 +173,7 @@ let graphics = {
         ctx.clearRect(0, 0, graphics.canvas.width, graphics.canvas.height);
         graphics.drawBoard(ctx);
         graphics.draw(ctx, game.fruit, "red");
-        graphics.draw(ctx, snake.parts, "green");
+        graphics.draw(ctx, snake.parts, "brown");
     }
 };
 
@@ -195,7 +202,10 @@ let gameControl = {
     },
     changeFacing: function (keyPressed) {
         let key = keyPressed.key.toLowerCase();
-        gameControl.newFacing = gameControl.newFacing + key;
+        if (key === "w" || key === "a" || key === "s" || key || "d") {
+            gameControl.newFacing = gameControl.newFacing + key;
+        }
+
     },
     processInput: function (key) {
         if (key === "w")
