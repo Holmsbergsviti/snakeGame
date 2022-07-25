@@ -121,7 +121,7 @@ let snake = {
                 game.record = game.score;
             }
             document.getElementById("scoreAndRecord").innerHTML =
-                "Score: " + game.score + "   " +
+                "Score: " + game.score + " " +
                 "Record: " + game.record;
         }
     }
@@ -198,17 +198,35 @@ let gameControl = {
           }
       }
     },
+    changeFacingStart: function () {
+        if (gameControl.startGameBtn === false) {
+            gameControl.startGameBtn = true;
+            game.tick();
+        }
+    },
     changeFacing: function (keyPressed) {
         let key = keyPressed.key.toLowerCase();
         if (key === "w" || key === "a" || key === "s" || key || "d") {
             gameControl.newFacing = gameControl.newFacing + key;
         }
-        if (gameControl.startGameBtn === false) {
-            gameControl.startGameBtn = true;
+        gameControl.changeFacingStart();
 
-            game.tick();
+    },
+    changeFacingArrow: function (keyCode){
+        let key = keyCode.keyCode;
+        if (key === 38) {
+            gameControl.newFacing = gameControl.newFacing + "w";
         }
-
+        if (key === 37) {
+            gameControl.newFacing = gameControl.newFacing + "a";
+        }
+        if (key === 40) {
+            gameControl.newFacing = gameControl.newFacing + "s";
+        }
+        if (key === 39) {
+            gameControl.newFacing = gameControl.newFacing + "d";
+        }
+        gameControl.changeFacingStart();
     },
     processInput: function (key) {
         if (key === "w")
@@ -230,6 +248,7 @@ let gameControl = {
     },
     startGame: function () {
         graphics.drawGame();
+        window.addEventListener("keydown", gameControl.changeFacingArrow, false)
         window.addEventListener("keypress", gameControl.changeFacing, false);
     },
     changeDirectionWASD: function (facing) {
@@ -237,6 +256,7 @@ let gameControl = {
         game.changeDirection = true;
     },
     restartGame: function () {
+        window.clearTimeout(game.timer);
         game.tickNumber =  0;
         game.timer = null;
         game.score = 0;
@@ -255,16 +275,19 @@ let gameControl = {
         gameControl.level = game.board;
         gameControl.startGameBtn = false;
         document.getElementById("scoreAndRecord").innerHTML =
-            "Score: " + game.score + "   " +
+            "Score: " + game.score + " " +
             "Record: " + game.record;
+        document.getElementById("timer").innerHTML = "Time: 0" + game.minutes + ":0" + game.seconds;
         gameControl.startGame();
     },
     info: function () {
-        let targetDiv = document.getElementById("infoDiv");
+        let targetDiv = document.getElementById("infoText");
         if (targetDiv.style.display !== "none") {
             targetDiv.style.display = "none";
+            targetDiv.style.alignItems = "center";
         } else {
             targetDiv.style.display = "block";
+            targetDiv.style.alignItems = "center";
         }
     }
 };
