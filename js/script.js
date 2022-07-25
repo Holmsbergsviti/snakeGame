@@ -5,6 +5,7 @@ let game = {
     minutes: 0,
     seconds: 0,
     score: 0,
+    record : 0,
     board: [
         "##########################",
         "#                        #",
@@ -116,7 +117,12 @@ let snake = {
         if (game.isFruit(location)) {
             snake.parts.unshift(location);
             game.score++;
-            document.getElementById("score").innerHTML = "Score: " + game.score;
+            if (game.score > game.record) {
+                game.record = game.score;
+            }
+            document.getElementById("scoreAndRecord").innerHTML =
+                "Score: " + game.score + "   " +
+                "Record: " + game.record;
         }
     }
 };
@@ -237,20 +243,30 @@ let gameControl = {
         game.minutes = 0;
         game.seconds = 0;
         game.fruit = [
-            {x: 9, y: 2}
+            {x: 9, y: 10}
         ];
         snake.parts = [
-            {x: 4, y: 2},
-            {x: 3, y: 2},
-            {x: 2, y: 2}
+            {x: 4, y: 10},
+            {x: 3, y: 10},
+            {x: 2, y: 10}
         ];
         snake.facing = "E";
         graphics.countDraw = 0;
         gameControl.level = game.board;
         gameControl.startGameBtn = false;
+        document.getElementById("scoreAndRecord").innerHTML =
+            "Score: " + game.score + "   " +
+            "Record: " + game.record;
         gameControl.startGame();
+    },
+    info: function () {
+        let targetDiv = document.getElementById("infoDiv");
+        if (targetDiv.style.display !== "none") {
+            targetDiv.style.display = "none";
+        } else {
+            targetDiv.style.display = "block";
+        }
     }
 };
-alert("This is a Snake Game from Vlad Salii. \nFruit is red. Snake is green. \nTask is to eat fruits. " +
-    "\nControl - WASD: \n" + "   • W - Up. \n   • A - left. \n   • S - down. \n   • D - right.");
+
 gameControl.startGame();
