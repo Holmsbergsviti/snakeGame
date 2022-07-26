@@ -1,4 +1,5 @@
 let game = {
+    startGame: 0,
     newFacing: 0,
     timer: null,
     tickNumber: 0,
@@ -30,9 +31,7 @@ let game = {
         "#                        #",
         "##########################"
     ],
-    fruit: [
-        {x: 14, y: 10}
-    ],
+    fruit: [],
     tick: function () {
         window.clearTimeout(game.timer);
         game.tickNumber++;
@@ -212,6 +211,7 @@ let gameControl = {
             gameControl.startGameBtn = true;
             clearTimeout(loopTimer);
             document.getElementById("startGame").innerHTML = "Press ↑ ↓ → ← to start";
+            game.addRandomFruit();
             game.tick();
         }
     },
@@ -276,9 +276,7 @@ let gameControl = {
         game.score = 0;
         game.minutes = 0;
         game.seconds = 0;
-        game.fruit = [
-            {x: 14, y: 10}
-        ];
+        game.fruit = [];
         snake.parts = [
             {x: 4, y: 10},
             {x: 3, y: 10},
@@ -306,7 +304,7 @@ let gameControl = {
         }
     }
 };
-let myText = "Press ↑ ↓ → ← to start"
+let myText = "Press ↑ ← ↓ → to start      "
 let myArray = myText.split("");
 let loopTimer;
 let i = 0;
