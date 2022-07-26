@@ -38,7 +38,7 @@ let game = {
     tick: function () {
         window.clearTimeout(game.timer);
         if (game.tickSpeedUp >= 1) {
-            if (game.tickSpeedUp === 7){
+            if (game.tickSpeedUp === 15){
                 game.tickSpeedUp = 0;
                 document.getElementById("speedUp").style.display = "none";
             }
