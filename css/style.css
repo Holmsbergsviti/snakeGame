@@ -11,12 +11,17 @@ body {
     font-size: 25px;
 }
 
+#startGame {
+    font-family: "Permanent Marker", cursive;
+    font-size: 25px;
+}
+
 #canvas {
     border: 2px solid;
     border-radius: 15px;
 }
 
-#playAgain, #info {
+#playAgain, #info{
     background-color: antiquewhite;
     font-family: "Permanent Marker", cursive;
     font-size: 15px;
