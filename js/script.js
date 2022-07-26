@@ -297,7 +297,6 @@ let gameControl = {
             gameControl.newFacing = gameControl.newFacing + key;
             gameControl.changeFacingStart();
         }
-
     },
     changeFacingArrow: function (keyCode){
         let key = keyCode.keyCode;
