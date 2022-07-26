@@ -1,4 +1,25 @@
+let myText = "Press ↑ ← ↓ → to start        "
+let myArray = myText.split("");
+let loopTimer;
+let i = 0;
+function frameLooper() {
+    if (myArray.length > i){
+        if (i === 0) {
+            document.getElementById("startGame").innerHTML = "";
+        }
+        document.getElementById("startGame").innerHTML += myArray[i];
+        i++;
+    } else {
+        document.getElementById("startGame").innerHTML = "Press ↑ ↓ → ← to start";
+        i = 0;
+    }
+    loopTimer = setTimeout('frameLooper()',150) ;
+}
+
 let game = {
+    bestScore: [
+        {name: "No Name", score: 0}
+    ],
     tickSpeedUp: 1,
     tickTime: 200,
     tickSecond: 5,
@@ -298,7 +319,7 @@ let gameControl = {
         }
     },
     changeFacingTouch: function () {
-
+        alert("Hi");
     },
     processInput: function (key) {
         if (key === "w")
@@ -320,6 +341,9 @@ let gameControl = {
     },
     startGame: function () {
         graphics.drawGame();
+        document.getElementById("scoreAndRecord").innerHTML =
+            "Score: " + game.score + " " +
+            "Record: " + game.record;
         window.addEventListener("keydown", gameControl.changeFacingArrow, false);
         window.addEventListener("keypress", gameControl.changeFacingWASD, false);
         window.addEventListener("touchmove", gameControl.changeFacingTouch, false);
@@ -367,23 +391,6 @@ let gameControl = {
         }
     }
 };
-let myText = "Press ↑ ← ↓ → to start        "
-let myArray = myText.split("");
-let loopTimer;
-let i = 0;
-function frameLooper() {
-    if (myArray.length > i){
-        if (i === 0) {
-            document.getElementById("startGame").innerHTML = "";
-        }
-        document.getElementById("startGame").innerHTML += myArray[i];
-        i++;
-    } else {
-        document.getElementById("startGame").innerHTML = "Press ↑ ↓ → ← to start";
-        i = 0;
-    }
-    loopTimer = setTimeout('frameLooper()',150) ;
-}
-frameLooper();
 
+frameLooper();
 gameControl.startGame();
