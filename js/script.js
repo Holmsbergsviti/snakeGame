@@ -1,5 +1,5 @@
 let game = {
-    tickSpeedUp: 0,
+    tickSpeedUp: 1,
     tickTime: 200,
     tickSecond: 5,
     startGame: 0,
@@ -38,11 +38,11 @@ let game = {
     tick: function () {
         window.clearTimeout(game.timer);
         if (game.tickSpeedUp >= 1) {
+            game.tickSpeedUp++;
             if (game.tickSpeedUp === 15){
                 game.tickSpeedUp = 0;
-                document.getElementById("speedUp").style.display = "none";
+                document.getElementById("level").style.display = "none";
             }
-            game.tickSpeedUp++;
         }
         game.tickNumber++;
         if (game.tickNumber % game.tickSecond === 0) gameControl.gameTime();
@@ -134,12 +134,14 @@ let snake = {
                 "Score: " + game.score + " " +
                 "Record: " + game.record;
             if (game.score / 15 === 1) {
-                document.getElementById("speedUp").style.display = "block";
+                document.getElementById("level").innerHTML = "Level: 2";
+                document.getElementById("level").style.display = "block";
                 game.tickSpeedUp++;
                 game.tickTime = 125;
                 game.tickSecond = 8;
             } else if (game.score / 15 === 2) {
-                document.getElementById("speedUp").style.display = "block";
+                document.getElementById("level").innerHTML = "Level: 3";
+                document.getElementById("level").style.display = "block";
                 game.tickSpeedUp++;
                 game.tickTime = 100;
                 game.tickSecond = 10;
@@ -151,6 +153,7 @@ let snake = {
 let graphics = {
     canvas: document.getElementById("canvas"),
     squareSize: 20,
+    greenOrDarkgreen: 0,
     drawBoard: function (ctx) {
         let currentY = 0;
         gameControl.level.forEach(function chekLine(line) {
@@ -161,12 +164,19 @@ let graphics = {
                     ctx.fillStyle = "brown";
                     ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
                 } else {
-                    ctx.fillStyle = "green";
+                    if (graphics.greenOrDarkgreen % 2 === 0) {
+                        ctx.fillStyle = "green";
+                    } else {
+                        ctx.fillStyle = "darkgreen";
+                    }
                     ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
+                    graphics.greenOrDarkgreen++;
                 }
                 currentX += graphics.squareSize;
             });
             currentY += graphics.squareSize;
+            graphics.greenOrDarkgreen = 0;
+        graphics.greenOrDarkgreen = 0;
         });
     },
     countDraw: 0,
@@ -180,7 +190,7 @@ let graphics = {
                 img.src = "img/imgApple.png";
                 ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3)
             } else {
-                if (graphics.countDraw === 1 && color === "brown") {
+                if (graphics.countDraw === 1 && color === "blue") {
                     ctx.fillStyle = "white";
                     ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
                     /*if (snake.facing === "N") {
@@ -218,7 +228,7 @@ let graphics = {
         ctx.clearRect(0, 0, graphics.canvas.width, graphics.canvas.height);
         graphics.drawBoard(ctx);
         graphics.draw(ctx, game.fruit, "red");
-        graphics.draw(ctx, snake.parts, "brown");
+        graphics.draw(ctx, snake.parts, "blue");
     }
 };
 
@@ -251,6 +261,7 @@ let gameControl = {
             gameControl.startGameBtn = true;
             clearTimeout(loopTimer);
             document.getElementById("startGame").innerHTML = "Press ↑ ↓ → ← to start";
+            document.getElementById("level").style.display = "block";
             game.addRandomFruit();
             game.tick();
         }
@@ -314,9 +325,10 @@ let gameControl = {
     },
     restartGame: function () {
         window.clearTimeout(game.timer);
+        game.level = 1;
         game.tickTime = 200;
         game.tickSecond = 5;
-        game.tickNumber =  0;
+        game.tickNumber =  1;
         game.timer = null;
         game.score = 0;
         game.minutes = 0;
