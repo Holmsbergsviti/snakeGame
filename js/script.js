@@ -1,4 +1,7 @@
 let game = {
+    tickSpeedUp: 0,
+    tickTime: 200,
+    tickSecond: 5,
     startGame: 0,
     newFacing: 0,
     timer: null,
@@ -34,15 +37,22 @@ let game = {
     fruit: [],
     tick: function () {
         window.clearTimeout(game.timer);
+        if (game.tickSpeedUp >= 1) {
+            if (game.tickSpeedUp === 15){
+                game.tickSpeedUp = 0;
+                document.getElementById("speedUp").style.display = "none";
+            }
+            game.tickSpeedUp++;
+        }
         game.tickNumber++;
-        if (game.tickNumber % 5 === 0) gameControl.gameTime();
+        if (game.tickNumber % game.tickSecond === 0) gameControl.gameTime();
         let result = snake.move();
         if (result === "Game Over") {
             document.getElementById("gameOver").style.display = "block";
             return;
         }
         graphics.drawGame();
-        game.timer = window.setTimeout("game.tick()", 200);
+        game.timer = window.setTimeout("game.tick()", game.tickTime);
     },
     addRandomFruit: function () {
         let randomY = Math.floor(Math.random() * gameControl.level.length);
@@ -123,6 +133,17 @@ let snake = {
             document.getElementById("scoreAndRecord").innerHTML =
                 "Score: " + game.score + " " +
                 "Record: " + game.record;
+            if (game.score / 15 === 1) {
+                document.getElementById("speedUp").style.display = "block";
+                game.tickSpeedUp++;
+                game.tickTime = 125;
+                game.tickSecond = 8;
+            } else if (game.score / 15 === 2) {
+                document.getElementById("speedUp").style.display = "block";
+                game.tickSpeedUp++;
+                game.tickTime = 100;
+                game.tickSecond = 10;
+            }
         }
     }
 };
@@ -155,13 +176,34 @@ let graphics = {
             let partXLocation = part.x * graphics.squareSize;
             let partYLocation = part.y * graphics.squareSize;
             if (color === "red") {
-                let a = new Image();
-                a.src = "img/imgApple.png";
-                ctx.drawImage(a, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3)
+                let img = new Image();
+                img.src = "img/imgApple.png";
+                ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3)
             } else {
                 if (graphics.countDraw === 1 && color === "brown") {
-                    ctx.fillStyle = "beige";
+                    ctx.fillStyle = "white";
                     ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
+                    /*if (snake.facing === "N") {
+                        let img = new Image();
+                        img.src = "img/imgSnakeHeadUp.png";
+                        img.id = "imageHead";
+                        ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3)
+                    }
+                    if (snake.facing === "W") {
+                        let img = new Image();
+                        img.src = "img/imgSnakeHeadLeft.png";
+                        ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3)
+                    }
+                    if (snake.facing === "S") {
+                        let img = new Image();
+                        img.src = "img/imgSnakeHeadDown.png";
+                        ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3)
+                    }
+                    if (snake.facing === "E") {
+                        let img = new Image();
+                        img.src = "img/imgSnakeHeadRight.png";
+                        ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3)
+                    }*/
                 } else {
                     ctx.fillStyle = color;
                     ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
@@ -213,7 +255,7 @@ let gameControl = {
             game.tick();
         }
     },
-    changeFacing: function (keyPressed) {
+    changeFacingWASD: function (keyPressed) {
         let key = keyPressed.key.toLowerCase();
         if (key === "w" || key === "a" || key === "s" || key || "d") {
             gameControl.newFacing = gameControl.newFacing + key;
@@ -240,6 +282,9 @@ let gameControl = {
             gameControl.changeFacingStart();
         }
     },
+    changeFacingTouch: function () {
+
+    },
     processInput: function (key) {
         if (key === "w")
             if (snake.facing !== "S" && snake.facing !== "N"){
@@ -260,15 +305,17 @@ let gameControl = {
     },
     startGame: function () {
         graphics.drawGame();
-        window.addEventListener("keydown", gameControl.changeFacingArrow, false)
-        window.addEventListener("keypress", gameControl.changeFacing, false);
+        window.addEventListener("keydown", gameControl.changeFacingArrow, false);
+        window.addEventListener("keypress", gameControl.changeFacingWASD, false);
+        window.addEventListener("touchmove", gameControl.changeFacingTouch, false);
     },
     changeDirectionWASD: function (facing) {
         snake.facing = facing;
-        game.changeDirection = true;
     },
     restartGame: function () {
         window.clearTimeout(game.timer);
+        game.tickTime = 200;
+        game.tickSecond = 5;
         game.tickNumber =  0;
         game.timer = null;
         game.score = 0;

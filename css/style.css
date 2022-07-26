@@ -32,7 +32,7 @@ body {
     cursor: pointer;
 }
 
-#gameOver {
+#gameOver, #speedUp {
     font-family: "Permanent Marker", cursive;
     font-size: 25px;
     position: absolute;
