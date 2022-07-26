@@ -178,6 +178,7 @@ let graphics = {
         ctx.clearRect(0, 0, graphics.canvas.width, graphics.canvas.height);
         graphics.drawBoard(ctx);
         graphics.draw(ctx, game.fruit, "red");
+        graphics.draw(ctx, game.fruit, "red");
         graphics.draw(ctx, snake.parts, "brown");
     }
 };
@@ -270,30 +271,6 @@ let gameControl = {
     },
     restartGame: function () {
         window.clearTimeout(game.timer);
-        game.board = [
-            "##########################",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "#                        #",
-            "##########################"
-        ];
         game.tickNumber =  0;
         game.timer = null;
         game.score = 0;
