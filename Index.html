@@ -7,16 +7,27 @@
     </head>
     <body>
         <div id="container">
+            <!--Timer-->
             <h2 id="timer">Time: 00:00</h2>
+            <!--Score and Record-->
             <h2 id="scoreAndRecord">Score: 0 Record: 0</h2>
+            <!--How to start game text-->
             <div id="startGame"></div>
+            <!--Canvas-->
             <canvas id="canvas" width="520" height="440"></canvas>
             <br> <br>
+            <!--Buttons Play Again and Info-->
             <button id="playAgain" onclick="gameControl.restartGame()">Play again</button>
             <button id="info" onclick="gameControl.info()">Info</button>
+            <!--Text Game Over-->
             <div id="gameOver" style="display: none">
                 <h2 id="gameOverText">Game Over</h2>
             </div>
+            <!--Text Speed Up-->
+            <div id="speedUp" style="display: none">
+                <h2 id="speedUpText">Speed Up</h2>
+            </div>
+            <!--Info Text-->
             <div id="infoText" style="display: none">
                 Task is to eat fruits.                 <br>
                 Control - Arrows or WASD:              <br>
