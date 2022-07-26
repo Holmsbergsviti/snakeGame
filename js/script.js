@@ -156,12 +156,19 @@ let graphics = {
             graphics.countDraw++;
             let partXLocation = part.x * graphics.squareSize;
             let partYLocation = part.y * graphics.squareSize;
-            if (graphics.countDraw === 1 && color === "brown") {
-                ctx.fillStyle = "beige";
+            if (color === "red") {
+                let a = new Image();
+                a.src = "img/imgApple.png";
+                ctx.drawImage(a, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3)
             } else {
-                ctx.fillStyle = color;
+                if (graphics.countDraw === 1 && color === "brown") {
+                    ctx.fillStyle = "beige";
+                    ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
+                } else {
+                    ctx.fillStyle = color;
+                    ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
+                }
             }
-            ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
         })
         graphics.countDraw = 0;
     },
@@ -202,6 +209,8 @@ let gameControl = {
     changeFacingStart: function () {
         if (gameControl.startGameBtn === false) {
             gameControl.startGameBtn = true;
+            clearTimeout(loopTimer);
+            document.getElementById("startGame").innerHTML = "Press ↑ ↓ → ← to start";
             game.tick();
         }
     },
@@ -209,25 +218,28 @@ let gameControl = {
         let key = keyPressed.key.toLowerCase();
         if (key === "w" || key === "a" || key === "s" || key || "d") {
             gameControl.newFacing = gameControl.newFacing + key;
+            gameControl.changeFacingStart();
         }
-        gameControl.changeFacingStart();
 
     },
     changeFacingArrow: function (keyCode){
         let key = keyCode.keyCode;
         if (key === 38) {
             gameControl.newFacing = gameControl.newFacing + "w";
+            gameControl.changeFacingStart();
         }
         if (key === 37) {
             gameControl.newFacing = gameControl.newFacing + "a";
+            gameControl.changeFacingStart();
         }
         if (key === 40) {
             gameControl.newFacing = gameControl.newFacing + "s";
+            gameControl.changeFacingStart();
         }
         if (key === 39) {
             gameControl.newFacing = gameControl.newFacing + "d";
+            gameControl.changeFacingStart();
         }
-        gameControl.changeFacingStart();
     },
     processInput: function (key) {
         if (key === "w")
@@ -317,5 +329,22 @@ let gameControl = {
         }
     }
 };
-
+let myText = "Press ↑ ↓ → ← to start"
+let myArray = myText.split("");
+let loopTimer;
+let i = 0;
+function frameLooper() {
+    if (myArray.length > i){
+        if (i === 0) {
+            document.getElementById("startGame").innerHTML = "";
+        }
+        document.getElementById("startGame").innerHTML += myArray[i];
+        i++;
+    } else {
+        document.getElementById("startGame").innerHTML = "Press ↑ ↓ → ← to start";
+        i = 0;
+    }
+    loopTimer = setTimeout('frameLooper()',150) ;
+}
+frameLooper();
 gameControl.startGame();
