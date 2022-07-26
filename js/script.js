@@ -31,7 +31,7 @@ let game = {
         "##########################"
     ],
     fruit: [
-        {x: 9, y: 10}
+        {x: 14, y: 10}
     ],
     tick: function () {
         window.clearTimeout(game.timer);
@@ -39,6 +39,7 @@ let game = {
         if (game.tickNumber % 5 === 0) gameControl.gameTime();
         let result = snake.move();
         if (result === "Game Over") {
+            document.getElementById("gameOver").style.display = "block";
             return;
         }
         graphics.drawGame();
@@ -257,13 +258,37 @@ let gameControl = {
     },
     restartGame: function () {
         window.clearTimeout(game.timer);
+        game.board = [
+            "##########################",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "#                        #",
+            "##########################"
+        ];
         game.tickNumber =  0;
         game.timer = null;
         game.score = 0;
         game.minutes = 0;
         game.seconds = 0;
         game.fruit = [
-            {x: 9, y: 10}
+            {x: 14, y: 10}
         ];
         snake.parts = [
             {x: 4, y: 10},
@@ -278,6 +303,7 @@ let gameControl = {
             "Score: " + game.score + " " +
             "Record: " + game.record;
         document.getElementById("timer").innerHTML = "Time: 0" + game.minutes + ":0" + game.seconds;
+        document.getElementById("gameOver").style.display = "none";
         gameControl.startGame();
     },
     info: function () {
