@@ -158,10 +158,16 @@ let graphics = {
             let partYLocation = part.y * graphics.squareSize;
             if (graphics.countDraw === 1 && color === "brown") {
                 ctx.fillStyle = "beige";
+                ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
             } else {
                 ctx.fillStyle = color;
+                ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
             }
-            ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
+            if (color === "red") {
+                let a = new Image();
+                a.src = "img/imgApple.png";
+                ctx.drawImage(a, partXLocation, partYLocation, graphics.squareSize, graphics.squareSize)
+            }
         })
         graphics.countDraw = 0;
     },
