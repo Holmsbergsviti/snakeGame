@@ -48,7 +48,7 @@ let game = {
         let randomY = Math.floor(Math.random() * gameControl.level.length);
         let randomX = Math.floor(Math.random() * gameControl.level[randomY].length);
         let randomLocation = {x: randomX, y: randomY};
-        if (game.isEmpty(randomLocation) && !game.isFruit(randomLocation)) {
+        if (game.isEmpty(randomLocation) && !game.isSnake(randomLocation)) {
             game.fruit.push(randomLocation)
         } else {
             game.addRandomFruit();
@@ -149,7 +149,6 @@ let graphics = {
         });
     },
     countDraw: 0,
-
     draw: function (ctx, source, color) {
         source.forEach(function (part) {
             graphics.countDraw++;
@@ -176,7 +175,6 @@ let graphics = {
         let ctx = graphics.canvas.getContext("2d");
         ctx.clearRect(0, 0, graphics.canvas.width, graphics.canvas.height);
         graphics.drawBoard(ctx);
-        graphics.draw(ctx, game.fruit, "red");
         graphics.draw(ctx, game.fruit, "red");
         graphics.draw(ctx, snake.parts, "brown");
     }
@@ -286,11 +284,13 @@ let gameControl = {
         graphics.countDraw = 0;
         gameControl.level = game.board;
         gameControl.startGameBtn = false;
+        i = 0;
         document.getElementById("scoreAndRecord").innerHTML =
             "Score: " + game.score + " " +
             "Record: " + game.record;
         document.getElementById("timer").innerHTML = "Time: 0" + game.minutes + ":0" + game.seconds;
         document.getElementById("gameOver").style.display = "none";
+        frameLooper();
         gameControl.startGame();
     },
     info: function () {
@@ -304,7 +304,7 @@ let gameControl = {
         }
     }
 };
-let myText = "Press ↑ ← ↓ → to start      "
+let myText = "Press ↑ ← ↓ → to start        "
 let myArray = myText.split("");
 let loopTimer;
 let i = 0;
@@ -322,4 +322,5 @@ function frameLooper() {
     loopTimer = setTimeout('frameLooper()',150) ;
 }
 frameLooper();
+
 gameControl.startGame();
