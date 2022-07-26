@@ -164,20 +164,24 @@ let graphics = {
                     ctx.fillStyle = "brown";
                     ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
                 } else {
-                    if (graphics.greenOrDarkgreen % 2 === 0) {
+                    ctx.fillStyle = "green";
+                    ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
+                    /*if (graphics.greenOrDarkgreen % 2 === 0) {
                         ctx.fillStyle = "green";
+                        graphics.greenOrDarkgreen++;
                     } else {
                         ctx.fillStyle = "darkgreen";
+                        graphics.greenOrDarkgreen++;
                     }
-                    ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
-                    graphics.greenOrDarkgreen++;
+                    ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);*/
                 }
                 currentX += graphics.squareSize;
             });
             currentY += graphics.squareSize;
-            graphics.greenOrDarkgreen = 0;
-        graphics.greenOrDarkgreen = 0;
+            //currentX = 0;
+            //graphics.greenOrDarkgreen++;
         });
+        graphics.greenOrDarkgreen = 0;
     },
     countDraw: 0,
     draw: function (ctx, source, color) {
