@@ -17,9 +17,7 @@ function frameLooper() {
 }
 
 let game = {
-    bestScore: [
-        {name: "No Name", score: 0}
-    ],
+    fruitIsEaten: 0,
     tickSpeedUp: 1,
     tickTime: 200,
     tickSecond: 5,
@@ -143,10 +141,15 @@ let snake = {
         }
         if (game.isEmpty(location)) {
             snake.parts.unshift(location);
-            snake.parts.pop();
+            if (game.fruitIsEaten === 0){
+                snake.parts.pop();
+            } else {
+                game.fruitIsEaten--;
+            }
         }
         if (game.isFruit(location)) {
-            snake.parts.unshift(location);
+            game.fruitIsEaten++;
+            //snake.parts.unshift(location);
             game.score++;
             if (game.score > game.record) {
                 game.record = game.score;
@@ -185,22 +188,24 @@ let graphics = {
                     ctx.fillStyle = "brown";
                     ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
                 } else {
-                    ctx.fillStyle = "green";
-                    ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
-                    /*if (graphics.greenOrDarkgreen % 2 === 0) {
+                    //ctx.fillStyle = "green";
+                    //ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
+                    ///*
+                    if (graphics.greenOrDarkgreen % 2 === 0) {
                         ctx.fillStyle = "green";
                         graphics.greenOrDarkgreen++;
                     } else {
                         ctx.fillStyle = "darkgreen";
                         graphics.greenOrDarkgreen++;
                     }
-                    ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);*/
+                    ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
+                    //*/
                 }
                 currentX += graphics.squareSize;
             });
             currentY += graphics.squareSize;
-            //currentX = 0;
-            //graphics.greenOrDarkgreen++;
+            currentX = 0;
+            graphics.greenOrDarkgreen++;
         });
         graphics.greenOrDarkgreen = 0;
     },
@@ -213,12 +218,13 @@ let graphics = {
             if (color === "red") {
                 let img = new Image();
                 img.src = "img/imgApple.png";
-                ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3)
+                ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3);
             } else {
                 if (graphics.countDraw === 1 && color === "blue") {
                     ctx.fillStyle = "white";
                     ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
-                    /*if (snake.facing === "N") {
+                    /*
+                    if (snake.facing === "N") {
                         let img = new Image();
                         img.src = "img/imgSnakeHeadUp.png";
                         img.id = "imageHead";
@@ -238,7 +244,8 @@ let graphics = {
                         let img = new Image();
                         img.src = "img/imgSnakeHeadRight.png";
                         ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3)
-                    }*/
+                    }
+                    */
                 } else {
                     ctx.fillStyle = color;
                     ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
