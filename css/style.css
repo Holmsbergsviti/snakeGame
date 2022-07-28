@@ -16,7 +16,7 @@ body {
     border-radius: 15px;
 }
 
-#playAgain, #info{
+#playAgain, #info, #control{
     background-color: antiquewhite;
     font-family: "Permanent Marker", cursive;
     font-size: 15px;
@@ -26,6 +26,7 @@ body {
     border-radius: 15px;
     cursor: pointer;
 }
+
 
 #gameOver, #level {
     font-family: "Permanent Marker", cursive;
@@ -40,14 +41,22 @@ body {
     height: 200px;
 }
 
-#infoText {
+#infoText, #controlText {
     margin: auto;
     padding: 10px;
     font-family: "Permanent Marker", cursive;
     font-size: 15px;
     border: 4px solid;
     border-radius: 15px;
+}
+
+#infoText {
     width: 250px;
     height: 110px;
+}
+
+#controlText {
+    width: 250px;
+    height: 160px;
 }
 
