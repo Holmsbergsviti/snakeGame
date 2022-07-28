@@ -1,4 +1,5 @@
 let game = {
+    pauseTimes: 0,
     fruitIsEaten: 0,
     tickSpeedUp: 1,
     tickTime: 200,
@@ -145,8 +146,6 @@ let snake = {
             if (game.score / 15 === 1) {
                 game.level++;
                 document.getElementById("level2").style.display = "block";
-                //document.getElementById("level").innerHTML = "Level: " + game.level;
-                //document.getElementById("level").style.display = "block";
                 game.tickSpeedUp++;
                 game.tickTime = 125;
                 game.tickSecond = 8;
@@ -175,9 +174,6 @@ let graphics = {
                     ctx.fillStyle = "brown";
                     ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
                 } else {
-                    //ctx.fillStyle = "green";
-                    //ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
-                    ///*
                     if (graphics.greenOrDarkgreen % 2 === 0) {
                         ctx.fillStyle = "green";
                         graphics.greenOrDarkgreen++;
@@ -186,7 +182,6 @@ let graphics = {
                         graphics.greenOrDarkgreen++;
                     }
                     ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
-                    //*/
                 }
                 currentX += graphics.squareSize;
             });
@@ -279,7 +274,7 @@ let gameControl = {
         if (gameControl.gameIsStarted === false) {
             gameControl.gameIsStarted = true;
             clearTimeout(loopTimer);
-            document.getElementById("pressArrowsToStart").innerHTML = "Game is started";
+            document.getElementById("pressArrowsToStart").innerHTML = "Game is started. Eat as many apples as you can";
             document.getElementById("level1").style.display = "block";
             game.addRandomFruit();
             game.tick();
@@ -287,21 +282,36 @@ let gameControl = {
     },
     changeFacing: function (keyCode){
         let key = keyCode.keyCode;
+
         if (key === 38 || key === 87) {
             gameControl.newFacing = gameControl.newFacing + "w";
             gameControl.changeFacingStart();
         }
+
         if (key === 37 || key === 65) {
             gameControl.newFacing = gameControl.newFacing + "a";
             gameControl.changeFacingStart();
         }
+
         if (key === 40 || key === 83) {
             gameControl.newFacing = gameControl.newFacing + "s";
             gameControl.changeFacingStart();
         }
+
         if (key === 39 || key === 68) {
             gameControl.newFacing = gameControl.newFacing + "d";
             gameControl.changeFacingStart();
+        }
+
+        if (key === 75) {
+            if (game.pauseTimes % 2 === 0) {
+                window.clearTimeout(game.timer);
+                document.getElementById("pressArrowsToStart").innerHTML = "Game is paused";
+            } else {
+                document.getElementById("pressArrowsToStart").innerHTML = "Game is continued. Eat as many apples as you can";
+                game.tick();
+            }
+            game.pauseTimes++;
         }
 
         if (key === 8) {
@@ -387,8 +397,14 @@ let gameControl = {
         frameLooper();
         gameControl.startGame();
     },
-    info: function () {
-        let targetDiv = document.getElementById("infoText");
+    controlInfoButtons: function (textId) {
+        if (textId === "infoText") {
+            document.getElementById("controlText").style.display = "none";
+        } else {
+            document.getElementById("infoText").style.display = "none";
+        }
+
+        let targetDiv = document.getElementById(textId);
         if (targetDiv.style.display !== "none") {
             targetDiv.style.display = "none";
             targetDiv.style.alignItems = "center";

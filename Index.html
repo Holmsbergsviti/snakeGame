@@ -17,7 +17,8 @@
             <br> <br>
             <!--Buttons Play Again and Info-->
             <button id="playAgain" onclick="gameControl.restartGame()">Play again</button>
-            <button id="info" onclick="gameControl.info()">Info</button>
+            <button id="info" onclick="gameControl.controlInfoButtons('infoText')">Info</button>
+            <button id="control" onclick="gameControl.controlInfoButtons('controlText')">Control</button>
             <!--Text Game Over, text Level, text Info-->
             <div id="gameOver" style="display: none">
                 <h2 id="gameOverText">Game Over</h2>
@@ -38,6 +39,15 @@
             <div id="infoText" style="display: none">
                 Eat as many apples as you can.                                                   <br> <br>
                 Be careful! Running of the green grass or into your own snake will end the game. <br>
+            </div>
+            <div id="controlText" style="display: none">
+                ↑ or W - Up.                    <br>
+                ← or A - Left.                  <br>
+                ↓ or S - Down.                  <br>
+                → or D - Right.                 <br>
+                Backspace - end the game.       <br>
+                Enter - restarts the game.      <br>
+                K - pauses/continue the game.   <br>
             </div>
         </div>
         <script rel="script" src="js/script.js"></script>
