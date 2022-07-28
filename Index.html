@@ -7,34 +7,37 @@
     </head>
     <body>
         <div id="container">
-            <!--Timer-->
+            <!--Timer, Score, Record-->
             <h2 id="timer">Time: 00:00</h2>
-            <!--Score, Record-->
             <h2 id="scoreAndRecord"></h2>
             <!--How to start game text-->
-            <div id="startGame"></div>
+            <div id="pressArrowsToStart"></div>
             <!--Canvas-->
             <canvas id="canvas" width="520" height="440"></canvas>
             <br> <br>
             <!--Buttons Play Again and Info-->
             <button id="playAgain" onclick="gameControl.restartGame()">Play again</button>
             <button id="info" onclick="gameControl.info()">Info</button>
-            <!--Text Game Over-->
+            <!--Text Game Over, text Level, text Info-->
             <div id="gameOver" style="display: none">
                 <h2 id="gameOverText">Game Over</h2>
             </div>
-            <!--Text Speed Up-->
-            <div id="level" style="display: none">
-                <h2 id="levelText">Level: 1</h2>
+
+            <div id="level">
+                <div id="level1" style="display: none">
+                    <h2 id="level1Text">Level: 1</h2>
+                </div>
+                <div id="level2" style="display: none">
+                    <h2 id="level2Text">Level: 2</h2>
+                </div>
+                <div id="level3" style="display: none">
+                    <h2 id="level3Text">Level: 3</h2>
+                </div>
             </div>
-            <!--Info Text-->
+
             <div id="infoText" style="display: none">
-                Task is to eat apples.                 <br>
-                Control - Arrows or WASD:              <br>
-                • W - Up.                              <br>
-                • A - left.                            <br>
-                • S - down.                            <br>
-                • D - right.                           <br>
+                Eat as many apples as you can.                                                   <br> <br>
+                Be careful! Running of the green grass or into your own snake will end the game. <br>
             </div>
         </div>
         <script rel="script" src="js/script.js"></script>

@@ -6,12 +6,7 @@ body {
     text-align: center;
 }
 
-#timer, #scoreAndRecord {
-    font-family: "Permanent Marker", cursive;
-    font-size: 25px;
-}
-
-#startGame {
+#timer, #scoreAndRecord, #pressArrowsToStart {
     font-family: "Permanent Marker", cursive;
     font-size: 25px;
 }
@@ -52,7 +47,7 @@ body {
     font-size: 15px;
     border: 4px solid;
     border-radius: 15px;
-    width: 200px;
-    height: 145px;
+    width: 250px;
+    height: 110px;
 }
 
