@@ -1,21 +1,3 @@
-let myText = "Press ↑ ← ↓ → to start        "
-let myArray = myText.split("");
-let loopTimer;
-let i = 0;
-function frameLooper() {
-    if (myArray.length > i){
-        if (i === 0) {
-            document.getElementById("startGame").innerHTML = "";
-        }
-        document.getElementById("startGame").innerHTML += myArray[i];
-        i++;
-    } else {
-        document.getElementById("startGame").innerHTML = "Press ↑ ↓ → ← to start";
-        i = 0;
-    }
-    loopTimer = setTimeout('frameLooper()',150) ;
-}
-
 let game = {
     fruitIsEaten: 0,
     tickSpeedUp: 1,
@@ -29,6 +11,7 @@ let game = {
     seconds: 0,
     score: 0,
     record : 0,
+    level: 1,
     board: [
         "##########################",
         "#                        #",
@@ -60,14 +43,16 @@ let game = {
             game.tickSpeedUp++;
             if (game.tickSpeedUp === 15){
                 game.tickSpeedUp = 0;
-                document.getElementById("level").style.display = "none";
+                document.getElementById("level" + game.level).style.display = "none";
             }
         }
         game.tickNumber++;
         if (game.tickNumber % game.tickSecond === 0) gameControl.gameTime();
         let result = snake.move();
         if (result === "Game Over") {
+            document.getElementById("level" + game.level).style.display = "none";
             document.getElementById("gameOver").style.display = "block";
+            document.getElementById("pressArrowsToStart").innerHTML = "Game is ended";
             return;
         }
         graphics.drawGame();
@@ -158,14 +143,16 @@ let snake = {
                 "Score: " + game.score + " " +
                 "Record: " + game.record;
             if (game.score / 15 === 1) {
-                document.getElementById("level").innerHTML = "Level: 2";
-                document.getElementById("level").style.display = "block";
+                game.level++;
+                document.getElementById("level2").style.display = "block";
+                //document.getElementById("level").innerHTML = "Level: " + game.level;
+                //document.getElementById("level").style.display = "block";
                 game.tickSpeedUp++;
                 game.tickTime = 125;
                 game.tickSecond = 8;
             } else if (game.score / 15 === 2) {
-                document.getElementById("level").innerHTML = "Level: 3";
-                document.getElementById("level").style.display = "block";
+                game.level++;
+                document.getElementById("level3").style.display = "block";
                 game.tickSpeedUp++;
                 game.tickTime = 100;
                 game.tickSecond = 10;
@@ -265,7 +252,7 @@ let graphics = {
 };
 
 let gameControl = {
-    startGameBtn: false,
+    gameIsStarted: false,
     level: game.board,
     newFacing: [],
     gameTime: function () {
@@ -289,43 +276,44 @@ let gameControl = {
       }
     },
     changeFacingStart: function () {
-        if (gameControl.startGameBtn === false) {
-            gameControl.startGameBtn = true;
+        if (gameControl.gameIsStarted === false) {
+            gameControl.gameIsStarted = true;
             clearTimeout(loopTimer);
-            document.getElementById("startGame").innerHTML = "Press ↑ ↓ → ← to start";
-            document.getElementById("level").style.display = "block";
+            document.getElementById("pressArrowsToStart").innerHTML = "Game is started";
+            document.getElementById("level1").style.display = "block";
             game.addRandomFruit();
             game.tick();
         }
     },
-    changeFacingWASD: function (keyPressed) {
-        let key = keyPressed.key.toLowerCase();
-        if (key === "w" || key === "a" || key === "s" || key || "d") {
-            gameControl.newFacing = gameControl.newFacing + key;
-            gameControl.changeFacingStart();
-        }
-    },
-    changeFacingArrow: function (keyCode){
+    changeFacing: function (keyCode){
         let key = keyCode.keyCode;
-        if (key === 38) {
+        if (key === 38 || key === 87) {
             gameControl.newFacing = gameControl.newFacing + "w";
             gameControl.changeFacingStart();
         }
-        if (key === 37) {
+        if (key === 37 || key === 65) {
             gameControl.newFacing = gameControl.newFacing + "a";
             gameControl.changeFacingStart();
         }
-        if (key === 40) {
+        if (key === 40 || key === 83) {
             gameControl.newFacing = gameControl.newFacing + "s";
             gameControl.changeFacingStart();
         }
-        if (key === 39) {
+        if (key === 39 || key === 68) {
             gameControl.newFacing = gameControl.newFacing + "d";
             gameControl.changeFacingStart();
         }
-    },
-    changeFacingTouch: function () {
-        alert("Hi");
+
+        if (key === 8) {
+            document.getElementById("level").style.display = "none";
+            document.getElementById("gameOver").style.display = "block";
+            document.getElementById("pressArrowsToStart").innerHTML = "Game is ended";
+            window.clearTimeout(game.timer);
+        }
+
+        if (key === 13) {
+            gameControl.restartGame();
+        }
     },
     processInput: function (key) {
         if (key === "w")
@@ -350,39 +338,52 @@ let gameControl = {
         document.getElementById("scoreAndRecord").innerHTML =
             "Score: " + game.score + " " +
             "Record: " + game.record;
-        window.addEventListener("keydown", gameControl.changeFacingArrow, false);
-        window.addEventListener("keypress", gameControl.changeFacingWASD, false);
-        window.addEventListener("touchmove", gameControl.changeFacingTouch, false);
+        window.addEventListener("keydown", gameControl.changeFacing, false);
     },
     changeDirectionWASD: function (facing) {
         snake.facing = facing;
     },
     restartGame: function () {
         window.clearTimeout(game.timer);
-        game.level = 1;
+        clearTimeout(loopTimer);
+
+        myText = "Press ↑ ← ↓ → to start        "
+        myArray = myText.split("");
+        letter = 0;
+
+        game.fruitIsEaten = 0;
+        game.tickSpeedUp = 1;
         game.tickTime = 200;
         game.tickSecond = 5;
-        game.tickNumber =  1;
         game.timer = null;
-        game.score = 0;
+        game.tickNumber =  1;
         game.minutes = 0;
         game.seconds = 0;
+        game.score = 0;
+        game.level = 1;
         game.fruit = [];
+
         snake.parts = [
             {x: 4, y: 10},
             {x: 3, y: 10},
             {x: 2, y: 10}
         ];
         snake.facing = "E";
+
+        graphics.canvas = document.getElementById("canvas");
+        graphics.squareSize = 20;
+        graphics.greenOrDarkgreen = 0;
         graphics.countDraw = 0;
+
         gameControl.level = game.board;
-        gameControl.startGameBtn = false;
-        i = 0;
+        gameControl.gameIsStarted = false;
+
+        document.getElementById("timer").innerHTML = "Time: 0" + game.minutes + ":0" + game.seconds;
         document.getElementById("scoreAndRecord").innerHTML =
             "Score: " + game.score + " " +
             "Record: " + game.record;
-        document.getElementById("timer").innerHTML = "Time: 0" + game.minutes + ":0" + game.seconds;
         document.getElementById("gameOver").style.display = "none";
+
         frameLooper();
         gameControl.startGame();
     },
@@ -397,6 +398,26 @@ let gameControl = {
         }
     }
 };
+
+let myText = "Press ↑ ← ↓ → to start        ";
+let myArray = myText.split("");
+let loopTimer;
+let letter = 0;
+
+function frameLooper() {
+    if (myArray.length > letter){
+        if (letter === 0) {
+            document.getElementById("pressArrowsToStart").innerHTML = "";
+        }
+        document.getElementById("pressArrowsToStart").innerHTML += myArray[letter];
+        letter++;
+    } else {
+        document.getElementById("pressArrowsToStart").innerHTML = "Press ↑ ↓ → ← to start";
+        letter = 0;
+    }
+    loopTimer = setTimeout('frameLooper()',150) ;
+}
+
 
 frameLooper();
 gameControl.startGame();
