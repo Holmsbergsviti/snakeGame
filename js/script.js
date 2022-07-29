@@ -1,3 +1,9 @@
+//      ..#....#....######....##....#....######....#...#....######..
+//      ..#....#....#.........#.#...#....#....#....#..#.....#.......
+//      ..#....#....######....#..#..#....######....##.......######..
+//      ...#..#..........#....#...#.#....#....#....#..#.....#.......
+//      ....##......######....#....##....#....#....#...#....######..
+
 let game = {
     pauseTimes: 0,
     fruitIsEaten: 0,
@@ -79,9 +85,9 @@ let game = {
         for (let fruitNumber = 0; fruitNumber < game.fruit.length; fruitNumber++) {
             let fruit = game.fruit[fruitNumber];
             if (location.x === fruit.x && location.y === fruit.y) {
+                let sound = new Audio("sound/soundAppleCrunch.wav");
+                sound.play().then();
                 game.fruit.splice(fruitNumber, 1);
-                let sound = new Audio("sound/appleCrunch.wav");
-                sound.play();
                 game.addRandomFruit();
                 return true;
             }
@@ -137,7 +143,6 @@ let snake = {
         }
         if (game.isFruit(location)) {
             game.fruitIsEaten++;
-            //snake.parts.unshift(location);
             game.score++;
             if (game.score > game.record) {
                 game.record = game.score;
@@ -317,7 +322,7 @@ let gameControl = {
             game.pauseTimes++;
         }
 
-        if (key === 8) {
+        if (key === 8 || key === 27) {
             document.getElementById("level").style.display = "none";
             document.getElementById("gameOver").style.display = "block";
             document.getElementById("pressArrowsToStart").innerHTML = "Game is ended";
