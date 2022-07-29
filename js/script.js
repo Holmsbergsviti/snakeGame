@@ -211,8 +211,8 @@ let graphics = {
                 if (graphics.countDraw === 1 && color === "blue") {
                     ctx.fillStyle = "white";
                     ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
-                    /*
-                    if (snake.facing === "N") {
+
+                    /*if (snake.facing === "N") {
                         let img = new Image();
                         img.src = "img/imgSnakeHeadUp.png";
                         img.id = "imageHead";
@@ -232,8 +232,7 @@ let graphics = {
                         let img = new Image();
                         img.src = "img/imgSnakeHeadRight.png";
                         ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3)
-                    }
-                    */
+                    }*/
                 } else {
                     ctx.fillStyle = color;
                     ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
@@ -281,7 +280,7 @@ let gameControl = {
             gameControl.gameIsStarted = true;
             clearTimeout(loopTimer);
             document.getElementById("pressArrowsToStart").innerHTML = "Eat as many apples as you can";
-            document.getElementById("level1").style.display = "block";
+            document.getElementById("level" + game.level).style.display = "block";
             game.addRandomFruit();
             game.tick();
         }
@@ -321,21 +320,19 @@ let gameControl = {
             game.pauseTimes++;
         }
 
-        if (key === 8 || key === 27) {
-            if (game.gameOver === false) {
-                gameControl.gameOver();
-                window.clearTimeout(game.timer);
-            }
+        if ((key === 8 || key === 27) && game.gameOver === false && gameControl.gameIsStarted === true) {
+            gameControl.gameOver();
+            window.clearTimeout(game.timer);
         }
 
-        if (key === 13) {
+        if (key === 13 && gameControl.gameIsStarted === true) {
             gameControl.restartGame();
         }
     },
     gameOver: function () {
         let sound = new Audio("sound/soundGameOver.wav");
         sound.play().then();
-        document.getElementById("level").style.display = "none";
+        document.getElementById("level" + game.level).style.display = "none";
         document.getElementById("gameOver").style.display = "block";
         document.getElementById("pressArrowsToStart").innerHTML = "Game is ended";
         game.gameOver = true;
