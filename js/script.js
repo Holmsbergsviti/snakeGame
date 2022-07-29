@@ -276,7 +276,7 @@ let gameControl = {
         if (gameControl.gameIsStarted === false) {
             gameControl.gameIsStarted = true;
             clearTimeout(loopTimer);
-            document.getElementById("pressArrowsToStart").innerHTML = "Game is started. Eat as many apples as you can";
+            document.getElementById("pressArrowsToStart").innerHTML = "Eat as many apples as you can";
             document.getElementById("level1").style.display = "block";
             game.addRandomFruit();
             game.tick();
@@ -310,7 +310,8 @@ let gameControl = {
                 window.clearTimeout(game.timer);
                 document.getElementById("pressArrowsToStart").innerHTML = "Game is paused";
             } else {
-                document.getElementById("pressArrowsToStart").innerHTML = "Game is continued. Eat as many apples as you can";
+                document.getElementById("pressArrowsToStart").innerHTML = "Game is continued. " +
+                    "Eat as many apples as you can";
                 game.tick();
             }
             game.pauseTimes++;
