@@ -80,6 +80,8 @@ let game = {
             let fruit = game.fruit[fruitNumber];
             if (location.x === fruit.x && location.y === fruit.y) {
                 game.fruit.splice(fruitNumber, 1);
+                let sound = new Audio("sound/appleCrunch.wav");
+                sound.play();
                 game.addRandomFruit();
                 return true;
             }
