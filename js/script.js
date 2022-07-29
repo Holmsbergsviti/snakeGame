@@ -5,6 +5,7 @@
 //        ##      ######    #    ##    #    #    #   #    ######
 
 let game = {
+    gameOver: false,
     pauseTimes: 0,
     fruitIsEaten: 0,
     tickSpeedUp: 1,
@@ -57,9 +58,7 @@ let game = {
         if (game.tickNumber % game.tickSecond === 0) gameControl.gameTime();
         let result = snake.move();
         if (result === "Game Over") {
-            document.getElementById("level" + game.level).style.display = "none";
-            document.getElementById("gameOver").style.display = "block";
-            document.getElementById("pressArrowsToStart").innerHTML = "Game is ended";
+            gameControl.gameOver();
             return;
         }
         graphics.drawGame();
@@ -323,15 +322,23 @@ let gameControl = {
         }
 
         if (key === 8 || key === 27) {
-            document.getElementById("level").style.display = "none";
-            document.getElementById("gameOver").style.display = "block";
-            document.getElementById("pressArrowsToStart").innerHTML = "Game is ended";
-            window.clearTimeout(game.timer);
+            if (game.gameOver === false) {
+                gameControl.gameOver();
+                window.clearTimeout(game.timer);
+            }
         }
 
         if (key === 13) {
             gameControl.restartGame();
         }
+    },
+    gameOver: function () {
+        let sound = new Audio("sound/soundGameOver.wav");
+        sound.play().then();
+        document.getElementById("level").style.display = "none";
+        document.getElementById("gameOver").style.display = "block";
+        document.getElementById("pressArrowsToStart").innerHTML = "Game is ended";
+        game.gameOver = true;
     },
     processInput: function (key) {
         if (key === "w")
@@ -369,6 +376,7 @@ let gameControl = {
         myArray = myText.split("");
         letter = 0;
 
+        game.gameOver = false;
         game.fruitIsEaten = 0;
         game.tickSpeedUp = 1;
         game.tickTime = 200;
