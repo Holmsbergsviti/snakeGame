@@ -1,4 +1,11 @@
+//      #    #    ######    ##    #    ######    #   #    ######
+//      #    #    #         ##    #    #    #    #  #     #
+//      #    #    ######    #  #  #    ######    ##       ######
+//       #  #          #    #   # #    #    #    #  #     #
+//        ##      ######    #    ##    #    #    #   #    ######
+
 let game = {
+    gameOver: false,
     pauseTimes: 0,
     fruitIsEaten: 0,
     tickSpeedUp: 1,
@@ -51,9 +58,7 @@ let game = {
         if (game.tickNumber % game.tickSecond === 0) gameControl.gameTime();
         let result = snake.move();
         if (result === "Game Over") {
-            document.getElementById("level" + game.level).style.display = "none";
-            document.getElementById("gameOver").style.display = "block";
-            document.getElementById("pressArrowsToStart").innerHTML = "Game is ended";
+            gameControl.gameOver();
             return;
         }
         graphics.drawGame();
@@ -79,9 +84,9 @@ let game = {
         for (let fruitNumber = 0; fruitNumber < game.fruit.length; fruitNumber++) {
             let fruit = game.fruit[fruitNumber];
             if (location.x === fruit.x && location.y === fruit.y) {
+                let sound = new Audio("sound/soundAppleCrunch.wav");
+                sound.play().then();
                 game.fruit.splice(fruitNumber, 1);
-                let sound = new Audio("sound/appleCrunch.wav");
-                sound.play();
                 game.addRandomFruit();
                 return true;
             }
@@ -137,7 +142,6 @@ let snake = {
         }
         if (game.isFruit(location)) {
             game.fruitIsEaten++;
-            //snake.parts.unshift(location);
             game.score++;
             if (game.score > game.record) {
                 game.record = game.score;
@@ -317,16 +321,24 @@ let gameControl = {
             game.pauseTimes++;
         }
 
-        if (key === 8) {
-            document.getElementById("level").style.display = "none";
-            document.getElementById("gameOver").style.display = "block";
-            document.getElementById("pressArrowsToStart").innerHTML = "Game is ended";
-            window.clearTimeout(game.timer);
+        if (key === 8 || key === 27) {
+            if (game.gameOver === false) {
+                gameControl.gameOver();
+                window.clearTimeout(game.timer);
+            }
         }
 
         if (key === 13) {
             gameControl.restartGame();
         }
+    },
+    gameOver: function () {
+        let sound = new Audio("sound/soundGameOver.wav");
+        sound.play().then();
+        document.getElementById("level").style.display = "none";
+        document.getElementById("gameOver").style.display = "block";
+        document.getElementById("pressArrowsToStart").innerHTML = "Game is ended";
+        game.gameOver = true;
     },
     processInput: function (key) {
         if (key === "w")
@@ -364,6 +376,7 @@ let gameControl = {
         myArray = myText.split("");
         letter = 0;
 
+        game.gameOver = false;
         game.fruitIsEaten = 0;
         game.tickSpeedUp = 1;
         game.tickTime = 200;
