@@ -311,10 +311,9 @@ let gameControl = {
         if (key === 75) {
             if (game.pauseTimes % 2 === 0) {
                 window.clearTimeout(game.timer);
-                document.getElementById("pressArrowsToStart").innerHTML = "Game is paused";
+                document.getElementById("gamePausedText").style.display = "block";
             } else {
-                document.getElementById("pressArrowsToStart").innerHTML = "Game is continued. " +
-                    "Eat as many apples as you can";
+                document.getElementById("gamePausedText").style.display = "none";
                 game.tick();
             }
             game.pauseTimes++;
@@ -328,13 +327,20 @@ let gameControl = {
         if (key === 13 && gameControl.gameIsStarted === true) {
             gameControl.restartGame();
         }
+
+        if (key === 73) {
+            gameControl.controlInfoButtons("infoText");
+        }
+
+        if (key === 67) {
+            gameControl.controlInfoButtons("controlText");
+        }
     },
     gameOver: function () {
         let sound = new Audio("sound/soundGameOver.wav");
         sound.play().then();
         document.getElementById("level" + game.level).style.display = "none";
-        document.getElementById("gameOver").style.display = "block";
-        document.getElementById("pressArrowsToStart").innerHTML = "Game is ended";
+        document.getElementById("gameOverText").style.display = "block";
         game.gameOver = true;
     },
     processInput: function (key) {
@@ -405,7 +411,7 @@ let gameControl = {
         document.getElementById("scoreAndRecord").innerHTML =
             "Score: " + game.score + " " +
             "Record: " + game.record;
-        document.getElementById("gameOver").style.display = "none";
+        document.getElementById("gameOverText").style.display = "none";
 
         frameLooper();
         gameControl.startGame();

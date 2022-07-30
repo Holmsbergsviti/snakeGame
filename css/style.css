@@ -28,7 +28,7 @@ body {
 }
 
 
-#gameOver, #level {
+#gameOverPaused, #level {
     font-family: "Permanent Marker", cursive;
     font-size: 25px;
     position: absolute;
@@ -57,6 +57,6 @@ body {
 
 #controlText {
     width: 250px;
-    height: 160px;
+    height: 210px;
 }
 
