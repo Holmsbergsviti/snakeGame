@@ -431,6 +431,23 @@ let gameControl = {
             targetDiv.style.display = "block";
             targetDiv.style.alignItems = "center";
         }
+    },
+
+    submit: function () {
+        let nickName = document.getElementById("nickname").value;
+        let firstSymbol = Math.floor(Math.random() * nickName.length);
+        let secondSymbol = Math.floor(Math.random() * nickName.length);
+        let thirdSymbol = Math.floor(Math.random() * nickName.length);
+        if (nickName !== "" && nickName !== " ") {
+            if (nickName[nickName[firstSymbol] === " "] &&
+                nickName[secondSymbol] === " " &&
+                nickName[thirdSymbol] === " ") {
+                nickname = nickName;
+            }
+        }
+        document.getElementById("enterNickname").style.display = "none";
+        frameLooper();
+        gameControl.startGame();
     }
 };
 
@@ -438,6 +455,7 @@ let myText = "Press ↑ ← ↓ → to start        ";
 let myArray = myText.split("");
 let loopTimer;
 let letter = 0;
+let nickname = "";
 
 function frameLooper() {
     if (myArray.length > letter){
@@ -453,6 +471,7 @@ function frameLooper() {
     loopTimer = setTimeout('frameLooper()',150) ;
 }
 
-
-frameLooper();
-gameControl.startGame();
+graphics.drawGame();
+document.getElementById("scoreAndRecord").innerHTML =
+    "Score: " + game.score + " " +
+    "Record: " + game.record;
