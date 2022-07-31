@@ -20,8 +20,9 @@
             <button id="info" onclick="gameControl.controlInfoButtons('infoText')">Info</button>
             <button id="control" onclick="gameControl.controlInfoButtons('controlText')">Control</button>
             <!--Text Game Over, text Level, text Info-->
-            <div id="gameOver" style="display: none">
-                <h2 id="gameOverText">Game Over</h2>
+            <div id="gameOverPaused">
+                <h2 id="gameOverText" style="display: none">Game Over</h2>
+                <h2 id="gamePausedText" style="display: none">Game is paused</h2>
             </div>
 
             <div id="level">
@@ -41,13 +42,24 @@
                 Be careful! Running of the green grass or into your own snake will end the game. <br>
             </div>
             <div id="controlText" style="display: none">
-                ↑ or W - Up.                    <br>
-                ← or A - Left.                  <br>
-                ↓ or S - Down.                  <br>
-                → or D - Right.                 <br>
-                Backspace - end the game.       <br>
-                Enter - restarts the game.      <br>
-                K - pauses/continue the game.   <br>
+                ↑ or W - Up                    <br>
+                ← or A - Left                  <br>
+                ↓ or S - Down                  <br>
+                → or D - Right                 <br>
+                Backspace - end the game       <br>
+                Enter - restarts the game      <br>
+                K - pauses/continue the game   <br>
+                I - info                       <br>
+                C - control                    <br>
+            </div>
+            <!--Nickname window-->
+            <div id="enterNickname">
+                <em> Please, enter your nickname to Start </em><br>
+                <label>
+                    Enter a nickname: <input type="text" id="nickname" value="">
+                    <br>
+                    <button id="submit" onclick="gameControl.submit()">Submit</button>
+                </label>
             </div>
         </div>
         <script rel="script" src="js/script.js"></script>
