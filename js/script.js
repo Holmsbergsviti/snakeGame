@@ -253,6 +253,7 @@ let graphics = {
 
 let gameControl = {
     gameIsStarted: false,
+    changeNickname: false,
     level: game.board,
     newFacing: [],
     gameTime: function () {
@@ -285,7 +286,7 @@ let gameControl = {
             game.tick();
         }
     },
-    changeFacing: function (keyCode){
+    keyPress: function (keyCode){
         let key = keyCode.keyCode;
 
         if (key === 38 || key === 87) {
@@ -308,17 +309,6 @@ let gameControl = {
             gameControl.changeFacingStart();
         }
 
-        if (key === 75) {
-            if (game.pauseTimes % 2 === 0) {
-                window.clearTimeout(game.timer);
-                document.getElementById("gamePausedText").style.display = "block";
-            } else {
-                document.getElementById("gamePausedText").style.display = "none";
-                game.tick();
-            }
-            game.pauseTimes++;
-        }
-
         if ((key === 8 || key === 27) && game.gameOver === false && gameControl.gameIsStarted === true) {
             gameControl.gameOver();
             window.clearTimeout(game.timer);
@@ -328,13 +318,9 @@ let gameControl = {
             gameControl.restartGame();
         }
 
-        if (key === 73) {
-            gameControl.controlInfoButtons("infoText");
-        }
+        if (key === 73) infoButton();
 
-        if (key === 67) {
-            gameControl.controlInfoButtons("controlText");
-        }
+        if (key === 67) controlButton();
     },
     gameOver: function () {
         let sound = new Audio("sound/soundGameOver.wav");
@@ -344,32 +330,17 @@ let gameControl = {
         game.gameOver = true;
     },
     processInput: function (key) {
-        if (key === "w")
-            if (snake.facing !== "S" && snake.facing !== "N"){
-                gameControl.changeDirectionWASD("N");
-            }
-        if (key === "a")
-            if (snake.facing !== "E" && snake.facing !== "W") {
-                gameControl.changeDirectionWASD("W");
-            }
-        if (key === "s")
-            if (snake.facing !== "N" && snake.facing !== "S") {
-                gameControl.changeDirectionWASD("S");
-            }
-        if (key === "d")
-            if (snake.facing !== "W" && snake.facing !== "E") {
-                gameControl.changeDirectionWASD("E");
-            }
+        if (key === "w") if (snake.facing !== "S" && snake.facing !== "N") snake.facing = "N";
+        if (key === "a") if (snake.facing !== "E" && snake.facing !== "W") snake.facing = "W";
+        if (key === "s") if (snake.facing !== "N" && snake.facing !== "S") snake.facing = "S";
+        if (key === "d") if (snake.facing !== "W" && snake.facing !== "E") snake.facing = "E";
     },
     startGame: function () {
         graphics.drawGame();
         document.getElementById("scoreAndRecord").innerHTML =
             "Score: " + game.score + " " +
             "Record: " + game.record;
-        window.addEventListener("keydown", gameControl.changeFacing, false);
-    },
-    changeDirectionWASD: function (facing) {
-        snake.facing = facing;
+        window.addEventListener("keydown", gameControl.keyPress);
     },
     restartGame: function () {
         window.clearTimeout(game.timer);
@@ -415,39 +386,6 @@ let gameControl = {
 
         frameLooper();
         gameControl.startGame();
-    },
-    controlInfoButtons: function (textId) {
-        if (textId === "infoText") {
-            document.getElementById("controlText").style.display = "none";
-        } else {
-            document.getElementById("infoText").style.display = "none";
-        }
-
-        let targetDiv = document.getElementById(textId);
-        if (targetDiv.style.display !== "none") {
-            targetDiv.style.display = "none";
-            targetDiv.style.alignItems = "center";
-        } else {
-            targetDiv.style.display = "block";
-            targetDiv.style.alignItems = "center";
-        }
-    },
-
-    submit: function () {
-        let nickName = document.getElementById("nickname").value;
-        let firstSymbol = Math.floor(Math.random() * nickName.length);
-        let secondSymbol = Math.floor(Math.random() * nickName.length);
-        let thirdSymbol = Math.floor(Math.random() * nickName.length);
-        if (nickName !== "" && nickName !== " ") {
-            if (nickName[nickName[firstSymbol] === " "] &&
-                nickName[secondSymbol] === " " &&
-                nickName[thirdSymbol] === " ") {
-                nickname = nickName;
-            }
-        }
-        document.getElementById("enterNickname").style.display = "none";
-        frameLooper();
-        gameControl.startGame();
     }
 };
 
@@ -455,7 +393,6 @@ let myText = "Press ↑ ← ↓ → to start        ";
 let myArray = myText.split("");
 let loopTimer;
 let letter = 0;
-let nickname = "";
 
 function frameLooper() {
     if (myArray.length > letter){
@@ -471,7 +408,31 @@ function frameLooper() {
     loopTimer = setTimeout('frameLooper()',150) ;
 }
 
-graphics.drawGame();
-document.getElementById("scoreAndRecord").innerHTML =
-    "Score: " + game.score + " " +
-    "Record: " + game.record;
+function infoButton() {
+    document.getElementById("controlText").style.display = "none";
+
+    let targetDiv = document.getElementById("infoText");
+    if (targetDiv.style.display !== "none") {
+        targetDiv.style.display = "none";
+        targetDiv.style.alignItems = "center";
+    } else {
+        targetDiv.style.display = "block";
+        targetDiv.style.alignItems = "center";
+    }
+}
+
+function controlButton() {
+    document.getElementById("infoText").style.display = "none";
+
+    let targetDiv = document.getElementById("controlText");
+    if (targetDiv.style.display !== "none") {
+        targetDiv.style.display = "none";
+        targetDiv.style.alignItems = "center";
+    } else {
+        targetDiv.style.display = "block";
+        targetDiv.style.alignItems = "center";
+    }
+}
+
+frameLooper();
+gameControl.startGame();
