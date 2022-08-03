@@ -177,7 +177,7 @@ let graphics = {
             let currentX = 0;
             line.forEach(function chekCharacter(character) {
                 if (character === '#') {
-                    ctx.fillStyle = "brown";
+                    ctx.fillStyle = "#405d27";
                     if ((currentY === 0 && currentX === 0) || (currentY === 0 && currentX === 490)
                     || (currentY === 410 && currentX === 0) || (currentY === 410 && currentX === 480)) {
                         ctx.fillRect(currentX, currentY, graphics.squareSize - 10, graphics.squareSize - 10);
@@ -191,10 +191,10 @@ let graphics = {
                     }
                 } else {
                     if (graphics.greenOrDarkgreen % 2 === 0) {
-                        ctx.fillStyle = "green";
+                        ctx.fillStyle = "#b5e7a0";
                         graphics.greenOrDarkgreen++;
                     } else {
-                        ctx.fillStyle = "darkgreen";
+                        ctx.fillStyle = "#86af49";
                         graphics.greenOrDarkgreen++;
                     }
                     ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
@@ -223,30 +223,50 @@ let graphics = {
                 ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3);
             } else {
                 if (graphics.countDraw === 1 && color === "blue") {
-                    ctx.fillStyle = "white";
-                    ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
+                    //ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
 
-                    /*if (snake.facing === "N") {
-                        let img = new Image();
-                        img.src = "img/imgSnakeHeadUp.png";
-                        img.id = "imageHead";
-                        ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3)
+                    if (snake.facing === "N") {
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation, partYLocation);
+                        ctx.lineTo(partXLocation, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 20, partYLocation);
+                        ctx.lineTo(partXLocation + 10, partYLocation + 10);
+                        ctx.lineTo(partXLocation, partYLocation);
+                        ctx.closePath();
                     }
                     if (snake.facing === "W") {
-                        let img = new Image();
-                        img.src = "img/imgSnakeHeadLeft.png";
-                        ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3)
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation, partYLocation);
+                        ctx.lineTo(partXLocation + 10, partYLocation + 10);
+                        ctx.lineTo(partXLocation, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 20, partYLocation);
+                        ctx.lineTo(partXLocation, partYLocation);
+                        ctx.closePath();
                     }
                     if (snake.facing === "S") {
-                        let img = new Image();
-                        img.src = "img/imgSnakeHeadDown.png";
-                        ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3)
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation, partYLocation);
+                        ctx.lineTo(partXLocation, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 10, partYLocation + 10);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 20, partYLocation);
+                        ctx.lineTo(partXLocation, partYLocation);
+                        ctx.closePath();
                     }
                     if (snake.facing === "E") {
-                        let img = new Image();
-                        img.src = "img/imgSnakeHeadRight.png";
-                        ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3)
-                    }*/
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation, partYLocation);
+                        ctx.lineTo(partXLocation, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 10, partYLocation + 10);
+                        ctx.lineTo(partXLocation + 20, partYLocation);
+                        ctx.lineTo(partXLocation, partYLocation);
+                        ctx.closePath();
+                    }
+                    ctx.fillStyle = "blue";
+                    ctx.fill();
                 } else {
                     ctx.fillStyle = color;
                     ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
