@@ -178,7 +178,17 @@ let graphics = {
             line.forEach(function chekCharacter(character) {
                 if (character === '#') {
                     ctx.fillStyle = "brown";
-                    ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
+                    if ((currentY === 0 && currentX === 0) || (currentY === 0 && currentX === 490)
+                    || (currentY === 410 && currentX === 0) || (currentY === 410 && currentX === 480)) {
+                        ctx.fillRect(currentX, currentY, graphics.squareSize - 10, graphics.squareSize - 10);
+                        currentX += graphics.squareSize - 10;
+                    } else if (currentY === 0 || currentY === 410) {
+                        ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize - 10);
+                        currentX += graphics.squareSize;
+                    } else if (currentX === 0 || currentX === 490) {
+                        ctx.fillRect(currentX, currentY, graphics.squareSize - 10, graphics.squareSize);
+                        currentX += graphics.squareSize - 10;
+                    }
                 } else {
                     if (graphics.greenOrDarkgreen % 2 === 0) {
                         ctx.fillStyle = "green";
@@ -188,10 +198,14 @@ let graphics = {
                         graphics.greenOrDarkgreen++;
                     }
                     ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize);
+                    currentX += graphics.squareSize;
                 }
-                currentX += graphics.squareSize;
             });
-            currentY += graphics.squareSize;
+            if (currentY === 0) {
+                currentY += graphics.squareSize - 10;
+            } else {
+                currentY += graphics.squareSize;
+            }
             currentX = 0;
             graphics.greenOrDarkgreen++;
         });
@@ -201,8 +215,8 @@ let graphics = {
     draw: function (ctx, source, color) {
         source.forEach(function (part) {
             graphics.countDraw++;
-            let partXLocation = part.x * graphics.squareSize;
-            let partYLocation = part.y * graphics.squareSize;
+            let partXLocation = part.x * graphics.squareSize - 10;
+            let partYLocation = part.y * graphics.squareSize - 10;
             if (color === "red") {
                 let img = new Image();
                 img.src = "img/imgApple.png";
