@@ -10,15 +10,19 @@
             <!--Timer, Score, Record-->
             <h2 id="timer">Time: 00:00</h2>
             <h2 id="scoreAndRecord"></h2>
+
             <!--How to start game text-->
             <div id="pressArrowsToStart"></div>
+
             <!--Canvas-->
-            <canvas id="canvas" width="520" height="440"></canvas>
+            <canvas id="canvas" width="500" height="420"></canvas>
             <br> <br>
+
             <!--Buttons Play Again and Info-->
             <button id="playAgain" onclick="gameControl.restartGame()">Play again</button>
-            <button id="info" onclick="gameControl.controlInfoButtons('infoText')">Info</button>
-            <button id="control" onclick="gameControl.controlInfoButtons('controlText')">Control</button>
+            <button id="info" onclick="infoButton()">Info</button>
+            <button id="control" onclick="controlButton()">Control</button>
+
             <!--Text Game Over, text Level, text Info-->
             <div id="gameOverPaused">
                 <h2 id="gameOverText" style="display: none">Game Over</h2>
@@ -48,18 +52,8 @@
                 → or D - Right                 <br>
                 Backspace - end the game       <br>
                 Enter - restarts the game      <br>
-                K - pauses/continue the game   <br>
                 I - info                       <br>
                 C - control                    <br>
-            </div>
-            <!--Nickname window-->
-            <div id="enterNickname">
-                <em> Please, enter your nickname to Start </em><br>
-                <label>
-                    Enter a nickname: <input type="text" id="nickname" value="">
-                    <br>
-                    <button id="submit" onclick="gameControl.submit()">Submit</button>
-                </label>
             </div>
         </div>
         <script rel="script" src="js/script.js"></script>
