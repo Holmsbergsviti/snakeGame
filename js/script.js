@@ -118,36 +118,19 @@ let snake = {
         let facingParts = snake.parts[0].facingParts;
         if (snake.facing === "N") {
             targetY--;
-            /*if (snake.parts[snake.parts.length - 1].facingParts !== snake.parts[snake.parts.length - 2].facingParts){
-                snake.parts[snake.parts.length - 1].facingParts = snake.parts[snake.parts.length - 2].facingParts;
-            } else {*/
-                facingParts = "N";
-            //}
+            facingParts = "N";
         }
         if (snake.facing === "S") {
             targetY++;
-            /*if (snake.parts[snake.parts.length - 1].facingParts !== snake.parts[snake.parts.length - 2].facingParts){
-                snake.parts[snake.parts.length - 1].facingPartss = snake.parts[snake.parts.length - 2].facingParts;
-            } else {*/
-                facingParts = "S";
-            //}
+            facingParts = "S";
         }
         if (snake.facing === "W") {
             targetX--;
-            /*if (snake.parts[snake.parts.length - 1].facingParts !== snake.parts[snake.parts.length - 2].facingParts){
-                snake.parts[snake.parts.length - 1].facingParts = snake.parts[snake.parts.length - 2].facingParts;
-            } else {*/
-                facingParts = "W";
-            //}
-
+            facingParts = "W";
         }
         if (snake.facing === "E") {
             targetX++;
-            /*if (snake.parts[snake.parts.length - 1].facingParts !== snake.parts[snake.parts.length - 2].facingParts){
-                snake.parts[snake.parts.length - 1].facingParts = snake.parts[snake.parts.length - 2].facingParts;
-            } else {*/
-                facingParts = "E";
-            //}
+            facingParts = "E";
         }
         return {x: targetX, y:targetY, facingParts: facingParts};
     },
@@ -242,60 +225,59 @@ let graphics = {
         graphics.greenOrDarkgreen = 0;
     },
     countDraw: 0,
-    draw: function (ctx, source, color) {
+    draw: function (ctx, source, element) {
         source.forEach(function (part) {
-            graphics.countDraw++;
             let partXLocation = part.x * graphics.squareSize - 10;
             let partYLocation = part.y * graphics.squareSize - 10;
-            if (color === "red") {
+            if (element === "duck") {
                 let img = new Image();
                 img.src = "img/imgApple.png";
                 ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3);
             } else {
-                if (graphics.countDraw === 1) {
+                if (graphics.countDraw === 0) {
                     if (snake.facing === "N") {
                         ctx.beginPath();
-                        ctx.moveTo(partXLocation, partYLocation);
-                        ctx.lineTo(partXLocation, partYLocation + 20);
-                        ctx.lineTo(partXLocation + 20, partYLocation + 20);
-                        ctx.lineTo(partXLocation + 20, partYLocation);
+                        ctx.moveTo(partXLocation + 2, partYLocation);
+                        ctx.lineTo(partXLocation + 2, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 18, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 18, partYLocation);
                         ctx.lineTo(partXLocation + 10, partYLocation + 10);
-                        ctx.lineTo(partXLocation, partYLocation);
+                        ctx.lineTo(partXLocation + 2, partYLocation);
                         ctx.closePath();
                     }
                     if (snake.facing === "W") {
                         ctx.beginPath();
-                        ctx.moveTo(partXLocation, partYLocation);
+                        ctx.moveTo(partXLocation, partYLocation + 2);
                         ctx.lineTo(partXLocation + 10, partYLocation + 10);
-                        ctx.lineTo(partXLocation, partYLocation + 20);
-                        ctx.lineTo(partXLocation + 20, partYLocation + 20);
-                        ctx.lineTo(partXLocation + 20, partYLocation);
-                        ctx.lineTo(partXLocation, partYLocation);
+                        ctx.lineTo(partXLocation, partYLocation + 18);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 18);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 2);
+                        ctx.lineTo(partXLocation, partYLocation + 2);
                         ctx.closePath();
                     }
                     if (snake.facing === "S") {
                         ctx.beginPath();
-                        ctx.moveTo(partXLocation, partYLocation);
-                        ctx.lineTo(partXLocation, partYLocation + 20);
+                        ctx.moveTo(partXLocation + 2, partYLocation);
+                        ctx.lineTo(partXLocation + 2, partYLocation + 20);
                         ctx.lineTo(partXLocation + 10, partYLocation + 10);
-                        ctx.lineTo(partXLocation + 20, partYLocation + 20);
-                        ctx.lineTo(partXLocation + 20, partYLocation);
+                        ctx.lineTo(partXLocation + 18, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 18, partYLocation);
                         ctx.lineTo(partXLocation, partYLocation);
                         ctx.closePath();
                     }
                     if (snake.facing === "E") {
                         ctx.beginPath();
-                        ctx.moveTo(partXLocation, partYLocation);
-                        ctx.lineTo(partXLocation, partYLocation + 20);
-                        ctx.lineTo(partXLocation + 20, partYLocation + 20);
+                        ctx.moveTo(partXLocation, partYLocation + 2);
+                        ctx.lineTo(partXLocation, partYLocation + 18);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 18);
                         ctx.lineTo(partXLocation + 10, partYLocation + 10);
-                        ctx.lineTo(partXLocation + 20, partYLocation);
-                        ctx.lineTo(partXLocation, partYLocation);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 2);
+                        ctx.lineTo(partXLocation, partYLocation + 2);
                         ctx.closePath();
                     }
-                    ctx.fillStyle = color;
+                    ctx.fillStyle = element;
                     ctx.fill();
-                } else if (graphics.countDraw === snake.parts.length) {
+                } else if (graphics.countDraw + 1 === snake.parts.length) {
                     if (snake.parts[snake.parts.length - 1].facingParts !==
                         snake.parts[snake.parts.length - 2].facingParts) {
                         snake.parts[snake.parts.length - 1].facingParts =
@@ -304,59 +286,151 @@ let graphics = {
 
                     if (snake.parts[snake.parts.length - 1].facingParts === "N") {
                         ctx.beginPath();
-                        ctx.moveTo(partXLocation, partYLocation);
+                        ctx.moveTo(partXLocation + 2, partYLocation);
                         ctx.lineTo(partXLocation + 3, partYLocation + 10);
                         ctx.lineTo(partXLocation + 7, partYLocation + 17);
                         ctx.lineTo(partXLocation + 10, partYLocation + 19);
                         ctx.lineTo(partXLocation + 13, partYLocation + 17);
                         ctx.lineTo(partXLocation + 17, partYLocation + 10);
-                        ctx.lineTo(partXLocation + 20, partYLocation);
-                        ctx.lineTo(partXLocation, partYLocation);
+                        ctx.lineTo(partXLocation + 18, partYLocation);
+                        ctx.lineTo(partXLocation + 2, partYLocation);
                         ctx.closePath();
                     }
                     if (snake.parts[snake.parts.length - 1].facingParts === "W") {
                         ctx.beginPath();
-                        ctx.moveTo(partXLocation, partYLocation);
+                        ctx.moveTo(partXLocation, partYLocation + 2);
                         ctx.lineTo(partXLocation + 10, partYLocation + 3);
                         ctx.lineTo(partXLocation + 17, partYLocation + 7);
                         ctx.lineTo(partXLocation + 19, partYLocation + 10);
                         ctx.lineTo(partXLocation + 17, partYLocation + 13);
                         ctx.lineTo(partXLocation + 10, partYLocation + 17);
-                        ctx.lineTo(partXLocation, partYLocation + 20);
-                        ctx.lineTo(partXLocation, partYLocation);
+                        ctx.lineTo(partXLocation, partYLocation + 18);
+                        ctx.lineTo(partXLocation, partYLocation + 2);
                         ctx.closePath();
                     }
                     if (snake.parts[snake.parts.length - 1].facingParts === "S") {
                         ctx.beginPath();
-                        ctx.moveTo(partXLocation, partYLocation + 20);
+                        ctx.moveTo(partXLocation + 2, partYLocation + 20);
                         ctx.lineTo(partXLocation + 3, partYLocation + 10);
                         ctx.lineTo(partXLocation + 7, partYLocation + 3);
                         ctx.lineTo(partXLocation + 10, partYLocation + 1);
                         ctx.lineTo(partXLocation + 13, partYLocation + 3);
                         ctx.lineTo(partXLocation + 17, partYLocation + 10);
-                        ctx.lineTo(partXLocation + 20, partYLocation + 20);
-                        ctx.lineTo(partXLocation, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 18, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 2, partYLocation + 20);
                         ctx.closePath();
                     }
                     if (snake.parts[snake.parts.length - 1].facingParts === "E") {
                         ctx.beginPath();
-                        ctx.moveTo(partXLocation + 20, partYLocation);
+                        ctx.moveTo(partXLocation + 20, partYLocation + 2);
                         ctx.lineTo(partXLocation + 10, partYLocation + 3);
                         ctx.lineTo(partXLocation + 3, partYLocation + 7);
                         ctx.lineTo(partXLocation + 1, partYLocation + 10);
                         ctx.lineTo(partXLocation + 3, partYLocation + 13);
                         ctx.lineTo(partXLocation + 10, partYLocation + 17);
-                        ctx.lineTo(partXLocation + 20, partYLocation + 20);
-                        ctx.lineTo(partXLocation + 20, partYLocation);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 18);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 2);
                         ctx.closePath();
                     }
-                    ctx.fillStyle = color;
+                    ctx.fillStyle = element;
+                    ctx.fill();
+                } else if (snake.parts[graphics.countDraw].facingParts !==
+                     snake.parts[graphics.countDraw - 1].facingParts) {
+                    if (snake.parts[graphics.countDraw - 1].facingParts === "N") {
+                        if (snake.parts[graphics.countDraw].facingParts === "E") {
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation, partYLocation + 2);
+                            ctx.lineTo(partXLocation, partYLocation + 18);
+                            ctx.lineTo(partXLocation + 5, partYLocation + 17);
+                            ctx.lineTo(partXLocation + 10, partYLocation + 15);
+                            ctx.lineTo(partXLocation + 15, partYLocation + 10);
+                            ctx.lineTo(partXLocation + 17, partYLocation + 3);
+                            ctx.lineTo(partXLocation + 18, partYLocation);
+                            ctx.lineTo(partXLocation + 2, partYLocation);
+                            ctx.lineTo(partXLocation + 2, partYLocation + 1);
+                            ctx.lineTo(partXLocation + 1, partYLocation + 2);
+                            ctx.moveTo(partXLocation, partYLocation + 2);
+                            ctx.closePath();
+                        } else {
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation + 2, partYLocation);
+                            ctx.lineTo(partXLocation + 18, partYLocation);
+                            ctx.lineTo(partXLocation + 18, partYLocation + 1);
+                            ctx.lineTo(partXLocation + 19, partYLocation + 2);
+                            ctx.lineTo(partXLocation + 20, partYLocation + 2);
+                            ctx.lineTo(partXLocation + 20, partYLocation + 18);
+                            ctx.lineTo(partXLocation + 15, partYLocation + 17);
+                            ctx.lineTo(partXLocation + 10, partYLocation + 15);
+                            ctx.lineTo(partXLocation + 5, partYLocation + 10);
+                            ctx.lineTo(partXLocation + 3, partYLocation + 3);
+                            ctx.moveTo(partXLocation + 2, partYLocation);
+                            ctx.closePath();
+                        }
+                    }
+                    // W - N
+                    // A - W
+                    // S - S
+                    // D - E
+                    if (snake.parts[graphics.countDraw - 1].facingParts === "S") {
+                        if (snake.parts[graphics.countDraw].facingParts === "E") {
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation, partYLocation + 2);
+                            ctx.lineTo(partXLocation, partYLocation + 18);
+                            ctx.lineTo(partXLocation + 1, partYLocation + 18);
+                            ctx.lineTo(partXLocation + 2, partYLocation + 17);
+                            ctx.lineTo(partXLocation + 2, partYLocation + 20);
+                            ctx.lineTo(partXLocation + 18, partYLocation + 20);
+                            ctx.lineTo(partXLocation + 17, partYLocation + 15);
+                            ctx.lineTo(partXLocation + 15, partYLocation + 10);
+                            ctx.lineTo(partXLocation + 10, partYLocation + 5);
+                            ctx.lineTo(partXLocation + 5, partYLocation + 3);
+                            ctx.moveTo(partXLocation + 2, partYLocation);
+                            ctx.closePath();
+                        } else {
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation + 20, partYLocation + 2);
+                            ctx.lineTo(partXLocation + 15, partYLocation + 3);
+                            ctx.lineTo(partXLocation + 10 , partYLocation + 5);
+                            ctx.lineTo(partXLocation + 5, partYLocation + 10);
+                            ctx.lineTo(partXLocation + 3, partYLocation + 15);
+                            ctx.lineTo(partXLocation + 2, partYLocation + 20);
+                            ctx.lineTo(partXLocation + 18, partYLocation + 20);
+                            ctx.lineTo(partXLocation + 18, partYLocation + 18);
+                            ctx.lineTo(partXLocation + 17, partYLocation + 17);
+                            ctx.lineTo(partXLocation + 20, partYLocation + 18);
+                            ctx.lineTo(partXLocation + 20, partYLocation + 2);
+                            ctx.closePath();
+                        }
+                    }
+                    ctx.fillStyle = element;
                     ctx.fill();
                 } else {
-                    ctx.fillStyle = color;
-                    ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
+                    if (snake.parts[graphics.countDraw].facingParts === "N" ||
+                    snake.parts[graphics.countDraw].facingParts === "S") {
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation + 2, partYLocation);
+                        ctx.lineTo(partXLocation + 18, partYLocation);
+                        ctx.lineTo(partXLocation + 18, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 2, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 2, partYLocation);
+                        ctx.closePath();
+                    }
+
+                    if (snake.parts[graphics.countDraw].facingParts === "W" ||
+                    snake.parts[graphics.countDraw].facingParts === "E") {
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation, partYLocation + 2);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 2);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 18);
+                        ctx.lineTo(partXLocation, partYLocation + 18);
+                        ctx.lineTo(partXLocation, partYLocation + 2);
+                        ctx.closePath();
+                    }
+                    ctx.fillStyle = element;
+                    ctx.fill();
                 }
             }
+            graphics.countDraw++;
         })
         graphics.countDraw = 0;
     },
@@ -365,7 +439,7 @@ let graphics = {
         let ctx = graphics.canvas.getContext("2d");
         ctx.clearRect(0, 0, graphics.canvas.width, graphics.canvas.height);
         graphics.drawBoard(ctx);
-        graphics.draw(ctx, game.fruit, "red");
+        graphics.draw(ctx, game.fruit, "duck");
         graphics.draw(ctx, snake.parts, "blue");
     }
 };
