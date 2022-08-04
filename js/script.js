@@ -107,19 +107,49 @@ let game = {
 
 let snake = {
     parts: [
-        {x: 4, y: 10},
-        {x: 3, y: 10},
-        {x: 2, y: 10}
+        {x: 4, y: 10, facingParts: "E"},
+        {x: 3, y: 10, facingParts: "E"},
+        {x: 2, y: 10, facingParts: "E"}
     ],
     facing: "E",
     nextLocation: function () {
         let targetX = snake.parts[0].x;
         let targetY = snake.parts[0].y;
-        targetY = snake.facing === "N" ? targetY - 1 : targetY;
-        targetY = snake.facing === "S" ? targetY + 1 : targetY;
-        targetX = snake.facing === "W" ? targetX - 1 : targetX;
-        targetX = snake.facing === "E" ? targetX + 1 : targetX;
-        return {x: targetX, y:targetY};
+        let facingParts = snake.parts[0].facingParts;
+        if (snake.facing === "N") {
+            targetY--;
+            /*if (snake.parts[snake.parts.length - 1].facingParts !== snake.parts[snake.parts.length - 2].facingParts){
+                snake.parts[snake.parts.length - 1].facingParts = snake.parts[snake.parts.length - 2].facingParts;
+            } else {*/
+                facingParts = "N";
+            //}
+        }
+        if (snake.facing === "S") {
+            targetY++;
+            /*if (snake.parts[snake.parts.length - 1].facingParts !== snake.parts[snake.parts.length - 2].facingParts){
+                snake.parts[snake.parts.length - 1].facingPartss = snake.parts[snake.parts.length - 2].facingParts;
+            } else {*/
+                facingParts = "S";
+            //}
+        }
+        if (snake.facing === "W") {
+            targetX--;
+            /*if (snake.parts[snake.parts.length - 1].facingParts !== snake.parts[snake.parts.length - 2].facingParts){
+                snake.parts[snake.parts.length - 1].facingParts = snake.parts[snake.parts.length - 2].facingParts;
+            } else {*/
+                facingParts = "W";
+            //}
+
+        }
+        if (snake.facing === "E") {
+            targetX++;
+            /*if (snake.parts[snake.parts.length - 1].facingParts !== snake.parts[snake.parts.length - 2].facingParts){
+                snake.parts[snake.parts.length - 1].facingParts = snake.parts[snake.parts.length - 2].facingParts;
+            } else {*/
+                facingParts = "E";
+            //}
+        }
+        return {x: targetX, y:targetY, facingParts: facingParts};
     },
     move: function () {
         if (gameControl.newFacing.length !== game.newFacing) {
@@ -222,9 +252,7 @@ let graphics = {
                 img.src = "img/imgApple.png";
                 ctx.drawImage(img, partXLocation, partYLocation, graphics.squareSize + 3, graphics.squareSize + 3);
             } else {
-                if (graphics.countDraw === 1 && color === "blue") {
-                    //ctx.fillRect(partXLocation, partYLocation, graphics.squareSize, graphics.squareSize);
-
+                if (graphics.countDraw === 1) {
                     if (snake.facing === "N") {
                         ctx.beginPath();
                         ctx.moveTo(partXLocation, partYLocation);
@@ -265,7 +293,64 @@ let graphics = {
                         ctx.lineTo(partXLocation, partYLocation);
                         ctx.closePath();
                     }
-                    ctx.fillStyle = "blue";
+                    ctx.fillStyle = color;
+                    ctx.fill();
+                } else if (graphics.countDraw === snake.parts.length) {
+                    if (snake.parts[snake.parts.length - 1].facingParts !==
+                        snake.parts[snake.parts.length - 2].facingParts) {
+                        snake.parts[snake.parts.length - 1].facingParts =
+                            snake.parts[snake.parts.length - 2].facingParts;
+                    }
+
+                    if (snake.parts[snake.parts.length - 1].facingParts === "N") {
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation, partYLocation);
+                        ctx.lineTo(partXLocation + 3, partYLocation + 10);
+                        ctx.lineTo(partXLocation + 7, partYLocation + 17);
+                        ctx.lineTo(partXLocation + 10, partYLocation + 19);
+                        ctx.lineTo(partXLocation + 13, partYLocation + 17);
+                        ctx.lineTo(partXLocation + 17, partYLocation + 10);
+                        ctx.lineTo(partXLocation + 20, partYLocation);
+                        ctx.lineTo(partXLocation, partYLocation);
+                        ctx.closePath();
+                    }
+                    if (snake.parts[snake.parts.length - 1].facingParts === "W") {
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation, partYLocation);
+                        ctx.lineTo(partXLocation + 10, partYLocation + 3);
+                        ctx.lineTo(partXLocation + 17, partYLocation + 7);
+                        ctx.lineTo(partXLocation + 19, partYLocation + 10);
+                        ctx.lineTo(partXLocation + 17, partYLocation + 13);
+                        ctx.lineTo(partXLocation + 10, partYLocation + 17);
+                        ctx.lineTo(partXLocation, partYLocation + 20);
+                        ctx.lineTo(partXLocation, partYLocation);
+                        ctx.closePath();
+                    }
+                    if (snake.parts[snake.parts.length - 1].facingParts === "S") {
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 3, partYLocation + 10);
+                        ctx.lineTo(partXLocation + 7, partYLocation + 3);
+                        ctx.lineTo(partXLocation + 10, partYLocation + 1);
+                        ctx.lineTo(partXLocation + 13, partYLocation + 3);
+                        ctx.lineTo(partXLocation + 17, partYLocation + 10);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 20);
+                        ctx.lineTo(partXLocation, partYLocation + 20);
+                        ctx.closePath();
+                    }
+                    if (snake.parts[snake.parts.length - 1].facingParts === "E") {
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation + 20, partYLocation);
+                        ctx.lineTo(partXLocation + 10, partYLocation + 3);
+                        ctx.lineTo(partXLocation + 3, partYLocation + 7);
+                        ctx.lineTo(partXLocation + 1, partYLocation + 10);
+                        ctx.lineTo(partXLocation + 3, partYLocation + 13);
+                        ctx.lineTo(partXLocation + 10, partYLocation + 17);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 20, partYLocation);
+                        ctx.closePath();
+                    }
+                    ctx.fillStyle = color;
                     ctx.fill();
                 } else {
                     ctx.fillStyle = color;
@@ -398,9 +483,9 @@ let gameControl = {
         game.fruit = [];
 
         snake.parts = [
-            {x: 4, y: 10},
-            {x: 3, y: 10},
-            {x: 2, y: 10}
+            {x: 4, y: 10, facingParts: "E"},
+            {x: 3, y: 10, facingParts: "E"},
+            {x: 2, y: 10, facingParts: "E"}
         ];
         snake.facing = "E";
 

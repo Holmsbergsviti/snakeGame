@@ -7,7 +7,7 @@ body {
 }
 
 #timer, #scoreAndRecord, #pressArrowsToStart {
-    font-size: 25px;
+    font-size: 20px;
 }
 
 #canvas {
