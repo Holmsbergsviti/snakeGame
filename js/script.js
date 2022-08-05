@@ -336,71 +336,81 @@ let graphics = {
                     ctx.fill();
                 } else if (snake.parts[graphics.countDraw].facingParts !==
                      snake.parts[graphics.countDraw - 1].facingParts) {
-                    if (snake.parts[graphics.countDraw - 1].facingParts === "N") {
-                        if (snake.parts[graphics.countDraw].facingParts === "E") {
-                            ctx.beginPath();
-                            ctx.moveTo(partXLocation, partYLocation + 2);
-                            ctx.lineTo(partXLocation, partYLocation + 18);
-                            ctx.lineTo(partXLocation + 5, partYLocation + 17);
-                            ctx.lineTo(partXLocation + 10, partYLocation + 15);
-                            ctx.lineTo(partXLocation + 15, partYLocation + 10);
-                            ctx.lineTo(partXLocation + 17, partYLocation + 3);
-                            ctx.lineTo(partXLocation + 18, partYLocation);
-                            ctx.lineTo(partXLocation + 2, partYLocation);
-                            ctx.lineTo(partXLocation + 2, partYLocation + 1);
-                            ctx.lineTo(partXLocation + 1, partYLocation + 2);
-                            ctx.moveTo(partXLocation, partYLocation + 2);
-                            ctx.closePath();
-                        } else {
-                            ctx.beginPath();
-                            ctx.moveTo(partXLocation + 2, partYLocation);
-                            ctx.lineTo(partXLocation + 18, partYLocation);
-                            ctx.lineTo(partXLocation + 18, partYLocation + 1);
-                            ctx.lineTo(partXLocation + 19, partYLocation + 2);
-                            ctx.lineTo(partXLocation + 20, partYLocation + 2);
-                            ctx.lineTo(partXLocation + 20, partYLocation + 18);
-                            ctx.lineTo(partXLocation + 15, partYLocation + 17);
-                            ctx.lineTo(partXLocation + 10, partYLocation + 15);
-                            ctx.lineTo(partXLocation + 5, partYLocation + 10);
-                            ctx.lineTo(partXLocation + 3, partYLocation + 3);
-                            ctx.moveTo(partXLocation + 2, partYLocation);
-                            ctx.closePath();
-                        }
+                    if ((snake.parts[graphics.countDraw - 1].facingParts === "N" &&
+                        snake.parts[graphics.countDraw].facingParts === "E") ||
+                        (snake.parts[graphics.countDraw - 1].facingParts === "W" &&
+                            snake.parts[graphics.countDraw].facingParts === "S")) {
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation, partYLocation + 2);
+                        ctx.lineTo(partXLocation, partYLocation + 18);
+                        ctx.lineTo(partXLocation + 5, partYLocation + 17);
+                        ctx.lineTo(partXLocation + 10, partYLocation + 15);
+                        ctx.lineTo(partXLocation + 15, partYLocation + 10);
+                        ctx.lineTo(partXLocation + 17, partYLocation + 3);
+                        ctx.lineTo(partXLocation + 18, partYLocation);
+                        ctx.lineTo(partXLocation + 2, partYLocation);
+                        ctx.lineTo(partXLocation + 2, partYLocation + 1);
+                        ctx.lineTo(partXLocation + 1, partYLocation + 2);
+                        ctx.moveTo(partXLocation, partYLocation + 2);
+                        ctx.closePath();
+                    }
+                    if ((snake.parts[graphics.countDraw - 1].facingParts === "N" &&
+                        snake.parts[graphics.countDraw].facingParts === "W") ||
+                        (snake.parts[graphics.countDraw - 1].facingParts === "E" &&
+                        snake.parts[graphics.countDraw].facingParts === "S")) {
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation + 2, partYLocation);
+                        ctx.lineTo(partXLocation + 18, partYLocation);
+                        ctx.lineTo(partXLocation + 18, partYLocation + 1);
+                        ctx.lineTo(partXLocation + 19, partYLocation + 2);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 2);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 18);
+                        ctx.lineTo(partXLocation + 15, partYLocation + 17);
+                        ctx.lineTo(partXLocation + 10, partYLocation + 15);
+                        ctx.lineTo(partXLocation + 5, partYLocation + 10);
+                        ctx.lineTo(partXLocation + 3, partYLocation + 3);
+                        ctx.moveTo(partXLocation + 2, partYLocation);
+                        ctx.closePath();
                     }
                     // W - N
                     // A - W
                     // S - S
                     // D - E
-                    if (snake.parts[graphics.countDraw - 1].facingParts === "S") {
-                        if (snake.parts[graphics.countDraw].facingParts === "E") {
-                            ctx.beginPath();
-                            ctx.moveTo(partXLocation, partYLocation + 2);
-                            ctx.lineTo(partXLocation, partYLocation + 18);
-                            ctx.lineTo(partXLocation + 1, partYLocation + 18);
-                            ctx.lineTo(partXLocation + 2, partYLocation + 17);
-                            ctx.lineTo(partXLocation + 2, partYLocation + 20);
-                            ctx.lineTo(partXLocation + 18, partYLocation + 20);
-                            ctx.lineTo(partXLocation + 17, partYLocation + 15);
-                            ctx.lineTo(partXLocation + 15, partYLocation + 10);
-                            ctx.lineTo(partXLocation + 10, partYLocation + 5);
-                            ctx.lineTo(partXLocation + 5, partYLocation + 3);
-                            ctx.moveTo(partXLocation + 2, partYLocation);
-                            ctx.closePath();
-                        } else {
-                            ctx.beginPath();
-                            ctx.moveTo(partXLocation + 20, partYLocation + 2);
-                            ctx.lineTo(partXLocation + 15, partYLocation + 3);
-                            ctx.lineTo(partXLocation + 10 , partYLocation + 5);
-                            ctx.lineTo(partXLocation + 5, partYLocation + 10);
-                            ctx.lineTo(partXLocation + 3, partYLocation + 15);
-                            ctx.lineTo(partXLocation + 2, partYLocation + 20);
-                            ctx.lineTo(partXLocation + 18, partYLocation + 20);
-                            ctx.lineTo(partXLocation + 18, partYLocation + 18);
-                            ctx.lineTo(partXLocation + 17, partYLocation + 17);
-                            ctx.lineTo(partXLocation + 20, partYLocation + 18);
-                            ctx.lineTo(partXLocation + 20, partYLocation + 2);
-                            ctx.closePath();
-                        }
+                    if ((snake.parts[graphics.countDraw - 1].facingParts === "S" &&
+                        snake.parts[graphics.countDraw].facingParts === "E") ||
+                        (snake.parts[graphics.countDraw - 1].facingParts === "W" &&
+                        snake.parts[graphics.countDraw].facingParts === "N")) {
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation, partYLocation + 2);
+                        ctx.lineTo(partXLocation, partYLocation + 18);
+                        ctx.lineTo(partXLocation + 1, partYLocation + 18);
+                        ctx.lineTo(partXLocation + 2, partYLocation + 17);
+                        ctx.lineTo(partXLocation + 2, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 18, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 17, partYLocation + 15);
+                        ctx.lineTo(partXLocation + 15, partYLocation + 10);
+                        ctx.lineTo(partXLocation + 10, partYLocation + 5);
+                        ctx.lineTo(partXLocation + 5, partYLocation + 3);
+                        ctx.moveTo(partXLocation + 2, partYLocation);
+                        ctx.closePath();
+                    }
+                    if ((snake.parts[graphics.countDraw - 1].facingParts === "S" &&
+                            snake.parts[graphics.countDraw].facingParts === "W") ||
+                        (snake.parts[graphics.countDraw - 1].facingParts === "E" &&
+                        snake.parts[graphics.countDraw].facingParts === "N")) {
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation + 20, partYLocation + 2);
+                        ctx.lineTo(partXLocation + 15, partYLocation + 3);
+                        ctx.lineTo(partXLocation + 10 , partYLocation + 5);
+                        ctx.lineTo(partXLocation + 5, partYLocation + 10);
+                        ctx.lineTo(partXLocation + 3, partYLocation + 15);
+                        ctx.lineTo(partXLocation + 2, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 18, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 18, partYLocation + 18);
+                        ctx.lineTo(partXLocation + 17, partYLocation + 17);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 18);
+                        ctx.lineTo(partXLocation + 20, partYLocation + 2);
+                        ctx.closePath();
                     }
                     ctx.fillStyle = element;
                     ctx.fill();
