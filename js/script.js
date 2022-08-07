@@ -5,18 +5,16 @@
 //        ##      ######    #    ##    #    #    #   #    ######
 
 let game = {
+    cheat: false,
     gameOver: false,
     pauseTimes: 0,
     fruitIsEaten: 0,
     tickSpeedUp: 1,
-    tickTime: 200,
-    tickSecond: 5,
+    tickTime: 225,
     startGame: 0,
     newFacing: 0,
     timer: null,
     tickNumber: 0,
-    minutes: 0,
-    seconds: 0,
     score: 0,
     record : 0,
     level: 1,
@@ -55,7 +53,6 @@ let game = {
             }
         }
         game.tickNumber++;
-        if (game.tickNumber % game.tickSecond === 0) gameControl.gameTime();
         let result = snake.move();
         if (result === "Game Over") {
             gameControl.gameOver();
@@ -162,18 +159,17 @@ let snake = {
             document.getElementById("scoreAndRecord").innerHTML =
                 "Score: " + game.score + " " +
                 "Record: " + game.record;
-            if (game.score / 15 === 1) {
-                game.level++;
-                document.getElementById("level2").style.display = "block";
-                game.tickSpeedUp++;
-                game.tickTime = 125;
-                game.tickSecond = 8;
-            } else if (game.score / 15 === 2) {
-                game.level++;
-                document.getElementById("level3").style.display = "block";
-                game.tickSpeedUp++;
-                game.tickTime = 100;
-                game.tickSecond = 10;
+            if (game.score % 10 === 0) {
+                if (game.tickTime !== 100) {
+                    game.level++;
+                    if (!game.cheat) {
+                        document.getElementById("level" + game.level).style.display = "block";
+                    } else {
+                        document.getElementById("level" + game.level).style.display = "none";
+                    }
+                    game.tickSpeedUp++;
+                    game.tickTime -= 25;
+                }
             }
         }
     }
@@ -336,10 +332,11 @@ let graphics = {
                     ctx.fill();
                 } else if (snake.parts[graphics.countDraw].facingParts !==
                      snake.parts[graphics.countDraw - 1].facingParts) {
-                    if ((snake.parts[graphics.countDraw - 1].facingParts === "N" &&
-                        snake.parts[graphics.countDraw].facingParts === "E") ||
-                        (snake.parts[graphics.countDraw - 1].facingParts === "W" &&
-                            snake.parts[graphics.countDraw].facingParts === "S")) {
+
+                    let facing = snake.parts[graphics.countDraw - 1].facingParts +
+                        snake.parts[graphics.countDraw].facingParts;
+
+                    if (facing === "NE" || facing === "WS") {
                         ctx.beginPath();
                         ctx.moveTo(partXLocation, partYLocation + 2);
                         ctx.lineTo(partXLocation, partYLocation + 18);
@@ -354,10 +351,8 @@ let graphics = {
                         ctx.moveTo(partXLocation, partYLocation + 2);
                         ctx.closePath();
                     }
-                    if ((snake.parts[graphics.countDraw - 1].facingParts === "N" &&
-                        snake.parts[graphics.countDraw].facingParts === "W") ||
-                        (snake.parts[graphics.countDraw - 1].facingParts === "E" &&
-                        snake.parts[graphics.countDraw].facingParts === "S")) {
+
+                    if (facing === "NW" || facing === "ES") {
                         ctx.beginPath();
                         ctx.moveTo(partXLocation + 2, partYLocation);
                         ctx.lineTo(partXLocation + 18, partYLocation);
@@ -372,14 +367,8 @@ let graphics = {
                         ctx.moveTo(partXLocation + 2, partYLocation);
                         ctx.closePath();
                     }
-                    // W - N
-                    // A - W
-                    // S - S
-                    // D - E
-                    if ((snake.parts[graphics.countDraw - 1].facingParts === "S" &&
-                        snake.parts[graphics.countDraw].facingParts === "E") ||
-                        (snake.parts[graphics.countDraw - 1].facingParts === "W" &&
-                        snake.parts[graphics.countDraw].facingParts === "N")) {
+
+                    if (facing === "SE" || facing === "WN") {
                         ctx.beginPath();
                         ctx.moveTo(partXLocation, partYLocation + 2);
                         ctx.lineTo(partXLocation, partYLocation + 18);
@@ -394,10 +383,8 @@ let graphics = {
                         ctx.moveTo(partXLocation + 2, partYLocation);
                         ctx.closePath();
                     }
-                    if ((snake.parts[graphics.countDraw - 1].facingParts === "S" &&
-                            snake.parts[graphics.countDraw].facingParts === "W") ||
-                        (snake.parts[graphics.countDraw - 1].facingParts === "E" &&
-                        snake.parts[graphics.countDraw].facingParts === "N")) {
+
+                    if (facing === "SW" || facing === "EN") {
                         ctx.beginPath();
                         ctx.moveTo(partXLocation + 20, partYLocation + 2);
                         ctx.lineTo(partXLocation + 15, partYLocation + 3);
@@ -455,30 +442,11 @@ let graphics = {
 };
 
 let gameControl = {
+    rightShiftIsPressed: false,
     gameIsStarted: false,
     changeNickname: false,
     level: game.board,
     newFacing: [],
-    gameTime: function () {
-        game.seconds++;
-      if (game.seconds === 60) {
-          game.minutes++;
-          game.seconds = 0;
-      }
-      if (game.seconds < 10) {
-          if (game.minutes < 10){
-              document.getElementById("timer").innerHTML = "Time: 0" + game.minutes + ":0" + game.seconds;
-          } else {
-              document.getElementById("timer").innerHTML = "Time: " + game.minutes + ":0" + game.seconds;
-          }
-      } else {
-          if (game.minutes < 10){
-              document.getElementById("timer").innerHTML = "Time: 0" + game.minutes + ":" + game.seconds;
-          } else {
-              document.getElementById("timer").innerHTML = "Time: " + game.minutes + ":" + game.seconds;
-          }
-      }
-    },
     changeFacingStart: function () {
         if (gameControl.gameIsStarted === false) {
             gameControl.gameIsStarted = true;
@@ -491,6 +459,13 @@ let gameControl = {
     },
     keyPress: function (keyCode){
         let key = keyCode.keyCode;
+
+        if (key === 220 && gameControl.rightShiftIsPressed === true) {
+            game.tickTime -= 25;
+            game.cheat = true;
+        }
+
+        gameControl.rightShiftIsPressed = key === 16;
 
         if (key === 38 || key === 87) {
             gameControl.newFacing = gameControl.newFacing + "w";
@@ -524,7 +499,8 @@ let gameControl = {
         if (key === 73) infoButton();
 
         if (key === 67) controlButton();
-    },
+    }
+    ,
     gameOver: function () {
         let sound = new Audio("sound/soundGameOver.wav");
         sound.play().then();
@@ -553,15 +529,13 @@ let gameControl = {
         myArray = myText.split("");
         letter = 0;
 
+        game.cheat = false;
         game.gameOver = false;
         game.fruitIsEaten = 0;
         game.tickSpeedUp = 1;
         game.tickTime = 200;
-        game.tickSecond = 5;
         game.timer = null;
         game.tickNumber =  1;
-        game.minutes = 0;
-        game.seconds = 0;
         game.score = 0;
         game.level = 1;
         game.fruit = [];
@@ -581,7 +555,6 @@ let gameControl = {
         gameControl.level = game.board;
         gameControl.gameIsStarted = false;
 
-        document.getElementById("timer").innerHTML = "Time: 0" + game.minutes + ":0" + game.seconds;
         document.getElementById("scoreAndRecord").innerHTML =
             "Score: " + game.score + " " +
             "Record: " + game.record;
