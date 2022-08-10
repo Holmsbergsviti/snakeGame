@@ -239,6 +239,42 @@ let graphics = {
                         ctx.lineTo(partXLocation + 18, partYLocation);
                         ctx.lineTo(partXLocation + 10, partYLocation + 10);
                         ctx.lineTo(partXLocation + 2, partYLocation);
+
+                        /*ctx.moveTo(partXLocation + 2, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 2, partYLocation + 19);
+                        ctx.arc(partXLocation + 2, partYLocation + 10, 9, 90,
+                            Math.PI * 1.5, false);
+                        ctx.moveTo(partXLocation + 2, partYLocation + 1);
+                        ctx.arc(partXLocation + 10, partYLocation + 1, 8, 0,
+                            Math.PI, true);
+                        ctx.moveTo(partXLocation + 18, partYLocation + 1);
+                        ctx.arc(partXLocation + 18, partYLocation + 10, 9, 90,
+                            180, true);*/
+                        //ctx.stroke();
+
+                        /*ctx.moveTo(partXLocation + 2, partYLocation + 20);
+                        ctx.arc(partXLocation + 10, partYLocation + 20, 8, 0,
+                            Math.PI, true);
+                        ctx.moveTo(partXLocation + 18, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 2, partYLocation + 20);*/
+
+                        /*ctx.moveTo(partXLocation + 2, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 3, partYLocation + 13);
+                        ctx.lineTo(partXLocation + 4, partYLocation + 5);
+                        ctx.lineTo(partXLocation + 7, partYLocation + 3);
+                        ctx.lineTo(partXLocation + 10,partYLocation + 2);
+                        ctx.lineTo(partXLocation + 13,partYLocation + 3);
+                        ctx.lineTo(partXLocation + 16,partYLocation + 5);
+                        ctx.lineTo(partXLocation + 17,partYLocation + 13);
+                        ctx.lineTo(partXLocation + 18, partYLocation + 20);
+                        ctx.lineTo(partXLocation + 2, partYLocation + 20);*/
+
+                        /*ctx.lineTo(partXLocation + 7, partYLocation + 7);
+                        ctx.lineTo(partXLocation + 10,partYLocation + 5);
+                        ctx.lineTo(partXLocation + 13,partYLocation + 7);
+                        ctx.lineTo(partXLocation + 17,partYLocation + 13);
+                        ctx.lineTo(partXLocation + 18,partYLocation + 20);
+                        ctx.lineTo(partXLocation + 2, partYLocation + 20);*/
                         ctx.closePath();
                     }
                     if (snake.facing === "W") {
