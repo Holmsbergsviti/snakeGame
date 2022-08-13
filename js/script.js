@@ -329,15 +329,103 @@ let graphics = {
                         ctx.fillStyle = "#FFB133";
                         ctx.fill();
                     }
+
                     if (snake.facing === "W") {
                         ctx.beginPath();
-                        ctx.moveTo(partXLocation, partYLocation + 2);
-                        ctx.lineTo(partXLocation + 10, partYLocation + 10);
-                        ctx.lineTo(partXLocation, partYLocation + 18);
-                        ctx.lineTo(partXLocation + 20, partYLocation + 18);
-                        ctx.lineTo(partXLocation + 20, partYLocation + 2);
-                        ctx.lineTo(partXLocation, partYLocation + 2);
+                        ctx.moveTo(partXLocation, partYLocation + (graphics.squareSize / 2));
+                        ctx.lineTo(partXLocation + (graphics.squareSize / 4),
+                            partYLocation + (graphics.squareSize / 4));
+                        ctx.lineTo(partXLocation + (graphics.squareSize / 4),
+                            partYLocation + ((graphics.squareSize / 4) * 3));
+                        ctx.lineTo(partXLocation, partYLocation + (graphics.squareSize / 2));
                         ctx.closePath();
+
+                        ctx.fillStyle = "#2BC6BF";
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation + (graphics.squareSize / 4), partYLocation);
+                        ctx.lineTo(partXLocation + (graphics.squareSize / 4),
+                            partYLocation + (graphics.squareSize / 2));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                            partYLocation + (graphics.squareSize / 2));
+                        ctx.lineTo(partXLocation + (graphics.squareSize / 4), partYLocation);
+                        ctx.closePath();
+
+                        ctx.fillStyle = "#FFB133";
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation + (graphics.squareSize / 4), partYLocation + graphics.squareSize);
+                        ctx.lineTo(partXLocation + (graphics.squareSize / 4),
+                            partYLocation + (graphics.squareSize / 2));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                            partYLocation + (graphics.squareSize / 2));
+                        ctx.lineTo(partXLocation + (graphics.squareSize / 4), partYLocation + graphics.squareSize);
+                        ctx.closePath();
+
+                        ctx.fillStyle = "#284086";
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation + ((graphics.squareSize / 16) * 7),
+                            partYLocation + ((graphics.squareSize / 5) * 4));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 8) * 5),
+                            partYLocation + ((graphics.squareSize / 5) * 3));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 16) * 13),
+                            partYLocation + ((graphics.squareSize / 5) * 4));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 16) * 7),
+                            partYLocation + ((graphics.squareSize / 5) * 4));
+                        ctx.closePath();
+
+                        ctx.fillStyle = "#F0503C";
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation + ((graphics.squareSize / 8) * 5),
+                            partYLocation + ((graphics.squareSize / 5) * 3));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 16) * 13),
+                            partYLocation + ((graphics.squareSize / 5) * 4));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 16) * 15),
+                            partYLocation + ((graphics.squareSize / 5) * 3));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 8) * 5),
+                            partYLocation + ((graphics.squareSize / 5) * 3));
+                        ctx.closePath();
+
+                        ctx.fillStyle = "#2BC6BF";
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation + ((graphics.squareSize / 16) * 7),
+                            partYLocation + (graphics.squareSize / 5));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 16) * 13),
+                            partYLocation + (graphics.squareSize / 5));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 16) * 15),
+                            partYLocation + ((graphics.squareSize / 5) * 2));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 8) * 5),
+                            partYLocation + ((graphics.squareSize / 5) * 2));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 16) * 7),
+                            partYLocation + (graphics.squareSize / 5));
+                        ctx.closePath();
+
+                        ctx.fillStyle = "#70529F";
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                            partYLocation + ((graphics.squareSize / 5) * 2));
+                        ctx.lineTo(partXLocation + graphics.squareSize,
+                            partYLocation + ((graphics.squareSize / 5) * 2));
+                        ctx.lineTo(partXLocation + graphics.squareSize,
+                            partYLocation + ((graphics.squareSize / 5) * 3));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                            partYLocation + ((graphics.squareSize / 5) * 3));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                            partYLocation + ((graphics.squareSize / 5) * 2));
+                        ctx.closePath();
+
+                        ctx.fillStyle = "#FFB133";
+                        ctx.fill();
                     }
 
                     if (snake.facing === "S") {
