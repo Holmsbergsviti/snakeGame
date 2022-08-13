@@ -340,13 +340,6 @@ let graphics = {
                         ctx.closePath();
                     }
 
-
-
-
-
-
-
-
                     if (snake.facing === "S") {
                         ctx.beginPath();
                         ctx.moveTo(partXLocation + (graphics.squareSize / 2), partYLocation + graphics.squareSize);
