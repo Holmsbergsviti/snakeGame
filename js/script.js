@@ -200,7 +200,7 @@ let graphics = {
                     }
                 } else {
                     if (graphics.greenOrDarkgreen % 2 === 0) {
-                        ctx.fillStyle = "#00b4d8";
+                        ctx.fillStyle = "#0077b6"; //"#00b4d8";
                     } else {
                         ctx.fillStyle = "#0096c7";
                     }
@@ -227,7 +227,7 @@ let graphics = {
             if (element === "duck") {
                 let img = new Image();
                 img.src = "img/imgDuck.png";
-                ctx.drawImage(img, partXLocation - 5, partYLocation - 5,
+                ctx.drawImage(img, partXLocation - (graphics.squareSize / 4), partYLocation - (graphics.squareSize / 4),
                     graphics.squareSize + (graphics.squareSize / 20) * 6,
                     graphics.squareSize + (graphics.squareSize / 20) * 6);
             } else {
