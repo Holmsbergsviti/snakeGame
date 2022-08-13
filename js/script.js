@@ -81,7 +81,7 @@ let game = {
         for (let fruitNumber = 0; fruitNumber < game.fruit.length; fruitNumber++) {
             let fruit = game.fruit[fruitNumber];
             if (location.x === fruit.x && location.y === fruit.y) {
-                let sound = new Audio("sound/soundAppleCrunch.wav");
+                let sound = new Audio("sound/soundDuckQuack.mp3");
                 sound.play().then();
                 game.fruit.splice(fruitNumber, 1);
                 game.addRandomFruit();
@@ -277,7 +277,7 @@ let graphics = {
                         ctx.lineTo(partXLocation + ((graphics.squareSize / 5) * 4),
                             partYLocation + ((graphics.squareSize / 16) * 13));
                         ctx.lineTo(partXLocation + ((graphics.squareSize / 5) * 4),
-                            partYLocation + (graphics.squareSize / 2));
+                            partYLocation + ((graphics.squareSize / 16) * 7));
                         ctx.closePath();
 
                         ctx.fillStyle = "#F0503C";
@@ -339,15 +339,110 @@ let graphics = {
                         ctx.lineTo(partXLocation, partYLocation + 2);
                         ctx.closePath();
                     }
+
+
+
+
+
+
+
+
                     if (snake.facing === "S") {
                         ctx.beginPath();
-                        ctx.moveTo(partXLocation + 2, partYLocation);
-                        ctx.lineTo(partXLocation + 2, partYLocation + 20);
-                        ctx.lineTo(partXLocation + 10, partYLocation + 10);
-                        ctx.lineTo(partXLocation + 18, partYLocation + 20);
-                        ctx.lineTo(partXLocation + 18, partYLocation);
-                        ctx.lineTo(partXLocation, partYLocation);
+                        ctx.moveTo(partXLocation + (graphics.squareSize / 2), partYLocation + graphics.squareSize);
+                        ctx.lineTo(partXLocation + (graphics.squareSize / 4),
+                            partYLocation + ((graphics.squareSize / 4) * 3));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                            partYLocation + ((graphics.squareSize / 4) * 3));
+                        ctx.lineTo(partXLocation + (graphics.squareSize / 2), partYLocation + graphics.squareSize);
                         ctx.closePath();
+
+                        ctx.fillStyle = "#2BC6BF";
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation, partYLocation + ((graphics.squareSize / 4) * 3));
+                        ctx.lineTo(partXLocation + (graphics.squareSize / 2),
+                            partYLocation + ((graphics.squareSize / 4) * 3));
+                        ctx.lineTo(partXLocation + (graphics.squareSize / 2),
+                            partYLocation + (graphics.squareSize / 4));
+                        ctx.lineTo(partXLocation, partYLocation + ((graphics.squareSize / 4) * 3));
+                        ctx.closePath();
+
+                        ctx.fillStyle = "#FFB133";
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation + graphics.squareSize,
+                            partYLocation + ((graphics.squareSize / 4) * 3));
+                        ctx.lineTo(partXLocation + (graphics.squareSize / 2),
+                            partYLocation + ((graphics.squareSize / 4) * 3));
+                        ctx.lineTo(partXLocation + (graphics.squareSize / 2),
+                            partYLocation + (graphics.squareSize / 4));
+                        ctx.lineTo(partXLocation + graphics.squareSize,
+                            partYLocation + ((graphics.squareSize / 4) * 3));
+                        ctx.closePath();
+
+                        ctx.fillStyle = "#284086";
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation + ((graphics.squareSize / 5) * 4),
+                            partYLocation + ((graphics.squareSize / 16) * 9));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 5) * 3),
+                            partYLocation + ((graphics.squareSize / 8) * 3));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 5) * 4),
+                            partYLocation + ((graphics.squareSize / 16) * 3));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 5) * 4),
+                            partYLocation + ((graphics.squareSize / 16) * 9));
+                        ctx.closePath();
+
+                        ctx.fillStyle = "#F0503C";
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation + ((graphics.squareSize / 5) * 3),
+                            partYLocation + ((graphics.squareSize / 8) * 3));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 5) * 4),
+                            partYLocation + ((graphics.squareSize / 16) * 3));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 5) * 2),
+                            partYLocation + (graphics.squareSize / 16));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 5) * 3),
+                            partYLocation + ((graphics.squareSize / 8) * 3));
+                        ctx.closePath();
+
+                        ctx.fillStyle = "#2BC6BF";
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation + (graphics.squareSize / 5),
+                            partYLocation + ((graphics.squareSize / 16) * 9));
+                        ctx.lineTo(partXLocation + (graphics.squareSize / 5),
+                            partYLocation + ((graphics.squareSize / 16) * 3));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 5) * 2),
+                            partYLocation + (graphics.squareSize / 16));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 5) * 2),
+                            partYLocation + ((graphics.squareSize / 8) * 3));
+                        ctx.lineTo(partXLocation + (graphics.squareSize / 5),
+                            partYLocation + ((graphics.squareSize / 16) * 9));
+                        ctx.closePath();
+
+                        ctx.fillStyle = "#70529F";
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.moveTo(partXLocation + ((graphics.squareSize / 5) * 2),
+                            partYLocation + (graphics.squareSize / 4));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 5) * 2), partYLocation);
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 5) * 3), partYLocation);
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 5) * 3),
+                            partYLocation + (graphics.squareSize / 4));
+                        ctx.lineTo(partXLocation + ((graphics.squareSize / 5) * 2),
+                            partYLocation + (graphics.squareSize / 4));
+                        ctx.closePath();
+
+                        ctx.fillStyle = "#FFB133";
+                        ctx.fill();
                     }
                     if (snake.facing === "E") {
                         ctx.beginPath();
