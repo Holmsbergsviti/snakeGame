@@ -921,7 +921,8 @@ let graphics = {
                             ctx.beginPath();
                             ctx.moveTo(partXLocation + graphics.squareSize, partYLocation);
                             ctx.lineTo(partXLocation + (graphics.squareSize / 2), partYLocation);
-                            ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3), partYLocation + (graphics.squareSize / 4));
+                            ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                                partYLocation + (graphics.squareSize / 4));
                             ctx.lineTo(partXLocation + graphics.squareSize, partYLocation);
                             ctx.closePath();
 
@@ -1163,52 +1164,214 @@ let graphics = {
                             ctx.fillStyle = "#53CFF8";
                             ctx.fill();
                         }
-
-                        /*ctx.beginPath();
-                        ctx.moveTo(partXLocation, partYLocation + 2);
-                        ctx.lineTo(partXLocation, partYLocation + 18);
-                        ctx.lineTo(partXLocation + 5, partYLocation + 17);
-                        ctx.lineTo(partXLocation + 10, partYLocation + 15);
-                        ctx.lineTo(partXLocation + 15, partYLocation + 10);
-                        ctx.lineTo(partXLocation + 17, partYLocation + 3);
-                        ctx.lineTo(partXLocation + 18, partYLocation);
-                        ctx.lineTo(partXLocation + 2, partYLocation);
-                        ctx.lineTo(partXLocation + 2, partYLocation + 1);
-                        ctx.lineTo(partXLocation + 1, partYLocation + 2);
-                        ctx.moveTo(partXLocation, partYLocation + 2);
-                        ctx.closePath();*/
                     }
-
                     if (facing === "NW" || facing === "ES") {
-                        ctx.beginPath();
-                        ctx.moveTo(partXLocation + 2, partYLocation);
-                        ctx.lineTo(partXLocation + 18, partYLocation);
-                        ctx.lineTo(partXLocation + 18, partYLocation + 1);
-                        ctx.lineTo(partXLocation + 19, partYLocation + 2);
-                        ctx.lineTo(partXLocation + 20, partYLocation + 2);
-                        ctx.lineTo(partXLocation + 20, partYLocation + 18);
-                        ctx.lineTo(partXLocation + 15, partYLocation + 17);
-                        ctx.lineTo(partXLocation + 10, partYLocation + 15);
-                        ctx.lineTo(partXLocation + 5, partYLocation + 10);
-                        ctx.lineTo(partXLocation + 3, partYLocation + 3);
-                        ctx.moveTo(partXLocation + 2, partYLocation);
-                        ctx.closePath();
+                        if (graphics.countDraw % 2 === 0) {
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation, partYLocation);
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 2),
+                                partYLocation + (graphics.squareSize / 2));
+                            ctx.lineTo(partXLocation + graphics.squareSize, partYLocation);
+                            ctx.lineTo(partXLocation, partYLocation);
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#284086";
+                            ctx.fill();
+
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation + graphics.squareSize, partYLocation);
+                            ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                                partYLocation + (graphics.squareSize / 4));
+                            ctx.lineTo(partXLocation + graphics.squareSize,
+                                partYLocation + (graphics.squareSize / 2));
+                            ctx.lineTo(partXLocation + graphics.squareSize, partYLocation);
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#2BC6BF";
+                            ctx.fill();
+
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation + graphics.squareSize,
+                                partYLocation + (graphics.squareSize / 2));
+                            ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                                partYLocation + (graphics.squareSize / 4));
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 2),
+                                partYLocation + (graphics.squareSize / 2));
+                            ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                                partYLocation + ((graphics.squareSize / 4) * 3));
+                            ctx.lineTo(partXLocation + graphics.squareSize,
+                                partYLocation + (graphics.squareSize / 2));
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#FFDE55";
+                            ctx.fill();
+
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation + graphics.squareSize,
+                                partYLocation + (graphics.squareSize / 2));
+                            ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                                partYLocation + ((graphics.squareSize / 4) * 3));
+                            ctx.lineTo(partXLocation + graphics.squareSize,
+                                partYLocation + graphics.squareSize);
+                            ctx.lineTo(partXLocation + graphics.squareSize,
+                                partYLocation + (graphics.squareSize / 2));
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#53CFF8";
+                            ctx.fill();
+                        } else {
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation + graphics.squareSize, partYLocation);
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 2),
+                                partYLocation + (graphics.squareSize / 2));
+                            ctx.lineTo(partXLocation + graphics.squareSize, partYLocation + graphics.squareSize);
+                            ctx.lineTo(partXLocation + graphics.squareSize, partYLocation);
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#FFB133";
+                            ctx.fill();
+
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation, partYLocation);
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 4),
+                                partYLocation + (graphics.squareSize / 4));
+                            ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                                partYLocation + (graphics.squareSize / 4));
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 2), partYLocation);
+                            ctx.lineTo(partXLocation, partYLocation);
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#70529F";
+                            ctx.fill();
+
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation + (graphics.squareSize / 2),
+                                partYLocation + (graphics.squareSize / 2));
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 4),
+                                partYLocation + (graphics.squareSize / 4));
+                            ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                                partYLocation + (graphics.squareSize / 4));
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 2),
+                                partYLocation + (graphics.squareSize / 2));
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#F0503C";
+                            ctx.fill();
+
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation + (graphics.squareSize / 2), partYLocation);
+                            ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                                partYLocation + (graphics.squareSize / 4));
+                            ctx.lineTo(partXLocation + graphics.squareSize, partYLocation);
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 2), partYLocation);
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#53CFF8";
+                            ctx.fill();
+                        }
                     }
 
                     if (facing === "SE" || facing === "WN") {
-                        ctx.beginPath();
-                        ctx.moveTo(partXLocation, partYLocation + 2);
-                        ctx.lineTo(partXLocation, partYLocation + 18);
-                        ctx.lineTo(partXLocation + 1, partYLocation + 18);
-                        ctx.lineTo(partXLocation + 2, partYLocation + 17);
-                        ctx.lineTo(partXLocation + 2, partYLocation + 20);
-                        ctx.lineTo(partXLocation + 18, partYLocation + 20);
-                        ctx.lineTo(partXLocation + 17, partYLocation + 15);
-                        ctx.lineTo(partXLocation + 15, partYLocation + 10);
-                        ctx.lineTo(partXLocation + 10, partYLocation + 5);
-                        ctx.lineTo(partXLocation + 5, partYLocation + 3);
-                        ctx.moveTo(partXLocation + 2, partYLocation);
-                        ctx.closePath();
+                        if (graphics.countDraw % 2 === 0) {
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation, partYLocation + graphics.squareSize);
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 2),
+                                partYLocation + (graphics.squareSize / 2));
+                            ctx.lineTo(partXLocation, partYLocation);
+                            ctx.lineTo(partXLocation, partYLocation + graphics.squareSize);
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#FFB133";
+                            ctx.fill();
+
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation, partYLocation + graphics.squareSize);
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 4),
+                                partYLocation + ((graphics.squareSize / 4) * 3));
+                            ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                                partYLocation + ((graphics.squareSize / 4) * 3));
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 2),
+                                partYLocation + graphics.squareSize);
+                            ctx.lineTo(partXLocation, partYLocation + graphics.squareSize);
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#70529F";
+                            ctx.fill();
+
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation + (graphics.squareSize / 2),
+                                partYLocation + (graphics.squareSize / 2));
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 4),
+                                partYLocation + ((graphics.squareSize / 4) * 3));
+                            ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                                partYLocation + ((graphics.squareSize / 4) * 3));
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 2),
+                                partYLocation + (graphics.squareSize / 2));
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#F0503C";
+                            ctx.fill();
+
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation + (graphics.squareSize / 2),
+                                partYLocation + graphics.squareSize);
+                            ctx.lineTo(partXLocation + ((graphics.squareSize / 4) * 3),
+                                partYLocation + ((graphics.squareSize / 4) * 3));
+                            ctx.lineTo(partXLocation + graphics.squareSize, partYLocation + graphics.squareSize);
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 2),
+                                partYLocation + graphics.squareSize);
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#53CFF8";
+                            ctx.fill();
+                        } else {
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation, partYLocation + graphics.squareSize);
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 2),
+                                partYLocation + (graphics.squareSize / 2));
+                            ctx.lineTo(partXLocation + graphics.squareSize, partYLocation + graphics.squareSize);
+                            ctx.lineTo(partXLocation, partYLocation + graphics.squareSize);
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#284086";
+                            ctx.fill();
+
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation, partYLocation);
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 4),
+                                partYLocation + (graphics.squareSize / 4));
+                            ctx.lineTo(partXLocation, partYLocation + (graphics.squareSize / 2));
+                            ctx.lineTo(partXLocation, partYLocation);
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#2BC6BF";
+                            ctx.fill();
+
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation, partYLocation + (graphics.squareSize / 2));
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 4),
+                                partYLocation + (graphics.squareSize / 4));
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 2),
+                                partYLocation + (graphics.squareSize / 2));
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 4),
+                                partYLocation + ((graphics.squareSize / 4) * 3));
+                            ctx.lineTo(partXLocation,partYLocation + (graphics.squareSize / 2));
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#FFDE55";
+                            ctx.fill();
+
+                            ctx.beginPath();
+                            ctx.moveTo(partXLocation, partYLocation + (graphics.squareSize / 2));
+                            ctx.lineTo(partXLocation + (graphics.squareSize / 4),
+                                partYLocation + ((graphics.squareSize / 4) * 3));
+                            ctx.lineTo(partXLocation,partYLocation + graphics.squareSize);
+                            ctx.lineTo(partXLocation,partYLocation + (graphics.squareSize / 2));
+                            ctx.closePath();
+
+                            ctx.fillStyle = "#53CFF8";
+                            ctx.fill();
+                        }
                     }
 
                     if (facing === "SW" || facing === "EN") {
