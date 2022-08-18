@@ -1,23 +1,28 @@
 body {
     background-color: antiquewhite;
+    font-family: Futura, Serif, serif;
 }
 
 #container {
     text-align: center;
+    font-family: Futura, Serif, serif;
 }
 
-#timer, #scoreAndRecord, #pressArrowsToStart {
+#scoreAndRecord, #pressArrowsToStart {
     font-size: 20px;
+    font-family: Futura, Serif, serif;
 }
 
 #canvas {
     border: 2px solid;
     border-radius: 15px;
+    font-family: Futura, Serif, serif;
 }
 
 #playAgain, #info, #control{
     background-color: antiquewhite;
     font-size: 15px;
+    font-family: Futura, Serif, serif;
     width: 100px;
     height: 50px;
     border: 4px solid;
@@ -27,6 +32,7 @@ body {
 
 #gameOverPaused, #level {
     font-size: 25px;
+    font-family: Futura, Serif, serif;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -38,6 +44,7 @@ body {
 }
 
 #infoText, #controlText {
+    font-family: Futura, Serif, serif;
     margin: auto;
     padding: 10px;
     font-size: 15px;
@@ -47,7 +54,7 @@ body {
 
 #infoText {
     width: 250px;
-    height: 76px;
+    height: 90px;
 }
 
 #controlText {
