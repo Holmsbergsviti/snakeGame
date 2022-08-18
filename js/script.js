@@ -4,6 +4,25 @@
 //      #    #    #    #         #    #   # #    #    #    #  #     #
 //      #####     #    #    ######    #    ##    #    #    #   #    ######
 
+let canvasWidth = (window.innerWidth - window.innerWidth % 3) / 3;
+let squareSize = (canvasWidth - canvasWidth % 25) / 25;
+let canvasHeight = squareSize * 21;
+
+if (squareSize % 2 === 1) {
+    squareSize += 1;
+    canvasWidth = squareSize * 25;
+    canvasHeight = squareSize * 21;
+}
+if (squareSize < 16) {
+    squareSize = 16;
+    canvasWidth = squareSize * 25;
+    canvasHeight = squareSize * 21;
+}
+
+let canvas = document.getElementById("canvas");
+canvas.width = canvasWidth.toString();
+canvas.height = canvasHeight.toString();
+
 let game = {
     cheat: false,
     gameOver: false,
@@ -177,7 +196,7 @@ let snake = {
 
 let graphics = {
     canvas: document.getElementById("canvas"),
-    squareSize: 20,
+    squareSize: squareSize,
     greenOrDarkgreen: 0,
     drawBoard: function (ctx) {
         let currentY = 0;
@@ -187,16 +206,19 @@ let graphics = {
             line.forEach(function chekCharacter(character) {
                 if (character === '#') {
                     ctx.fillStyle = "#0077b6";
-                    if ((currentY === 0 && currentX === 0) || (currentY === 0 && currentX === 490)
-                    || (currentY === 410 && currentX === 0) || (currentY === 410 && currentX === 480)) {
-                        ctx.fillRect(currentX, currentY, graphics.squareSize - 10, graphics.squareSize - 10);
-                        currentX += graphics.squareSize - 10;
-                    } else if (currentY === 0 || currentY === 410) {
-                        ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize - 10);
+                    if ((currentY === 0 && currentX === 0) ||
+                        (currentY === 0 && currentX === canvasWidth - graphics.squareSize / 2)
+                    || (currentY === canvasHeight - graphics.squareSize / 2 && currentX === 0) ||
+                        (currentY === canvasHeight - graphics.squareSize / 2 &&
+                            currentX === canvasWidth - graphics.squareSize / 2)) {
+                        ctx.fillRect(currentX, currentY, graphics.squareSize / 2, graphics.squareSize / 2);
+                        currentX += graphics.squareSize / 2;
+                    } else if (currentY === 0 || currentY === canvasHeight - graphics.squareSize / 2) {
+                        ctx.fillRect(currentX, currentY, graphics.squareSize, graphics.squareSize / 2);
                         currentX += graphics.squareSize;
-                    } else if (currentX === 0 || currentX === 490) {
-                        ctx.fillRect(currentX, currentY, graphics.squareSize - 10, graphics.squareSize);
-                        currentX += graphics.squareSize - 10;
+                    } else if (currentX === 0 || currentX === canvasWidth - graphics.squareSize / 2) {
+                        ctx.fillRect(currentX, currentY, graphics.squareSize / 2, graphics.squareSize);
+                        currentX += graphics.squareSize / 2;
                     }
                 } else {
                     if (graphics.greenOrDarkgreen % 2 === 0) {
@@ -210,7 +232,7 @@ let graphics = {
                 }
             });
             if (currentY === 0) {
-                currentY += graphics.squareSize - 10;
+                currentY += graphics.squareSize / 2;
             } else {
                 currentY += graphics.squareSize;
             }
@@ -222,8 +244,8 @@ let graphics = {
     countDraw: 0,
     draw: function (ctx, source, object) {
         source.forEach(function (part) {
-            let partXLocation = part.x * graphics.squareSize - 10;
-            let partYLocation = part.y * graphics.squareSize - 10;
+            let partXLocation = part.x * graphics.squareSize - (graphics.squareSize / 2);
+            let partYLocation = part.y * graphics.squareSize - (graphics.squareSize / 2);
             if (object === "duck") {
                 let img = new Image();
                 img.src = "img/imgDuck.png";
@@ -1882,7 +1904,6 @@ let gameControl = {
         snake.facing = "E";
 
         graphics.canvas = document.getElementById("canvas");
-        graphics.squareSize = 20;
         graphics.greenOrDarkgreen = 0;
         graphics.countDraw = 0;
 
