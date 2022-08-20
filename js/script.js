@@ -32,7 +32,6 @@ canvas.width = canvasWidth.toString();
 canvas.height = canvasHeight.toString();
 
 let game = {
-    cheat: false,
     gameOver: false,
     pauseTimes: 0,
     fruitIsEaten: 0,
@@ -189,11 +188,8 @@ let snake = {
             if (game.score % 10 === 0) {
                 if (game.tickTime !== 100) {
                     game.level++;
-                    if (!game.cheat) {
-                        document.getElementById("level" + game.level).style.display = "block";
-                    } else {
-                        document.getElementById("level" + game.level).style.display = "none";
-                    }
+                    document.getElementById("level" + game.level).style.display = "block";
+                    document.getElementById("level" + game.level).style.display = "none";
                     game.tickSpeedUp++;
                     game.tickTime -= 25;
                 }
@@ -1825,8 +1821,16 @@ let gameControl = {
         let key = keyCode.keyCode;
 
         if (key === 220 && gameControl.rightShiftIsPressed === true) {
-            game.score += 5;
             game.fruitIsEaten += 5;
+            game.score += 5;
+            if (game.score > game.record) {
+                game.record = game.score;
+            }
+            document.getElementById("scoreAndRecord").innerHTML =
+                "Score: " + game.score + " " +
+                "Record: " + game.record
+            game.tickSpeedUp++;
+            game.tickTime -= 2;
         }
 
         gameControl.rightShiftIsPressed = key === 16;
