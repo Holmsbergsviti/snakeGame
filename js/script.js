@@ -4,7 +4,15 @@
 //      #    #    #    #         #    #   # #    #    #    #  #     #
 //      #####     #    #    ######    #    ##    #    #    #   #    ######
 
-let canvasWidth = (window.innerWidth - window.innerWidth % 3) / 3;
+let canvasWidth;
+let screenDivisor;
+if (window.innerWidth < 1300) {
+    screenDivisor = 1.1;
+} else {
+    screenDivisor = 2.5;
+}
+
+canvasWidth = (window.innerWidth - window.innerWidth % screenDivisor) / screenDivisor;
 let squareSize = (canvasWidth - canvasWidth % 25) / 25;
 let canvasHeight = squareSize * 21;
 
@@ -1855,8 +1863,7 @@ let gameControl = {
         if (key === 73) infoButton();
 
         if (key === 67) controlButton();
-    }
-    ,
+    },
     gameOver: function () {
         let sound = new Audio("sound/soundGameOver.wav");
         sound.play().then();
@@ -1876,6 +1883,7 @@ let gameControl = {
             "Score: " + game.score + " " +
             "Record: " + game.record;
         window.addEventListener("keydown", gameControl.keyPress);
+        //window.addEventListener("touchstart", )
     },
     restartGame: function () {
         window.clearTimeout(game.timer);
