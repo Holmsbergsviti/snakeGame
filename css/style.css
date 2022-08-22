@@ -30,19 +30,6 @@ body {
     cursor: pointer;
 }
 
-#gameOverPaused {
-    font-size: 25px;
-    font-family: Futura, Serif, serif;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    width: 400px;
-    height: 200px;
-}
-
 #infoText, #controlText {
     font-family: Futura, Serif, serif;
     margin: auto;
