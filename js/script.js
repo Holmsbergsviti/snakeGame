@@ -6,6 +6,7 @@
 
 let canvasWidth;
 let screenDivisor;
+let fontSize;
 if (window.innerWidth < 1300) {
     screenDivisor = 1.1;
 } else {
@@ -31,11 +32,13 @@ let canvas = document.getElementById("canvas");
 canvas.width = canvasWidth.toString();
 canvas.height = canvasHeight.toString();
 
+fontSize = squareSize * 3;
+
 let game = {
     gameOver: false,
     pauseTimes: 0,
     fruitIsEaten: 0,
-    tickSpeedUp: 1,
+    tickSpeedUp: 0,
     tickTime: 225,
     startGame: 0,
     newFacing: 0,
@@ -43,7 +46,9 @@ let game = {
     tickNumber: 0,
     score: 0,
     record : 0,
-    level: 1,
+    level: 0,
+    levels: ["Easy", "Medium", "Hard", "Hardcore", "Professional", "Impossible", "Game Over"],
+    showLevel: false,
     board: [
         "##########################",
         "#                        #",
@@ -71,11 +76,11 @@ let game = {
     fruit: [],
     tick: function () {
         window.clearTimeout(game.timer);
-        if (game.tickSpeedUp >= 1) {
+        if (game.showLevel) {
             game.tickSpeedUp++;
             if (game.tickSpeedUp === 15){
                 game.tickSpeedUp = 0;
-                document.getElementById("level" + game.level).style.display = "none";
+                game.showLevel = false;
             }
         }
         game.tickNumber++;
@@ -88,8 +93,8 @@ let game = {
         game.timer = window.setTimeout("game.tick()", game.tickTime);
     },
     addRandomFruit: function () {
-        let randomY = Math.floor(Math.random() * gameControl.level.length);
-        let randomX = Math.floor(Math.random() * gameControl.level[randomY].length);
+        let randomY = Math.floor(Math.random() * gameControl.levelBoard.length);
+        let randomX = Math.floor(Math.random() * gameControl.levelBoard[randomY].length);
         let randomLocation = {x: randomX, y: randomY};
         if (game.isEmpty(randomLocation) && !game.isSnake(randomLocation)) {
             game.fruit.push(randomLocation)
@@ -98,10 +103,10 @@ let game = {
         }
     },
     isEmpty: function (location) {
-        return gameControl.level[location.y][location.x] === ' ';
+        return gameControl.levelBoard[location.y][location.x] === ' ';
     },
     isWall: function (location) {
-        return gameControl.level[location.y][location.x] === '#';
+        return gameControl.levelBoard[location.y][location.x] === '#';
     },
     isFruit: function (location) {
         for (let fruitNumber = 0; fruitNumber < game.fruit.length; fruitNumber++) {
@@ -188,8 +193,7 @@ let snake = {
             if (game.score % 10 === 0) {
                 if (game.tickTime !== 100) {
                     game.level++;
-                    document.getElementById("level" + game.level).style.display = "block";
-                    document.getElementById("level" + game.level).style.display = "none";
+                    game.showLevel = true;
                     game.tickSpeedUp++;
                     game.tickTime -= 25;
                 }
@@ -204,7 +208,7 @@ let graphics = {
     greenOrDarkgreen: 0,
     drawBoard: function (ctx) {
         let currentY = 0;
-        gameControl.level.forEach(function chekLine(line) {
+        gameControl.levelBoard.forEach(function chekLine(line) {
             line = line.split('');
             let currentX = 0;
             line.forEach(function chekCharacter(character) {
@@ -1798,6 +1802,12 @@ let graphics = {
         graphics.drawBoard(ctx);
         graphics.draw(ctx, game.fruit, "duck");
         graphics.draw(ctx, snake.parts, "snake");
+        if (game.showLevel) {
+            ctx.font = fontSize + "px Futura";
+            ctx.fillStyle = "black";
+            ctx.textAlign = "center";
+            ctx.fillText(game.levels[game.level],canvasWidth / 2, canvasHeight / 2);
+        }
     }
 };
 
@@ -1805,14 +1815,15 @@ let gameControl = {
     rightShiftIsPressed: false,
     gameIsStarted: false,
     changeNickname: false,
-    level: game.board,
+    levelBoard: game.board,
     newFacing: [],
     changeFacingStart: function () {
         if (gameControl.gameIsStarted === false) {
             gameControl.gameIsStarted = true;
             clearTimeout(loopTimer);
             document.getElementById("pressArrowsToStart").innerHTML = "Eat as many apples as you can";
-            document.getElementById("level" + game.level).style.display = "block";
+            game.showLevel = true;
+
             game.addRandomFruit();
             game.tick();
         }
@@ -1821,8 +1832,8 @@ let gameControl = {
         let key = keyCode.keyCode;
 
         if (key === 220 && gameControl.rightShiftIsPressed === true) {
-            game.fruitIsEaten += 5;
-            game.score += 5;
+            game.fruitIsEaten += 15;
+            game.score += 15;
             if (game.score > game.record) {
                 game.record = game.score;
             }
@@ -1830,7 +1841,6 @@ let gameControl = {
                 "Score: " + game.score + " " +
                 "Record: " + game.record
             game.tickSpeedUp++;
-            game.tickTime -= 2;
         }
 
         gameControl.rightShiftIsPressed = key === 16;
@@ -1871,8 +1881,15 @@ let gameControl = {
     gameOver: function () {
         let sound = new Audio("sound/soundGameOver.wav");
         sound.play().then();
-        document.getElementById("level" + game.level).style.display = "none";
-        document.getElementById("gameOverText").style.display = "block";
+        let ctx = graphics.canvas.getContext("2d");
+        ctx.clearRect(0, 0, graphics.canvas.width, graphics.canvas.height);
+        graphics.drawBoard(ctx);
+        graphics.draw(ctx, game.fruit, "duck");
+        graphics.draw(ctx, snake.parts, "snake");
+        ctx.font = fontSize + "px Futura";
+        ctx.fillStyle = "black";
+        game.level = 6;
+        ctx.fillText(game.levels[game.level], canvasWidth / 2, canvasHeight / 2)
         game.gameOver = true;
     },
     processInput: function (key) {
@@ -1887,7 +1904,6 @@ let gameControl = {
             "Score: " + game.score + " " +
             "Record: " + game.record;
         window.addEventListener("keydown", gameControl.keyPress);
-        //window.addEventListener("touchstart", )
     },
     restartGame: function () {
         window.clearTimeout(game.timer);
@@ -1897,7 +1913,6 @@ let gameControl = {
         myArray = myText.split("");
         letter = 0;
 
-        game.cheat = false;
         game.gameOver = false;
         game.fruitIsEaten = 0;
         game.tickSpeedUp = 1;
@@ -1905,7 +1920,8 @@ let gameControl = {
         game.timer = null;
         game.tickNumber =  1;
         game.score = 0;
-        game.level = 1;
+        game.level = 0;
+        game.showLevel = false;
         game.fruit = [];
 
         snake.parts = [
@@ -1919,13 +1935,12 @@ let gameControl = {
         graphics.greenOrDarkgreen = 0;
         graphics.countDraw = 0;
 
-        gameControl.level = game.board;
+        gameControl.levelBoard = game.board;
         gameControl.gameIsStarted = false;
 
         document.getElementById("scoreAndRecord").innerHTML =
             "Score: " + game.score + " " +
             "Record: " + game.record;
-        document.getElementById("gameOverText").style.display = "none";
 
         frameLooper();
         gameControl.startGame();
