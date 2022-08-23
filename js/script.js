@@ -7,7 +7,6 @@
 let canvasWidth;
 let screenDivisor;
 let fontSize;
-let locationX = 100;
 if (window.innerWidth < 1300) {
     screenDivisor = 1.1;
 } else {
@@ -48,15 +47,7 @@ let game = {
     score: 0,
     record : 0,
     level: 0,
-    levels: [
-        {word: "Easy", length: 4, locationX: locationX},
-        {word: "Medium", length: 6, locationX: locationX},
-        {word: "Hard", length: 4, locationX: locationX},
-        {word: "Hardcore", length: 8, locationX: locationX},
-        {word: "Professional", length: 12, locationX: locationX},
-        {word: "Impossible", length: 10, locationX: locationX},
-        {word: "Game Over", length: 9, locationX: locationX},
-    ],
+    levels: ["Easy", "Medium", "Hard", "Hardcore", "Professional", "Impossible", "Game Over"],
     showLevel: false,
     board: [
         "##########################",
@@ -1815,7 +1806,7 @@ let graphics = {
             ctx.font = fontSize + "px Futura";
             ctx.fillStyle = "black";
             ctx.textAlign = "center";
-            ctx.fillText(game.levels[game.level].word,canvasWidth / 2, canvasHeight / 2);
+            ctx.fillText(game.levels[game.level],canvasWidth / 2, canvasHeight / 2);
         }
     }
 };
@@ -1898,7 +1889,7 @@ let gameControl = {
         ctx.font = fontSize + "px Futura";
         ctx.fillStyle = "black";
         game.level = 6;
-        ctx.fillText(game.levels[game.level].word, canvasWidth / 2, canvasHeight / 2)
+        ctx.fillText(game.levels[game.level], canvasWidth / 2, canvasHeight / 2)
         game.gameOver = true;
     },
     processInput: function (key) {
