@@ -8,7 +8,7 @@ body {
     font-family: Futura, Serif, serif;
 }
 
-#scoreAndRecord, #pressArrowsToStart {
+#pressArrowsToStart {
     font-size: 20px;
     font-family: Futura, Serif, serif;
 }
@@ -19,32 +19,12 @@ body {
     font-family: Futura, Serif, serif;
 }
 
-#playAgain, #info, #control{
-    background-color: antiquewhite;
-    font-size: 15px;
-    font-family: Futura, Serif, serif;
-    width: 100px;
-    height: 50px;
-    border: 4px solid;
-    border-radius: 15px;
-    cursor: pointer;
+#scoreAndRecord {
+    text-align: center;
 }
 
-#infoText, #controlText {
-    font-family: Futura, Serif, serif;
-    margin: auto;
-    padding: 10px;
-    font-size: 15px;
-    border: 4px solid;
-    border-radius: 15px;
-}
-
-#infoText {
-    width: 250px;
-    height: 90px;
-}
-
-#controlText {
-    width: 250px;
-    height: 150px;
+#scoreDiv, #recordDiv {
+    display: inline-block;
+    padding: 1rem 1rem;
+    vertical-align: middle;
 }

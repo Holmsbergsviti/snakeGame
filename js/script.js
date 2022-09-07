@@ -4,18 +4,18 @@
 //      #    #    #    #         #    #   # #    #    #    #  #     #
 //      #####     #    #    ######    #    ##    #    #    #   #    ######
 
-let canvasWidth;
 let screenDivisor;
 let fontSize;
 if (window.innerWidth < 1300) {
     screenDivisor = 1.1;
 } else {
-    screenDivisor = 2.5;
+    screenDivisor = 2.3;
 }
 
-canvasWidth = (window.innerWidth - window.innerWidth % screenDivisor) / screenDivisor;
+let canvasWidth = (window.innerWidth - (window.innerWidth % screenDivisor)) / screenDivisor;
 let squareSize = (canvasWidth - canvasWidth % 25) / 25;
 let canvasHeight = squareSize * 21;
+canvasWidth = squareSize * 25;
 
 if (squareSize % 2 === 1) {
     squareSize += 1;
@@ -31,6 +31,14 @@ if (squareSize < 16) {
 let canvas = document.getElementById("canvas");
 canvas.width = canvasWidth.toString();
 canvas.height = canvasHeight.toString();
+
+let score = document.getElementById("scoreImg");
+score.width = (squareSize * 2).toString();
+score.height = (squareSize * 2).toString();
+
+let record = document.getElementById("recordImg");
+record.width = (squareSize * 2).toString();
+record.height = (squareSize * 2).toString();
 
 fontSize = squareSize * 3;
 
@@ -73,7 +81,9 @@ let game = {
         "#                        #",
         "##########################"
     ],
-    fruit: [],
+    duck: [
+        {x: 13, y: 11}
+    ],
     tick: function () {
         window.clearTimeout(game.timer);
         if (game.showLevel) {
@@ -97,7 +107,7 @@ let game = {
         let randomX = Math.floor(Math.random() * gameControl.levelBoard[randomY].length);
         let randomLocation = {x: randomX, y: randomY};
         if (game.isEmpty(randomLocation) && !game.isSnake(randomLocation)) {
-            game.fruit.push(randomLocation)
+            game.duck.push(randomLocation)
         } else {
             game.addRandomFruit();
         }
@@ -109,12 +119,12 @@ let game = {
         return gameControl.levelBoard[location.y][location.x] === '#';
     },
     isFruit: function (location) {
-        for (let fruitNumber = 0; fruitNumber < game.fruit.length; fruitNumber++) {
-            let fruit = game.fruit[fruitNumber];
+        for (let fruitNumber = 0; fruitNumber < game.duck.length; fruitNumber++) {
+            let fruit = game.duck[fruitNumber];
             if (location.x === fruit.x && location.y === fruit.y) {
                 let sound = new Audio("sound/soundDuckQuack.mp3");
                 sound.play().then();
-                game.fruit.splice(fruitNumber, 1);
+                game.duck.splice(fruitNumber, 1);
                 game.addRandomFruit();
                 return true;
             }
@@ -125,7 +135,7 @@ let game = {
         for (let snakePart = 0; snakePart < snake.parts.length; snakePart++) {
             let part = snake.parts[snakePart];
             if (location.x === part.x && location.y === part.y) {
-                game.fruit.splice(snakePart, 1);
+                game.duck.splice(snakePart, 1);
                 return true;
             }
         }
@@ -135,9 +145,9 @@ let game = {
 
 let snake = {
     parts: [
-        {x: 4, y: 10, facingParts: "E"},
-        {x: 3, y: 10, facingParts: "E"},
-        {x: 2, y: 10, facingParts: "E"}
+        {x: 4, y: 11, facingParts: "E"},
+        {x: 3, y: 11, facingParts: "E"},
+        {x: 2, y: 11, facingParts: "E"}
     ],
     facing: "E",
     nextLocation: function () {
@@ -187,9 +197,8 @@ let snake = {
             if (game.score > game.record) {
                 game.record = game.score;
             }
-            document.getElementById("scoreAndRecord").innerHTML =
-                "Score: " + game.score + " " +
-                "Record: " + game.record;
+            document.getElementById("scoreText").innerHTML = game.score;
+            document.getElementById("recordText").innerHTML = game.record;
             if (game.score % 10 === 0) {
                 if (game.tickTime !== 100) {
                     game.level++;
@@ -1800,13 +1809,13 @@ let graphics = {
         let ctx = graphics.canvas.getContext("2d");
         ctx.clearRect(0, 0, graphics.canvas.width, graphics.canvas.height);
         graphics.drawBoard(ctx);
-        graphics.draw(ctx, game.fruit, "duck");
+        graphics.draw(ctx, game.duck, "duck");
         graphics.draw(ctx, snake.parts, "snake");
         if (game.showLevel) {
             ctx.font = fontSize + "px Futura";
             ctx.fillStyle = "black";
             ctx.textAlign = "center";
-            ctx.fillText(game.levels[game.level],canvasWidth / 2, canvasHeight / 2);
+            ctx.fillText(game.levels[game.level],canvasWidth / 2, canvasHeight / 3);
         }
     }
 };
@@ -1820,11 +1829,10 @@ let gameControl = {
     changeFacingStart: function () {
         if (gameControl.gameIsStarted === false) {
             gameControl.gameIsStarted = true;
-            clearTimeout(loopTimer);
-            document.getElementById("pressArrowsToStart").innerHTML = "Eat as many apples as you can";
             game.showLevel = true;
+            gameControl.newFacing = [];
+            game.newFacing = 0;
 
-            game.addRandomFruit();
             game.tick();
         }
     },
@@ -1837,9 +1845,9 @@ let gameControl = {
             if (game.score > game.record) {
                 game.record = game.score;
             }
-            document.getElementById("scoreAndRecord").innerHTML =
-                "Score: " + game.score + " " +
-                "Record: " + game.record
+
+            document.getElementById("scoreText").innerHTML = game.score;
+            document.getElementById("recordText").innerHTML = game.record;
             game.tickSpeedUp++;
         }
 
@@ -1873,10 +1881,6 @@ let gameControl = {
         if (key === 13 && gameControl.gameIsStarted === true) {
             gameControl.restartGame();
         }
-
-        if (key === 73) infoButton();
-
-        if (key === 67) controlButton();
     },
     gameOver: function () {
         let sound = new Audio("sound/soundGameOver.wav");
@@ -1884,34 +1888,113 @@ let gameControl = {
         let ctx = graphics.canvas.getContext("2d");
         ctx.clearRect(0, 0, graphics.canvas.width, graphics.canvas.height);
         graphics.drawBoard(ctx);
-        graphics.draw(ctx, game.fruit, "duck");
+        graphics.draw(ctx, game.duck, "duck");
         graphics.draw(ctx, snake.parts, "snake");
+
         ctx.font = fontSize + "px Futura";
         ctx.fillStyle = "black";
         game.level = 6;
-        ctx.fillText(game.levels[game.level], canvasWidth / 2, canvasHeight / 2)
+        ctx.fillText(game.levels[game.level], canvasWidth / 2, canvasHeight / 3)
         game.gameOver = true;
     },
     processInput: function (key) {
-        if (key === "w") if (snake.facing !== "S" && snake.facing !== "N") snake.facing = "N";
-        if (key === "a") if (snake.facing !== "E" && snake.facing !== "W") snake.facing = "W";
-        if (key === "s") if (snake.facing !== "N" && snake.facing !== "S") snake.facing = "S";
-        if (key === "d") if (snake.facing !== "W" && snake.facing !== "E") snake.facing = "E";
+        if ((gameControl.newFacing.length - game.newFacing) < 6) {
+            if (key === "w") if (snake.facing !== "S" && snake.facing !== "N") snake.facing = "N";
+            if (key === "a") if (snake.facing !== "E" && snake.facing !== "W") snake.facing = "W";
+            if (key === "s") if (snake.facing !== "N" && snake.facing !== "S") snake.facing = "S";
+            if (key === "d") if (snake.facing !== "W" && snake.facing !== "E") snake.facing = "E";
+        }
     },
     startGame: function () {
         graphics.drawGame();
-        document.getElementById("scoreAndRecord").innerHTML =
-            "Score: " + game.score + " " +
-            "Record: " + game.record;
+        document.getElementById("scoreText").innerHTML = game.score;
+        document.getElementById("recordText").innerHTML = game.record;
+
+        let ctx = graphics.canvas.getContext("2d");
+        ctx.clearRect(0, 0, graphics.canvas.width, graphics.canvas.height);
+        graphics.drawBoard(ctx);
+        graphics.draw(ctx, game.duck, "duck");
+        graphics.draw(ctx, snake.parts, "snake");
+
+        let locationX = squareSize * 9;
+        let locationY = squareSize;
+
+        ctx.fillStyle   = "rgba(0,0,0,0.4)";
+        ctx.strokeStyle = "white";
+
+        ctx.fillRect(locationX - squareSize, locationY + squareSize / 2,
+            squareSize * 8, squareSize * 8);
+        ctx.strokeRect(locationX - squareSize, locationY + squareSize / 2,
+            squareSize * 8, squareSize * 8);
+
+        ctx.fillStyle   = "rgba(0,0,0,0.4)";
+        ctx.strokeStyle = "white";
+
+        ctx.fillRect(locationX + squareSize * 2, locationY + squareSize * 2,
+            squareSize * 2, squareSize * 2);
+        ctx.strokeRect(locationX + squareSize * 2, locationY + squareSize * 2,
+            squareSize * 2, squareSize * 2);
+        ctx.fillRect(locationX + squareSize * 2, locationY + squareSize * 5,
+            squareSize * 2, squareSize * 2);
+        ctx.strokeRect(locationX + squareSize * 2, locationY + squareSize * 5,
+            squareSize * 2, squareSize * 2);
+        ctx.fillRect(locationX + squareSize * -0.5, locationY + squareSize * 5,
+            squareSize * 2, squareSize * 2);
+        ctx.strokeRect(locationX + squareSize * -0.5, locationY + squareSize * 5,
+            squareSize * 2, squareSize * 2);
+        ctx.fillRect(locationX + squareSize * 4.5, locationY + squareSize * 5,
+            squareSize * 2, squareSize * 2);
+        ctx.strokeRect(locationX + squareSize * 4.5, locationY + squareSize * 5,
+            squareSize * 2, squareSize * 2);
+
+        ctx.fillStyle   = "white";
+        ctx.strokeStyle = "white";
+
+        ctx.beginPath();
+        ctx.moveTo(locationX + squareSize * 2.5, locationY + squareSize * 3.5);
+        ctx.lineTo(locationX + squareSize * 3, locationY + squareSize * 2.5);
+        ctx.lineTo(locationX + squareSize * 3.5, locationY + squareSize * 3.5);
+        ctx.lineTo(locationX + squareSize * 2.5, locationY + squareSize * 3.5);
+        ctx.closePath();
+
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(locationX + squareSize * 2.5, locationY + squareSize * 5.5);
+        ctx.lineTo(locationX + squareSize * 3, locationY + squareSize * 6.5);
+        ctx.lineTo(locationX + squareSize * 3.5, locationY + squareSize * 5.5);
+        ctx.lineTo(locationX + squareSize * 2.5, locationY + squareSize * 5.5);
+        ctx.closePath();
+
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(locationX + squareSize, locationY + squareSize * 6.5);
+        ctx.lineTo(locationX, locationY + squareSize * 6);
+        ctx.lineTo(locationX + squareSize, locationY + squareSize * 5.5);
+        ctx.lineTo(locationX + squareSize, locationY + squareSize * 6.5);
+        ctx.closePath();
+
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(locationX + squareSize * 5, locationY + squareSize * 6.5);
+        ctx.lineTo(locationX + squareSize * 6, locationY + squareSize * 6);
+        ctx.lineTo(locationX + squareSize * 5, locationY + squareSize * 5.5);
+        ctx.lineTo(locationX + squareSize * 5, locationY + squareSize * 6.5);
+        ctx.closePath();
+
+        ctx.fill();
+        ctx.stroke();
+
         window.addEventListener("keydown", gameControl.keyPress);
+
     },
     restartGame: function () {
         window.clearTimeout(game.timer);
-        clearTimeout(loopTimer);
-
-        myText = "Press ↑ ← ↓ → to start        "
-        myArray = myText.split("");
-        letter = 0;
 
         game.gameOver = false;
         game.fruitIsEaten = 0;
@@ -1922,12 +2005,14 @@ let gameControl = {
         game.score = 0;
         game.level = 0;
         game.showLevel = false;
-        game.fruit = [];
+        game.duck = [
+            {x: 13, y: 11}
+        ];
 
         snake.parts = [
-            {x: 4, y: 10, facingParts: "E"},
-            {x: 3, y: 10, facingParts: "E"},
-            {x: 2, y: 10, facingParts: "E"}
+            {x: 4, y: 11, facingParts: "E"},
+            {x: 3, y: 11, facingParts: "E"},
+            {x: 2, y: 11, facingParts: "E"}
         ];
         snake.facing = "E";
 
@@ -1938,59 +2023,10 @@ let gameControl = {
         gameControl.levelBoard = game.board;
         gameControl.gameIsStarted = false;
 
-        document.getElementById("scoreAndRecord").innerHTML =
-            "Score: " + game.score + " " +
-            "Record: " + game.record;
-
-        frameLooper();
+        document.getElementById("scoreText").innerHTML = game.score;
+        document.getElementById("recordText").innerHTML = game.record;
         gameControl.startGame();
     }
 };
 
-let myText = "Press ↑ ← ↓ → to start        ";
-let myArray = myText.split("");
-let loopTimer;
-let letter = 0;
-
-function frameLooper() {
-    if (myArray.length > letter){
-        if (letter === 0) {
-            document.getElementById("pressArrowsToStart").innerHTML = "";
-        }
-        document.getElementById("pressArrowsToStart").innerHTML += myArray[letter];
-        letter++;
-    } else {
-        document.getElementById("pressArrowsToStart").innerHTML = "Press ↑ ↓ → ← to start";
-        letter = 0;
-    }
-    loopTimer = setTimeout('frameLooper()',150) ;
-}
-
-function infoButton() {
-    document.getElementById("controlText").style.display = "none";
-
-    let targetDiv = document.getElementById("infoText");
-    if (targetDiv.style.display !== "none") {
-        targetDiv.style.display = "none";
-        targetDiv.style.alignItems = "center";
-    } else {
-        targetDiv.style.display = "block";
-        targetDiv.style.alignItems = "center";
-    }
-}
-
-function controlButton() {
-    document.getElementById("infoText").style.display = "none";
-
-    let targetDiv = document.getElementById("controlText");
-    if (targetDiv.style.display !== "none") {
-        targetDiv.style.display = "none";
-        targetDiv.style.alignItems = "center";
-    } else {
-        targetDiv.style.display = "block";
-        targetDiv.style.alignItems = "center";
-    }
-}
-
-frameLooper();
 gameControl.startGame();

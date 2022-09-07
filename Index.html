@@ -4,40 +4,23 @@
         <meta charset="UTF-8">
         <title>Snake Game</title>
         <link rel="stylesheet" href="css/style.css">
-        <link rel="shortcut icon" href="img/imgSnakeIcon.png" />
+        <link rel="shortcut icon" href="img/imgSnakeIcon.png"/>
     </head>
     <body>
         <div id="container">
             <!--Score, Record-->
-            <div id="scoreAndRecord"></div>
-
-            <!--How to start game text-->
-            <div id="pressArrowsToStart"></div>
+            <div id="scoreRecord">
+                <img src="img/imgDuck.png" id="scoreImg" alt="YourScoreImage">
+                <!--<div id="scoreNumber">100</div>-->
+                <img src="img/imgTrophyCup.png" id="recordImg" alt="YourRecordImage">
+                <div id="scoreAndRecord">
+                    <div id="scoreDiv"><h2 id="scoreText"></h2></div>
+                    <div id="recordDiv"><h2 id="recordText"></h2></div>
+                </div>
+            </div>
 
             <!--Canvas-->
             <canvas id="canvas"></canvas>
-            <br> <br>
-
-            <!--Buttons Play Again and Info-->
-            <button id="playAgain" onclick="gameControl.restartGame()">Play again</button>
-            <button id="info" onclick="infoButton()">Info</button>
-            <button id="control" onclick="controlButton()">Control</button>
-
-            <!--Text Level, text Info-->
-            <div id="infoText" style="display: none">
-                Eat as many apples as you can.                                                   <br> <br>
-                Be careful! Running of the water or into your own snake will end the game. <br>
-            </div>
-            <div id="controlText" style="display: none">
-                ↑ or W - Up                    <br>
-                ← or A - Left                  <br>
-                ↓ or S - Down                  <br>
-                → or D - Right                 <br>
-                Backspace - end the game       <br>
-                Enter - restarts the game      <br>
-                I - info                       <br>
-                C - control                    <br>
-            </div>
         </div>
         <script rel="script" src="js/script.js"></script>
     </body>
