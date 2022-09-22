@@ -6,26 +6,41 @@
 
 let screenDivisor;
 let fontSize;
+let websiteIsOpenedOnComputer;
+let imageSize;
+let squareHowManyWidth;
+let squareHomManyHeight;
 if (window.innerWidth < 1300) {
     screenDivisor = 1.1;
+    imageSize = 3;
+    squareHowManyWidth = 17;
+    squareHomManyHeight = 15;
+    websiteIsOpenedOnComputer = false;
 } else {
     screenDivisor = 2.3;
+    imageSize = 2;
+    squareHowManyWidth = 25;
+    squareHomManyHeight = 21;
+    websiteIsOpenedOnComputer = true;
 }
 
 let canvasWidth = (window.innerWidth - (window.innerWidth % screenDivisor)) / screenDivisor;
-let squareSize = (canvasWidth - canvasWidth % 25) / 25;
-let canvasHeight = squareSize * 21;
-canvasWidth = squareSize * 25;
+let squareSize = (canvasWidth - canvasWidth % squareHowManyWidth) / squareHowManyWidth;
+let canvasHeight = squareSize * squareHowManyWidth;
+canvasWidth = squareSize * squareHomManyHeight;
+
+if (squareSize % 2 === 0) {
+    squareSize += 1;
+}
 
 if (squareSize % 2 === 1) {
-    squareSize += 1;
-    canvasWidth = squareSize * 25;
-    canvasHeight = squareSize * 21;
+    canvasWidth = squareSize * squareHowManyWidth;
+    canvasHeight = squareSize * squareHomManyHeight;
 }
 if (squareSize < 16) {
     squareSize = 16;
-    canvasWidth = squareSize * 25;
-    canvasHeight = squareSize * 21;
+    canvasWidth = squareSize * squareHowManyWidth;
+    canvasHeight = squareSize * squareHomManyHeight;
 }
 
 let canvas = document.getElementById("canvas");
@@ -33,12 +48,12 @@ canvas.width = canvasWidth.toString();
 canvas.height = canvasHeight.toString();
 
 let score = document.getElementById("scoreImg");
-score.width = (squareSize * 2).toString();
-score.height = (squareSize * 2).toString();
+score.width = (squareSize * imageSize).toString();
+score.height = (squareSize * imageSize).toString();
 
 let record = document.getElementById("recordImg");
-record.width = (squareSize * 2).toString();
-record.height = (squareSize * 2).toString();
+record.width = (squareSize * imageSize).toString();
+record.height = (squareSize * imageSize).toString();
 
 fontSize = squareSize * 3;
 
@@ -57,7 +72,7 @@ let game = {
     level: 0,
     levels: ["Easy", "Medium", "Hard", "Hardcore", "Professional", "Impossible", "Game Over"],
     showLevel: false,
-    board: [
+    boardForComputer: [
         "##########################",
         "#                        #",
         "#                        #",
@@ -81,8 +96,26 @@ let game = {
         "#                        #",
         "##########################"
     ],
+    boardForTelephone: [
+        "##################",
+        "#                #",
+        "#                #",
+        "#                #",
+        "#                #",
+        "#                #",
+        "#                #",
+        "#                #",
+        "#                #",
+        "#                #",
+        "#                #",
+        "#                #",
+        "#                #",
+        "#                #",
+        "#                #",
+        "##################"
+    ],
     duck: [
-        {x: 13, y: 11}
+        {x: 13, y: (squareHomManyHeight + 1) / 2}
     ],
     tick: function () {
         window.clearTimeout(game.timer);
@@ -145,9 +178,9 @@ let game = {
 
 let snake = {
     parts: [
-        {x: 4, y: 11, facingParts: "E"},
-        {x: 3, y: 11, facingParts: "E"},
-        {x: 2, y: 11, facingParts: "E"}
+        {x: 4, y: (squareHomManyHeight + 1) / 2, facingParts: "E"},
+        {x: 3, y: (squareHomManyHeight + 1) / 2, facingParts: "E"},
+        {x: 2, y: (squareHomManyHeight + 1) / 2, facingParts: "E"}
     ],
     facing: "E",
     nextLocation: function () {
@@ -1824,7 +1857,7 @@ let gameControl = {
     rightShiftIsPressed: false,
     gameIsStarted: false,
     changeNickname: false,
-    levelBoard: game.board,
+    levelBoard: game.boardForComputer,
     newFacing: [],
     changeFacingStart: function () {
         if (gameControl.gameIsStarted === false) {
@@ -1894,8 +1927,38 @@ let gameControl = {
         ctx.font = fontSize + "px Futura";
         ctx.fillStyle = "black";
         game.level = 6;
-        ctx.fillText(game.levels[game.level], canvasWidth / 2, canvasHeight / 3)
+        ctx.fillText(game.levels[game.level], canvasWidth / 2, canvasHeight / 2);
         game.gameOver = true;
+
+        if (websiteIsOpenedOnComputer) {
+            let locationX = squareSize * 9 + squareSize / 2;
+            let locationY = squareSize + squareSize;
+
+            ctx.fillStyle   = "rgba(0,0,0,0.4)";
+            ctx.strokeStyle = "white";
+
+            ctx.fillRect(locationX, locationY + squareSize / 2,
+                squareSize * 7, squareSize * 3);
+            ctx.strokeRect(locationX, locationY + squareSize / 2,
+                squareSize * 7, squareSize * 3);
+
+            ctx.font = fontSize / 2 + "px Futura";
+            ctx.fillStyle = "white";
+            ctx.fillText("Enter", canvasWidth / 2.2, canvasHeight / 4.7);
+
+            ctx.strokeStyle = "white";
+
+            ctx.beginPath();
+            ctx.moveTo(locationX + squareSize * 6, locationY + squareSize * 1.5);
+            ctx.lineTo(locationX + squareSize * 6, locationY + squareSize * 2);
+            ctx.lineTo(locationX + squareSize * 5, locationY + squareSize * 2);
+            ctx.lineTo(locationX + squareSize * 5.5, locationY + squareSize * 1.6);
+            ctx.moveTo(locationX + squareSize * 5, locationY + squareSize * 2);
+            ctx.lineTo(locationX + squareSize * 5.5, locationY + squareSize * 2.4);
+            ctx.stroke();
+        } else {
+
+        }
     },
     processInput: function (key) {
         if ((gameControl.newFacing.length - game.newFacing) < 6) {
@@ -1916,81 +1979,121 @@ let gameControl = {
         graphics.draw(ctx, game.duck, "duck");
         graphics.draw(ctx, snake.parts, "snake");
 
-        let locationX = squareSize * 9;
-        let locationY = squareSize;
+        if (websiteIsOpenedOnComputer) {
+            let locationX = squareSize * 9 + squareSize / 2;
+            let locationY = squareSize;
 
-        ctx.fillStyle   = "rgba(0,0,0,0.4)";
-        ctx.strokeStyle = "white";
+            ctx.fillStyle   = "rgba(0,0,0,0.4)";
+            ctx.strokeStyle = "white";
 
-        ctx.fillRect(locationX - squareSize, locationY + squareSize / 2,
-            squareSize * 8, squareSize * 8);
-        ctx.strokeRect(locationX - squareSize, locationY + squareSize / 2,
-            squareSize * 8, squareSize * 8);
+            ctx.fillRect(locationX - squareSize, locationY + squareSize / 2,
+                squareSize * 8, squareSize * 8);
+            ctx.strokeRect(locationX - squareSize, locationY + squareSize / 2,
+                squareSize * 8, squareSize * 8);
 
-        ctx.fillStyle   = "rgba(0,0,0,0.4)";
-        ctx.strokeStyle = "white";
+            ctx.fillStyle   = "rgba(0,0,0,0.4)";
+            ctx.strokeStyle = "white";
 
-        ctx.fillRect(locationX + squareSize * 2, locationY + squareSize * 2,
-            squareSize * 2, squareSize * 2);
-        ctx.strokeRect(locationX + squareSize * 2, locationY + squareSize * 2,
-            squareSize * 2, squareSize * 2);
-        ctx.fillRect(locationX + squareSize * 2, locationY + squareSize * 5,
-            squareSize * 2, squareSize * 2);
-        ctx.strokeRect(locationX + squareSize * 2, locationY + squareSize * 5,
-            squareSize * 2, squareSize * 2);
-        ctx.fillRect(locationX + squareSize * -0.5, locationY + squareSize * 5,
-            squareSize * 2, squareSize * 2);
-        ctx.strokeRect(locationX + squareSize * -0.5, locationY + squareSize * 5,
-            squareSize * 2, squareSize * 2);
-        ctx.fillRect(locationX + squareSize * 4.5, locationY + squareSize * 5,
-            squareSize * 2, squareSize * 2);
-        ctx.strokeRect(locationX + squareSize * 4.5, locationY + squareSize * 5,
-            squareSize * 2, squareSize * 2);
+            ctx.fillRect(locationX + squareSize * 2, locationY + squareSize * 2,
+                squareSize * 2, squareSize * 2);
+            ctx.strokeRect(locationX + squareSize * 2, locationY + squareSize * 2,
+                squareSize * 2, squareSize * 2);
+            ctx.fillRect(locationX + squareSize * 2, locationY + squareSize * 5,
+                squareSize * 2, squareSize * 2);
+            ctx.strokeRect(locationX + squareSize * 2, locationY + squareSize * 5,
+                squareSize * 2, squareSize * 2);
+            ctx.fillRect(locationX + squareSize * -0.5, locationY + squareSize * 5,
+                squareSize * 2, squareSize * 2);
+            ctx.strokeRect(locationX + squareSize * -0.5, locationY + squareSize * 5,
+                squareSize * 2, squareSize * 2);
+            ctx.fillRect(locationX + squareSize * 4.5, locationY + squareSize * 5,
+                squareSize * 2, squareSize * 2);
+            ctx.strokeRect(locationX + squareSize * 4.5, locationY + squareSize * 5,
+                squareSize * 2, squareSize * 2);
 
-        ctx.fillStyle   = "white";
-        ctx.strokeStyle = "white";
+            ctx.fillStyle   = "white";
+            ctx.strokeStyle = "white";
 
-        ctx.beginPath();
-        ctx.moveTo(locationX + squareSize * 2.5, locationY + squareSize * 3.5);
-        ctx.lineTo(locationX + squareSize * 3, locationY + squareSize * 2.5);
-        ctx.lineTo(locationX + squareSize * 3.5, locationY + squareSize * 3.5);
-        ctx.lineTo(locationX + squareSize * 2.5, locationY + squareSize * 3.5);
-        ctx.closePath();
+            ctx.beginPath();
+            ctx.moveTo(locationX + squareSize * 2.5, locationY + squareSize * 3.5);
+            ctx.lineTo(locationX + squareSize * 3, locationY + squareSize * 2.5);
+            ctx.lineTo(locationX + squareSize * 3.5, locationY + squareSize * 3.5);
+            ctx.lineTo(locationX + squareSize * 2.5, locationY + squareSize * 3.5);
+            ctx.closePath();
 
-        ctx.fill();
-        ctx.stroke();
+            ctx.fill();
+            ctx.stroke();
 
-        ctx.beginPath();
-        ctx.moveTo(locationX + squareSize * 2.5, locationY + squareSize * 5.5);
-        ctx.lineTo(locationX + squareSize * 3, locationY + squareSize * 6.5);
-        ctx.lineTo(locationX + squareSize * 3.5, locationY + squareSize * 5.5);
-        ctx.lineTo(locationX + squareSize * 2.5, locationY + squareSize * 5.5);
-        ctx.closePath();
+            ctx.beginPath();
+            ctx.moveTo(locationX + squareSize * 2.5, locationY + squareSize * 5.5);
+            ctx.lineTo(locationX + squareSize * 3, locationY + squareSize * 6.5);
+            ctx.lineTo(locationX + squareSize * 3.5, locationY + squareSize * 5.5);
+            ctx.lineTo(locationX + squareSize * 2.5, locationY + squareSize * 5.5);
+            ctx.closePath();
 
-        ctx.fill();
-        ctx.stroke();
+            ctx.fill();
+            ctx.stroke();
 
-        ctx.beginPath();
-        ctx.moveTo(locationX + squareSize, locationY + squareSize * 6.5);
-        ctx.lineTo(locationX, locationY + squareSize * 6);
-        ctx.lineTo(locationX + squareSize, locationY + squareSize * 5.5);
-        ctx.lineTo(locationX + squareSize, locationY + squareSize * 6.5);
-        ctx.closePath();
+            ctx.beginPath();
+            ctx.moveTo(locationX + squareSize, locationY + squareSize * 6.5);
+            ctx.lineTo(locationX, locationY + squareSize * 6);
+            ctx.lineTo(locationX + squareSize, locationY + squareSize * 5.5);
+            ctx.lineTo(locationX + squareSize, locationY + squareSize * 6.5);
+            ctx.closePath();
 
-        ctx.fill();
-        ctx.stroke();
+            ctx.fill();
+            ctx.stroke();
 
-        ctx.beginPath();
-        ctx.moveTo(locationX + squareSize * 5, locationY + squareSize * 6.5);
-        ctx.lineTo(locationX + squareSize * 6, locationY + squareSize * 6);
-        ctx.lineTo(locationX + squareSize * 5, locationY + squareSize * 5.5);
-        ctx.lineTo(locationX + squareSize * 5, locationY + squareSize * 6.5);
-        ctx.closePath();
+            ctx.beginPath();
+            ctx.moveTo(locationX + squareSize * 5, locationY + squareSize * 6.5);
+            ctx.lineTo(locationX + squareSize * 6, locationY + squareSize * 6);
+            ctx.lineTo(locationX + squareSize * 5, locationY + squareSize * 5.5);
+            ctx.lineTo(locationX + squareSize * 5, locationY + squareSize * 6.5);
+            ctx.closePath();
 
-        ctx.fill();
-        ctx.stroke();
+            ctx.fill();
+            ctx.stroke();
 
-        window.addEventListener("keydown", gameControl.keyPress);
+            window.addEventListener("keydown", gameControl.keyPress);
+        } else {
+            let touchstartX = 0;
+            let touchendX = 0;
+            let touchstartY;
+            let touchendY;
+
+            function checkDirection() {
+                if (touchstartY - touchendY >= 100) {
+                    gameControl.newFacing = gameControl.newFacing + "w";
+                    gameControl.changeFacingStart();
+                }
+
+                if (touchstartX - touchendX >= 100)  {
+                    gameControl.newFacing = gameControl.newFacing + "a";
+                    gameControl.changeFacingStart();
+                }
+
+                if (touchendY - touchstartY >= 100) {
+                    gameControl.newFacing = gameControl.newFacing + "s";
+                    gameControl.changeFacingStart();
+                }
+
+                if (touchendX - touchstartX >= 100) {
+                    gameControl.newFacing = gameControl.newFacing + "d";
+                    gameControl.changeFacingStart();
+                }
+            }
+
+            document.addEventListener('touchstart', e => {
+                touchstartX = e.changedTouches[0].screenX;
+                touchstartY = e.changedTouches[0].screenY;
+            })
+
+            document.addEventListener('touchend', e => {
+                touchendX = e.changedTouches[0].screenX;
+                touchendY = e.changedTouches[0].screenY;
+                checkDirection()
+            })
+        }
 
     },
     restartGame: function () {
@@ -2006,13 +2109,13 @@ let gameControl = {
         game.level = 0;
         game.showLevel = false;
         game.duck = [
-            {x: 13, y: 11}
+            {x: 13, y: (squareHomManyHeight + 1) / 2}
         ];
 
         snake.parts = [
-            {x: 4, y: 11, facingParts: "E"},
-            {x: 3, y: 11, facingParts: "E"},
-            {x: 2, y: 11, facingParts: "E"}
+            {x: 4, y: (squareHomManyHeight + 1) / 2, facingParts: "E"},
+            {x: 3, y: (squareHomManyHeight + 1) / 2, facingParts: "E"},
+            {x: 2, y: (squareHomManyHeight + 1) / 2, facingParts: "E"}
         ];
         snake.facing = "E";
 
@@ -2020,7 +2123,7 @@ let gameControl = {
         graphics.greenOrDarkgreen = 0;
         graphics.countDraw = 0;
 
-        gameControl.levelBoard = game.board;
+        gameControl.levelBoard = game.boardForComputer;
         gameControl.gameIsStarted = false;
 
         document.getElementById("scoreText").innerHTML = game.score;
@@ -2028,5 +2131,9 @@ let gameControl = {
         gameControl.startGame();
     }
 };
+
+if (!websiteIsOpenedOnComputer) {
+    gameControl.levelBoard = game.boardForTelephone;
+}
 
 gameControl.startGame();
