@@ -1,6 +1,13 @@
+html {
+    text-align: center;
+}
+
 body {
     background-color: antiquewhite;
     font-family: Futura, Serif, serif;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #container {
