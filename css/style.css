@@ -1,37 +1,29 @@
 html {
     text-align: center;
-    overscroll-behavior: none;
 }
-
 body {
     background-color: antiquewhite;
     font-family: Futura, Serif, serif;
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
-    overscroll-behavior: none;
 }
-
 #container {
     text-align: center;
     font-family: Futura, Serif, serif;
 }
-
 #pressArrowsToStart {
     font-size: 20px;
     font-family: Futura, Serif, serif;
 }
-
 #canvas {
     border: 2px solid;
     border-radius: 15px;
     font-family: Futura, Serif, serif;
 }
-
 #scoreAndRecord {
     text-align: center;
 }
-
 #scoreDiv, #recordDiv {
     display: inline-block;
     padding: 1rem 1rem;
