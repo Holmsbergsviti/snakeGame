@@ -1,5 +1,6 @@
 html {
     text-align: center;
+    overscroll-behavior: none;
 }
 
 body {
@@ -8,6 +9,7 @@ body {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
+    overscroll-behavior: none;
 }
 
 #container {
