@@ -8,11 +8,14 @@ body {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
+    overscroll-behavior-y: contain;
+    touch-action:none;
 }
 
 #container {
     text-align: center;
     font-family: Futura, Serif, serif;
+
 }
 
 #pressArrowsToStart {
